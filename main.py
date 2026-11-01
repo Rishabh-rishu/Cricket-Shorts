@@ -251,8 +251,7 @@ class CricketShortsFactory:
         final_video_path = os.path.join("output/videos", f"cricket_raaz_top5_{topic_key}_{timestamp_slug}.mp4")
         temp_render_dir = os.path.abspath(f"output/run_countdown_{topic_key}_{timestamp_slug}")
 
-        pub_slots = PublicationScheduler.get_next_publication_slots(count=1)
-        slot_time, rfc3339_slot = pub_slots[0]
+        slot_time, rfc3339_slot = PublicationScheduler.get_immediate_or_next_slot()
 
         rend_ok, vpath, meta_report = CountdownVideoRenderer.render_countdown_short(
             bundle=bundle,
@@ -363,8 +362,7 @@ class CricketShortsFactory:
         final_video_path = os.path.join("output/videos", f"cricket_raaz_v3_{topic_key}_{timestamp_slug}.mp4")
         temp_render_dir = os.path.abspath(f"output/run_v3_{topic_key}_{timestamp_slug}")
 
-        pub_slots = PublicationScheduler.get_next_publication_slots(count=1)
-        slot_time, rfc3339_slot = pub_slots[0]
+        slot_time, rfc3339_slot = PublicationScheduler.get_immediate_or_next_slot()
 
         rend_ok, vpath, meta_report = V3CinematicEngine.render_v3_short(
             bundle=bundle,
@@ -463,10 +461,10 @@ class CricketShortsFactory:
 def run_scheduler(factory: CricketShortsFactory):
     """Runs automated daily scheduler independent of external tools."""
     logger.info("Cricket Shorts Factory Scheduler started. Target: 2 Shorts Daily.")
-    logger.info("Morning production triggers at 08:30 AM IST (to publish at 11:00 AM IST & 07:00 PM IST).")
+    logger.info("Production triggers for 12:00 PM IST & 06:00 PM IST daily uploads.")
 
-    # Run daily at 08:30 IST
-    schedule.every().day.at("08:30").do(factory.produce_daily_shorts, count=2)
+    # Run daily at 10:00 AM IST to pre-render and schedule for 12:00 PM and 18:00 IST
+    schedule.every().day.at("10:00").do(factory.produce_daily_shorts, count=2)
 
     while True:
         schedule.run_pending()

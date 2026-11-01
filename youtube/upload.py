@@ -68,7 +68,7 @@ class YouTubeUploader:
                 "defaultAudioLanguage": "hi"
             },
             "status": {
-                "privacyStatus": "private",
+                "privacyStatus": "private" if scheduled_rfc3339 else "public",
                 "selfDeclaredMadeForKids": False
             }
         }

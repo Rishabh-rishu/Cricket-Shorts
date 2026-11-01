@@ -76,9 +76,9 @@ publishing:
   dry_run: true
   timezone: "Asia/Kolkata"
   daily_slots:
-    - "11:00"
-    - "19:00"
-  privacy_status: "private" # Upload as private with publishAt scheduled
+    - "12:00"
+    - "18:00"
+  privacy_status: "public" # Upload as public if immediate, or private with publishAt if scheduled
   category_id: "17" # Sports category on YouTube
   default_language: "hi"
 
