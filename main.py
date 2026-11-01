@@ -174,7 +174,28 @@ class CricketShortsFactory:
             "qc_notes": qc_notes,
             "upload_status": "QC_PASSED"
         }
-        short_id = self.db.insert_short(short_record)
+        with self.db.get_connection() as conn:
+            c = conn.cursor()
+            existing_short = c.execute("SELECT id FROM shorts WHERE fact_id = ?", (fact_id,)).fetchone()
+            if existing_short:
+                short_id = existing_short[0]
+                c.execute("""
+                UPDATE shorts SET
+                    title = ?, hook = ?, story = ?, surprise = ?, cta = ?,
+                    full_script = ?, description = ?, tags = ?, hashtags = ?,
+                    pinned_comment = ?, video_file = ?, duration_seconds = ?,
+                    qc_passed = 1, qc_notes = ?
+                WHERE id = ?
+                """, (
+                    short_record["title"], short_record["hook"], short_record["story"],
+                    short_record["surprise"], short_record["cta"], short_record["full_script"],
+                    short_record["description"], short_record["tags"], short_record["hashtags"],
+                    short_record["pinned_comment"], short_record["video_file"],
+                    short_record["duration_seconds"], short_record["qc_notes"], short_id
+                ))
+                conn.commit()
+            else:
+                short_id = self.db.insert_short(short_record)
 
         # Step I: YouTube Upload / Scheduled Publishing (Dry-run by default)
         upload_ok, yt_id, up_msg = self.uploader.upload_short(
@@ -271,7 +292,28 @@ class CricketShortsFactory:
             "qc_notes": "Passed all countdown QC checks",
             "upload_status": "QC_PASSED"
         }
-        short_id = self.db.insert_short(short_record)
+        with self.db.get_connection() as conn:
+            c = conn.cursor()
+            existing_short = c.execute("SELECT id FROM shorts WHERE fact_id = ?", (fact_id,)).fetchone()
+            if existing_short:
+                short_id = existing_short[0]
+                c.execute("""
+                UPDATE shorts SET
+                    title = ?, hook = ?, story = ?, surprise = ?, cta = ?,
+                    full_script = ?, description = ?, tags = ?, hashtags = ?,
+                    pinned_comment = ?, video_file = ?, duration_seconds = ?,
+                    qc_passed = 1, qc_notes = ?
+                WHERE id = ?
+                """, (
+                    short_record["title"], short_record["hook"], short_record["story"],
+                    short_record["surprise"], short_record["cta"], short_record["full_script"],
+                    short_record["description"], short_record["tags"], short_record["hashtags"],
+                    short_record["pinned_comment"], short_record["video_file"],
+                    short_record["duration_seconds"], short_record["qc_notes"], short_id
+                ))
+                conn.commit()
+            else:
+                short_id = self.db.insert_short(short_record)
 
         upload_ok, yt_id, up_msg = self.uploader.upload_short(
             short_id=short_id,
