@@ -13,8 +13,7 @@ from typing import Dict, Any, Tuple
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import numpy as np
 
-FONT_BOLD_PATH = "/usr/share/fonts/truetype/noto/NotoSansDevanagari-Bold.ttf"
-FONT_REG_PATH = "/usr/share/fonts/truetype/noto/NotoSansDevanagari-Regular.ttf"
+from visuals.player_asset_provider import PlayerAssetProvider
 
 
 class CricketAnimationEngine:
@@ -34,10 +33,7 @@ class CricketAnimationEngine:
 
     @classmethod
     def get_font(cls, size: int, bold: bool = True) -> ImageFont.FreeTypeFont:
-        font_path = FONT_BOLD_PATH if bold else FONT_REG_PATH
-        if os.path.exists(font_path):
-            return ImageFont.truetype(font_path, size)
-        return ImageFont.load_default()
+        return PlayerAssetProvider.get_font(size, "bold" if bold else "regular")
 
     @classmethod
     def create_stadium_background(cls, accent_color: Tuple[int, int, int] = COLOR_CYAN) -> Image.Image:

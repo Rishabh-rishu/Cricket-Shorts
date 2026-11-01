@@ -34,6 +34,8 @@ token.json
 .env
 
 # OS / Editor
+temp/
+assets/stadium_bg_base.jpg
 .DS_Store
 .idea/
 .vscode/

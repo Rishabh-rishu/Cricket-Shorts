@@ -62,37 +62,70 @@ Output strictly valid JSON with this exact schema:
     {
       "fact_number": 1,
       "badge": "FACT 1 : SUBJECT",
+      "player_name": "Full Player Name",
       "player_or_subject": "Player Name",
+      "country": "INDIA/AUSTRALIA/etc",
+      "player_role": "Right Hand Batsman / Fast Bowler",
+      "tournament_header": "🏆 Tournament or Series Name Year",
       "headline": "SHORT HEADLINE",
       "subheadline": "Short context",
       "narration": "25-30 words Hindi narration for fact 1",
       "footage_query": "cricket footage search query",
       "scene_type": "batsman/bowler/stadium/celebration",
       "stat_callout": "STAT (e.g. 50 RUNS)",
+      "achievement_tag": "HISTORIC RECORD",
+      "stats_table": [
+        ["Stat Label 1", "Value 1"],
+        ["Stat Label 2", "Value 2"],
+        ["Stat Label 3", "Value 3"],
+        ["Stat Label 4", "Value 4"]
+      ],
       "source_primary": "Primary record source"
     },
     {
       "fact_number": 2,
       "badge": "FACT 2 : SUBJECT",
+      "player_name": "Full Player Name",
       "player_or_subject": "Player Name",
+      "country": "INDIA/AUSTRALIA/etc",
+      "player_role": "Player Role",
+      "tournament_header": "🏆 Tournament or Series Name Year",
       "headline": "SHORT HEADLINE",
       "subheadline": "Short context",
       "narration": "25-30 words Hindi narration for fact 2",
       "footage_query": "cricket footage search query",
       "scene_type": "batsman/bowler/stadium/celebration",
       "stat_callout": "STAT",
+      "achievement_tag": "HISTORIC RECORD",
+      "stats_table": [
+        ["Stat Label 1", "Value 1"],
+        ["Stat Label 2", "Value 2"],
+        ["Stat Label 3", "Value 3"],
+        ["Stat Label 4", "Value 4"]
+      ],
       "source_primary": "Primary record source"
     },
     {
       "fact_number": 3,
       "badge": "FACT 3 : SUBJECT",
+      "player_name": "Full Player Name",
       "player_or_subject": "Player Name",
+      "country": "INDIA/AUSTRALIA/etc",
+      "player_role": "Player Role",
+      "tournament_header": "🏆 Tournament or Series Name Year",
       "headline": "SHORT HEADLINE",
       "subheadline": "Short context",
       "narration": "25-30 words Hindi narration for fact 3",
       "footage_query": "cricket footage search query",
       "scene_type": "batsman/bowler/stadium/celebration",
       "stat_callout": "STAT",
+      "achievement_tag": "HISTORIC RECORD",
+      "stats_table": [
+        ["Stat Label 1", "Value 1"],
+        ["Stat Label 2", "Value 2"],
+        ["Stat Label 3", "Value 3"],
+        ["Stat Label 4", "Value 4"]
+      ],
       "source_primary": "Primary record source"
     }
   ],

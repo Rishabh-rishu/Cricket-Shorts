@@ -11,8 +11,7 @@ import os
 from typing import Tuple, Optional
 from PIL import Image, ImageDraw, ImageFont
 
-FONT_BOLD = "/usr/share/fonts/truetype/noto/NotoSansDevanagari-Bold.ttf"
-FONT_REG = "/usr/share/fonts/truetype/noto/NotoSansDevanagari-Regular.ttf"
+from visuals.player_asset_provider import PlayerAssetProvider
 
 
 class MinimalOverlayEngine:
@@ -27,10 +26,7 @@ class MinimalOverlayEngine:
 
     @classmethod
     def get_font(cls, size: int, bold: bool = True) -> ImageFont.FreeTypeFont:
-        path = FONT_BOLD if bold else FONT_REG
-        if os.path.exists(path):
-            return ImageFont.truetype(path, size)
-        return ImageFont.load_default()
+        return PlayerAssetProvider.get_font(size, "bold" if bold else "regular")
 
     @classmethod
     def create_scene_overlay(

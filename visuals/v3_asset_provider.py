@@ -117,15 +117,21 @@ class V3AssetProvider:
         idx = fact.get("fact_number", 1)
         card_png = os.path.join(temp_dir, f"fact_{idx}_card.png")
 
-        accent = "red" if idx == 3 else ("amber" if idx == 2 else "gold")
+        accent = "red" if idx == 3 else ("amber" if idx == 2 else "cyan")
         PlayerAssetProvider.create_cinematic_fact_card(
             badge_text=fact.get("badge", f"FACT {idx}"),
-            player_name=fact.get("player_or_subject", "CRICKET RECORD"),
+            player_name=fact.get("player_name") or fact.get("player_or_subject", "CRICKET RECORD"),
             headline=fact.get("headline", ""),
             subheadline=fact.get("subheadline", ""),
             stat_callout=fact.get("stat_callout", ""),
             output_path=card_png,
-            accent_color=accent
+            accent_color=accent,
+            country=fact.get("country", "INDIA"),
+            player_role=fact.get("player_role") or fact.get("role", "International Cricketer"),
+            tournament_header=fact.get("tournament_header") or fact.get("tournament_year") or fact.get("badge", "CRICKET RECORD"),
+            stats_table=fact.get("stats_table"),
+            achievement_tag=fact.get("achievement_tag", "HISTORIC RECORD"),
+            player_img_path=fact.get("player_img_path")
         )
 
         total_frames = int(duration * 30) + 5
@@ -203,38 +209,48 @@ class V3AssetProvider:
 
         # Draw subtle vignette at top & bottom
         for y in range(0, 200):
-            draw.line([(0, y), (1080, y)], fill=(10, 16, 28, int(150 * (1 - y / 200.0))))
-        for y in range(1920 - 350, 1920):
-            draw.line([(0, y), (1080, y)], fill=(10, 16, 28, int(220 * ((y - (1920 - 350)) / 350.0))))
+            draw.line([(0, y), (1080, y)], fill=(6, 12, 22, int(160 * (1 - y / 200.0))))
+        for y in range(1920 - 360, 1920):
+            draw.line([(0, y), (1080, y)], fill=(6, 10, 18, int(225 * ((y - (1920 - 360)) / 360.0))))
 
         # Top Badge (y = 80)
-        f_brand = PlayerAssetProvider.get_font(22, bold=True)
+        f_brand = PlayerAssetProvider.get_font(22, "bold")
         draw.text((70, 80), f"🏏  CRICKET RAAZ  •  {fact.get('badge', 'FACT')}", font=f_brand, fill=(234, 179, 8))
 
-        # Floating lower-third card (y = 1260 to 1480)
-        card_w = 960
+        # Floating lower-third broadcast card (y = 1260 to 1480)
+        card_w = 980
         card_h = 210
         card_x = (1080 - card_w) // 2
-        card_y = 1270
-        draw.rounded_rectangle([card_x, card_y, card_x + card_w, card_y + card_h], radius=22, fill=(16, 27, 50, 225), outline=(234, 179, 8), width=2)
+        card_y = 1265
+        draw.rounded_rectangle([card_x, card_y, card_x + card_w, card_y + card_h], radius=24, fill=(12, 22, 42, 235), outline=(56, 189, 248), width=2)
 
-        # Player/Subject & Headline
-        f_title = PlayerAssetProvider.get_font(42, bold=True)
-        draw.text((card_x + 36, card_y + 32), fact.get("player_or_subject", "").upper(), font=f_title, fill=(255, 255, 255))
+        # Team Crest Emblem on left
+        crest = PlayerAssetProvider.draw_cricket_crest(size=80)
+        img.alpha_composite(crest, (card_x + 25, card_y + 65))
 
-        f_desc = PlayerAssetProvider.get_font(32, bold=False)
-        draw.text((card_x + 36, card_y + 90), fact.get("headline", ""), font=f_desc, fill=(234, 179, 8))
+        # Player Full Name (Bold White)
+        pname = fact.get("player_name") or fact.get("player_or_subject", "").upper()
+        f_title = PlayerAssetProvider.get_font(40, "bold")
+        draw.text((card_x + 120, card_y + 36), pname, font=f_title, fill=(255, 255, 255))
+
+        # Headline (Neon Cyan)
+        f_desc = PlayerAssetProvider.get_font(28, "bold")
+        draw.text((card_x + 120, card_y + 92), fact.get("headline", ""), font=f_desc, fill=(56, 189, 248))
+
+        # Context subheadline (Gold)
+        f_sub = PlayerAssetProvider.get_font(22, "semi")
+        draw.text((card_x + 120, card_y + 140), fact.get("subheadline", ""), font=f_sub, fill=(234, 179, 8))
 
         # Stat capsule on right
         stat = fact.get("stat_callout", "")
         if stat:
-            f_stat = PlayerAssetProvider.get_font(30, bold=True)
+            f_stat = PlayerAssetProvider.get_font(28, "bold")
             bbox = draw.textbbox((0, 0), stat, font=f_stat)
             sw = (bbox[2] - bbox[0]) + 36
-            sx = card_x + card_w - sw - 36
+            sx = card_x + card_w - sw - 30
             sy = card_y + 40
-            draw.rounded_rectangle([sx, sy, sx + sw, sy + 60], radius=14, fill=(225, 29, 72))
-            draw.text((sx + 18, sy + 12), stat, font=f_stat, fill=(255, 255, 255))
+            draw.rounded_rectangle([sx, sy, sx + sw, sy + 64], radius=14, fill=(225, 29, 72), outline=(255, 255, 255), width=2)
+            draw.text((sx + 18, sy + 15), stat, font=f_stat, fill=(255, 255, 255))
 
         img.save(out_path, "PNG")
 

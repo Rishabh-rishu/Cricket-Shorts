@@ -69,37 +69,50 @@ class CricketShortsFactory:
 
     def produce_daily_shorts(self, count: int = 2) -> list:
         """
-        Executes complete production run:
-        Researches, plans storyboard, acquires moving footage, narrates, edits, and schedules 'count' shorts.
+        Executes daily production run for 2 premium sports broadcast cricket shorts:
+        Renders V3 3-Connected-Facts documentary shorts with Pic 2 broadcast cards,
+        stadium night lighting, moving footage, and acoustic sound design.
         """
-        logger.info(f"Starting cinematic production run for {count} unique cricket shorts.")
+        logger.info(f"Starting broadcast production run for {count} unique cricket shorts.")
         produced_shorts = []
+        topics = list(V3_COLLECTIONS.keys())
 
-        # 1. Discover, verify, and score facts
-        discoverer = FactDiscoverer(self.db)
-        discoverer.discover_and_evaluate(min_candidates=10, target_approved=count)
+        # Identify recently produced topics to avoid immediate duplicates
+        with self.db.get_connection() as conn:
+            c = conn.cursor()
+            rows = c.execute("SELECT story FROM shorts ORDER BY id DESC LIMIT 10").fetchall()
+            recent_stories = [r[0] for r in rows if r[0]]
 
-        # 2. Fetch top unhandled approved facts
-        approved_facts = self.db.get_unprocessed_approved_facts(limit=count)
-        if not approved_facts:
-            logger.warning("No new approved facts available to produce.")
-            return []
+        selected_topics = []
+        for t in topics:
+            t_title = V3_COLLECTIONS[t]["topic"]
+            if not any(t_title in s for s in recent_stories):
+                selected_topics.append(t)
+            if len(selected_topics) >= count:
+                break
 
-        # 3. Calculate publication slots
-        pub_slots = PublicationScheduler.get_next_publication_slots(count=len(approved_facts))
+        # If all topics used, cycle back
+        if len(selected_topics) < count:
+            for t in topics:
+                if t not in selected_topics:
+                    selected_topics.append(t)
+                if len(selected_topics) >= count:
+                    break
 
-        for idx, fact in enumerate(approved_facts):
-            logger.info(f"--- Producing Short {idx+1}/{len(approved_facts)}: '{fact['topic']}' ---")
-            slot_time, rfc3339_slot = pub_slots[idx]
+        while len(selected_topics) < count:
+            selected_topics.append(topics[len(selected_topics) % len(topics)])
 
+        for idx in range(count):
+            t_key = selected_topics[idx]
+            logger.info(f"--- Producing Daily Broadcast Short {idx+1}/{count}: '{t_key}' ---")
             try:
-                res = self._produce_single_short(fact, slot_time, rfc3339_slot)
+                res = self.produce_v3_short(topic_key=t_key)
                 if res:
                     produced_shorts.append(res)
             except Exception as e:
-                logger.error(f"Error producing short for fact '{fact['topic']}': {e}", exc_info=True)
+                logger.error(f"Error producing V3 short for topic '{t_key}': {e}", exc_info=True)
 
-        logger.info(f"Production cycle completed. {len(produced_shorts)}/{count} shorts generated.")
+        logger.info(f"Daily production cycle completed. {len(produced_shorts)}/{count} shorts generated.")
         self.reporter.show_dashboard()
         return produced_shorts
 
