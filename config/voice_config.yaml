@@ -1,0 +1,27 @@
+voice:
+  primary_engine: "edge-tts"
+  fallback_engine: "piper"
+
+  edge_tts:
+    voice_name: "hi-IN-MadhurNeural"
+    gender: "male"
+    rate: "+20%" # 1.2x speed
+    pitch: "-2Hz" # Gives a richer, deeper sports documentary bass resonance
+    volume: "+0%"
+
+  piper:
+    model_name: "hi_IN-rohan-medium"
+    model_path: "assets/models/hi_IN-rohan-medium.onnx"
+    config_path: "assets/models/hi_IN-rohan-medium.onnx.json"
+    length_scale: 0.83 # Equivalent to ~1.2x speed (1 / 1.2)
+
+audio_processing:
+  silence_trim:
+    silence_threshold_db: -40
+    min_silence_duration: 0.25 # seconds
+    pad_duration: 0.05
+  speed_fallback: 1.20 # Used if TTS engine itself does not support rate
+  loudness_norm:
+    target_i: -16.0 # Broadcast standard for YouTube Shorts
+    target_tp: -1.5
+    target_lra: 11.0

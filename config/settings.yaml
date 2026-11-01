@@ -1,0 +1,100 @@
+channel:
+  name: "Cricket Facts Factory"
+  niche: "Unknown and Lesser-Known Cricket Facts"
+  target_audience: "Indian cricket fans, IPL followers, international cricket lovers"
+  language: "Hindi"
+  tone: "Sports Documentary, Conversational, High-Energy"
+
+audience:
+  target_demographic: "Indian cricket fans, IPL viewers, global cricket followers"
+  primary_language: "hi"          # Hindi
+  audio_language: "hi"            # Hindi audio voice
+  made_for_kids: false            # COPPA setting: false (enables comments, shorts shelf, personalized reach)
+  category: "Sports"
+  category_id: "17"               # YouTube Category 17 = Sports
+  primary_region: "IN"            # India
+  age_group: "16-45"
+  viewer_interests:
+    - "Cricket history & records"
+    - "IPL matches & stats"
+    - "Indian cricketers (Dhoni, Rohit, Kohli, Bumrah, Sachin)"
+    - "Hidden cricket laws & umpire decisions"
+    - "Unusual match incidents"
+
+video:
+  width: 1080
+  height: 1920
+  fps: 30
+  aspect_ratio: "9:16"
+  video_codec: "libx264"
+  audio_codec: "aac"
+  crf: 18
+  preset: "medium"
+  target_duration_min: 25
+  target_duration_max: 48
+
+audio:
+  sample_rate: 44100
+  bitrate: "192k"
+  bgm_volume: 0.12 # Background music volume factor relative to voice
+  ducking_attack: 0.1
+  ducking_release: 0.3
+  target_lufs: -16.0
+
+fonts:
+  primary: "/usr/share/fonts/truetype/noto/NotoSansDevanagari-Bold.ttf"
+  regular: "/usr/share/fonts/truetype/noto/NotoSansDevanagari-Regular.ttf"
+  font_size: 58
+  font_size_small: 42
+  font_size_header: 68
+
+subtitles:
+  max_chars_per_line: 26
+  max_lines: 2
+  highlight_color: "&H00D7FF&" # Bright Gold / Yellow (BGR in ASS)
+  primary_color: "&HFFFFFF&"   # Pure White
+  outline_color: "&H000000&"   # Black Outline
+  outline_width: 3.5
+  shadow_depth: 2
+  margin_bottom: 340           # Above YouTube Shorts bottom UI elements
+
+database:
+  path: "database/cricket_facts.db"
+
+research:
+  min_score_threshold: 80
+  weights:
+    reliability: 40
+    uniqueness: 25
+    curiosity: 20
+    visual_potential: 15
+  daily_target: 2
+  daily_candidates: 10
+
+publishing:
+  auto_upload: false
+  dry_run: true
+  timezone: "Asia/Kolkata"
+  daily_slots:
+    - "11:00"
+    - "19:00"
+  privacy_status: "private" # Upload as private with publishAt scheduled
+  category_id: "17" # Sports category on YouTube
+  default_language: "hi"
+
+categories:
+  - "Rare cricket facts that most fans don't know"
+  - "Hidden cricket rules and laws"
+  - "Unbelievable IPL records"
+  - "Forgotten cricket history"
+  - "Interesting facts about legendary cricketers"
+  - "Unusual incidents during international matches"
+  - "Rare bowling and batting records"
+  - "Interesting facts about cricket stadiums"
+  - "Cricket equipment and technology"
+  - "Lesser-known umpiring decisions"
+  - "Surprising World Cup facts"
+  - "Interesting facts about cricket strategies"
+  - "Rare player achievements and career milestones"
+  - "Unusual moments in women's cricket"
+  - "Cricket facts that sound unbelievable but are genuinely true"

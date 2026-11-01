@@ -1,0 +1,36 @@
+# Virtual Environment
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Output & Cache
+output/videos/*
+!output/videos/.gitkeep
+output/audio/*
+!output/audio/.gitkeep
+output/visuals/*
+!output/visuals/.gitkeep
+output/metadata/*
+!output/metadata/.gitkeep
+output/snapshots/*
+output/run_*
+logs/*.log
+
+# Large TTS Models
+assets/models/*.onnx
+
+
+# Database
+database/*.db
+
+# YouTube OAuth & Secrets
+client_secrets.json
+token.pickle
+token.json
+.env
+
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/
