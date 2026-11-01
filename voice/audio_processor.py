@@ -19,7 +19,8 @@ logger = logging.getLogger("cricket_shorts.audio")
 class AudioProcessor:
     @staticmethod
     def get_audio_duration(file_path: str) -> float:
-        """Inspects exact duration using ffprobe."""
+        """Inspects exact duration using ffprobe with fallback to decoding for raw AAC."""
+        # Method 1: Check container duration via ffprobe
         cmd = [
             "ffprobe",
             "-v", "error",
@@ -29,10 +30,26 @@ class AudioProcessor:
         ]
         try:
             res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-            return float(res.stdout.strip())
+            val = float(res.stdout.strip())
+            # For ADTS .aac files, ffprobe format duration is often inaccurate; verify with stream decoding
+            if not file_path.endswith(".aac") and val > 0:
+                return val
+        except Exception:
+            pass
+
+        # Method 2: Fast decoding pass for exact audio sample count / timestamp
+        try:
+            cmd_decode = ["ffmpeg", "-i", file_path, "-f", "null", "-"]
+            res_dec = subprocess.run(cmd_decode, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            import re
+            m = re.findall(r"time=(\d+):(\d+):(\d+\.\d+)", res_dec.stderr)
+            if m:
+                h, m_min, s = m[-1]
+                return int(h) * 3600 + int(m_min) * 60 + float(s)
         except Exception as e:
             logger.error(f"Error measuring audio duration: {e}")
-            return 0.0
+
+        return 0.0
 
     @classmethod
     def process_voice_audio(

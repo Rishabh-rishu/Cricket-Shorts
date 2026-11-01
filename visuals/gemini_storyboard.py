@@ -77,9 +77,9 @@ Plan exactly 6 to 8 visual segments. For each segment, output a JSON array of ob
 Return ONLY valid JSON array. No markdown codeblocks.
 """
         try:
-            # Prefer free-tier gemini-2.5-flash or gemini-1.5-flash
+            # Use active free-tier gemini-3.5-flash-lite
             response = self.client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.5-flash-lite",
                 contents=prompt
             )
             text = response.text.strip()

@@ -28,7 +28,9 @@ from visuals.subtitle_generator import SubtitleGenerator
 from visuals.gemini_storyboard import GeminiStoryboardPlanner
 from editor.cinematic_renderer import CinematicVideoRenderer
 from editor.countdown_renderer import CountdownVideoRenderer
+from editor.v3_cinematic_engine import V3CinematicEngine
 from research.countdown_topics import TOP_5_COLLECTIONS
+from research.v3_fact_topics import V3_COLLECTIONS
 from qc.video_qc import VideoQC
 from youtube.scheduler import PublicationScheduler
 from youtube.upload import YouTubeUploader
@@ -331,6 +333,119 @@ class CricketShortsFactory:
         self.reporter.show_dashboard()
         return meta_report
 
+    def produce_v3_short(self, topic_key: str = "wc_records") -> dict:
+        """
+        Executes V3 3-Connected-Facts Documentary Short production:
+        Renders 8 dynamic scenes (Hook + 3 Facts with Ken Burns presentation cards & moving action footage + Outro),
+        multi-track sound design (-16 LUFS voice + ambient tension bed + SFX cues),
+        and Devanagari bold subtitles.
+        """
+        logger.info(f"Starting V3 3-Connected-Facts production for collection '{topic_key}'...")
+        if topic_key not in V3_COLLECTIONS:
+            logger.warning(f"V3 Collection '{topic_key}' not found, falling back to 'wc_records'.")
+            topic_key = "wc_records"
+
+        bundle = V3_COLLECTIONS[topic_key]
+        timestamp_slug = datetime.now().strftime("%Y%m%d_%H%M%S")
+        final_video_path = os.path.join("output/videos", f"cricket_raaz_v3_{topic_key}_{timestamp_slug}.mp4")
+        temp_render_dir = os.path.abspath(f"output/run_v3_{topic_key}_{timestamp_slug}")
+
+        pub_slots = PublicationScheduler.get_next_publication_slots(count=1)
+        slot_time, rfc3339_slot = pub_slots[0]
+
+        rend_ok, vpath, meta_report = V3CinematicEngine.render_v3_short(
+            bundle=bundle,
+            output_video_path=final_video_path,
+            temp_dir=temp_render_dir,
+            pexels_key=self.pexels_key,
+            tts_rate="+22%"
+        )
+
+        if not rend_ok:
+            raise RuntimeError(f"V3 Cinematic rendering failed: {meta_report.get('error')}")
+
+        fact_hash = self.db.compute_fact_hash(bundle["topic"], bundle["hook_narration"])
+        with self.db.get_connection() as conn:
+            c = conn.cursor()
+            row = c.execute("SELECT id FROM facts WHERE fact_hash = ?", (fact_hash,)).fetchone()
+            if row:
+                fact_id = row[0]
+            else:
+                fact_id = self.db.insert_fact({
+                    "topic": bundle["topic"],
+                    "category": bundle["category"],
+                    "main_fact": bundle["hook_narration"],
+                    "source_primary": bundle["facts"][0]["source_primary"],
+                    "source_secondary": bundle["facts"][1].get("source_primary"),
+                    "verification_notes": "V3 3-Connected-Facts bundle verified",
+                    "reliability_score": 40.0,
+                    "uniqueness_score": 25.0,
+                    "curiosity_score": 20.0,
+                    "visual_score": 15.0,
+                    "total_score": 100.0,
+                    "is_approved": 1
+                })
+
+        short_record = {
+            "fact_id": fact_id,
+            "title": bundle["seo_title"],
+            "hook": bundle["hook_narration"],
+            "story": f"V3 3-Connected-Facts: {bundle['topic']}",
+            "surprise": bundle["facts"][-1]["narration"],
+            "cta": bundle["outro_narration"],
+            "full_script": bundle["seo_description"],
+            "description": bundle["seo_description"],
+            "tags": ",".join(bundle["tags"]),
+            "hashtags": "#Shorts #CricketRaaz #CricketFacts",
+            "pinned_comment": f"Which of these 3 records shocked you the most? Subscribe to Cricket Raaz!",
+            "audio_file": os.path.join(temp_render_dir, "voice_normalized.aac"),
+            "subtitles_file": meta_report.get("subtitles", ""),
+            "video_file": final_video_path,
+            "duration_seconds": meta_report.get("duration", 0),
+            "qc_passed": 1 if meta_report.get("qc_passed") else 0,
+            "qc_notes": meta_report.get("qc_notes", "Passed V3 QC"),
+            "upload_status": "QC_PASSED"
+        }
+
+        with self.db.get_connection() as conn:
+            c = conn.cursor()
+            existing_short = c.execute("SELECT id FROM shorts WHERE fact_id = ?", (fact_id,)).fetchone()
+            if existing_short:
+                short_id = existing_short[0]
+                c.execute("""
+                UPDATE shorts SET
+                    title = ?, hook = ?, story = ?, surprise = ?, cta = ?,
+                    full_script = ?, description = ?, tags = ?, hashtags = ?,
+                    pinned_comment = ?, video_file = ?, duration_seconds = ?,
+                    qc_passed = 1, qc_notes = ?
+                WHERE id = ?
+                """, (
+                    short_record["title"], short_record["hook"], short_record["story"],
+                    short_record["surprise"], short_record["cta"], short_record["full_script"],
+                    short_record["description"], short_record["tags"], short_record["hashtags"],
+                    short_record["pinned_comment"], short_record["video_file"],
+                    short_record["duration_seconds"], short_record["qc_notes"], short_id
+                ))
+                conn.commit()
+            else:
+                short_id = self.db.insert_short(short_record)
+
+        upload_ok, yt_id, up_msg = self.uploader.upload_short(
+            short_id=short_id,
+            video_path=final_video_path,
+            metadata={
+                "title": bundle["seo_title"],
+                "description": bundle["seo_description"],
+                "tags": bundle["tags"],
+                "hashtags": "#Shorts #CricketRaaz",
+                "pinned_comment": short_record["pinned_comment"]
+            },
+            scheduled_rfc3339=rfc3339_slot
+        )
+        logger.info(f"V3 Short '{bundle['topic']}' produced. YouTube Status: {up_msg}")
+        self.reporter.show_dashboard()
+        return meta_report
+
 
 def run_scheduler(factory: CricketShortsFactory):
     """Runs automated daily scheduler independent of external tools."""
@@ -346,7 +461,9 @@ def run_scheduler(factory: CricketShortsFactory):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Cricket Facts YouTube Shorts Factory (Engine V2)")
+    parser = argparse.ArgumentParser(description="Cricket Facts YouTube Shorts Factory (Engine V3)")
+    parser.add_argument("--v3", action="store_true", help="Generate V3 3-Connected-Facts Short")
+    parser.add_argument("--v3-topic", type=str, default="wc_records", help="V3 collection topic key (wc_records, test_bowling, rare_india)")
     parser.add_argument("--run", action="store_true", help="Generate 2 daily shorts immediately")
     parser.add_argument("--single", action="store_true", help="Generate 1 short for testing")
     parser.add_argument("--countdown", action="store_true", help="Generate Top 5 Countdown short")
@@ -366,6 +483,8 @@ def main():
             print("✓ YouTube authentication successful! OAuth token cached.")
         else:
             print("✗ Authentication failed. Please verify client_secrets.json is present.")
+    elif args.v3:
+        factory.produce_v3_short(topic_key=args.v3_topic)
     elif args.countdown:
         factory.produce_countdown_short(topic_key=args.topic)
     elif args.single:

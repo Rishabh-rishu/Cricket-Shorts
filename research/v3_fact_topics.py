@@ -1,0 +1,162 @@
+"""
+Cricket Shorts Engine V3 - Curated 3-Connected-Facts Topics
+Contains verified, high-retention 3-fact documentary topic collections.
+Every fact is backed by primary historical sources (ESPNCricinfo, ICC, MCC Laws).
+"""
+
+from typing import Dict, Any, List
+
+V3_COLLECTIONS: Dict[str, Dict[str, Any]] = {
+    "wc_records": {
+        "id": "wc_records",
+        "topic": "3 Unbelievable World Cup Records",
+        "category": "World Cup Records",
+        "hook_title": "3 UNBELIEVABLE WORLD CUP RECORDS",
+        "hook_subtitle": "वर्ल्ड कप इतिहास के 3 सबसे हैरान करने वाले रिकॉर्ड्स",
+        "hook_narration": "वर्ल्ड कप इतिहास के 3 ऐसे अनसुने रिकॉर्ड्स, जिन पर आज भी यकीन करना नामुमकिन लगता है!",
+        "facts": [
+            {
+                "fact_number": 1,
+                "badge": "FACT 1 : GAVASKAR 1975",
+                "player_or_subject": "Sunil Gavaskar",
+                "headline": "36 RUNS IN 60 OVERS",
+                "subheadline": "174 Balls • Only 1 Boundary",
+                "narration": "फैक्ट नंबर 1. 1975 वर्ल्ड कप में सुनील गावस्कर ने पूरे 60 ओवर बैटिंग की, लेकिन 174 बॉल खेलकर सिर्फ 36 रन बनाए और नाबाद रहे.",
+                "footage_query": "cricket batsman defensive shot",
+                "scene_type": "batsman",
+                "stat_callout": "36* (174b)",
+                "source_primary": "ESPNCricinfo Match 1 Prudential World Cup 1975"
+            },
+            {
+                "fact_number": 2,
+                "badge": "FACT 2 : ROHIT SHARMA 2019",
+                "player_or_subject": "Rohit Sharma",
+                "headline": "5 CENTURIES IN ONE WC",
+                "subheadline": "648 Runs • World Record",
+                "narration": "फैक्ट नंबर 2. 2019 वर्ल्ड कप में रोहित शर्मा ने अकेले 5 शतक जड़कर क्रिकेट इतिहास का सबसे बड़ा वर्ल्ड कप रिकॉर्ड बना दिया.",
+                "footage_query": "cricket batsman six stadium",
+                "scene_type": "celebration",
+                "stat_callout": "5 HUNDREDS",
+                "source_primary": "ICC Cricket World Cup 2019 Tournament Records"
+            },
+            {
+                "fact_number": 3,
+                "badge": "FACT 3 : GLENN MCGRATH 2003",
+                "player_or_subject": "Glenn McGrath",
+                "headline": "7 WICKETS FOR 15 RUNS",
+                "subheadline": "Best Bowling in WC History",
+                "narration": "और फैक्ट नंबर 3. साल 2003 में ग्लेन मैक्ग्रा ने नामीबिया के खिलाफ सिर्फ 15 रन देकर 7 विकेट चटकाए, जो आज भी वर्ल्ड कप का बेस्ट बॉलिंग रिकॉर्ड है.",
+                "footage_query": "cricket fast bowler stumps wicket",
+                "scene_type": "bowler",
+                "stat_callout": "7/15 (BEST WC)",
+                "source_primary": "ESPNCricinfo 31st Match ICC World Cup 2003"
+            }
+        ],
+        "outro_narration": "इन तीनों में से कौन सा रिकॉर्ड आपको सबसे ज्यादा चौंकाने वाला लगा? कमेंट्स में बताइए और सब्सक्राइब करना न भूलें!",
+        "seo_title": "Cricket World Cup Ke 3 Sabse Unbelievable Records! 😱 #Shorts #CricketRaaz",
+        "seo_description": "Cricket World Cup ke 3 sabse ajeebo-gareeb aur shocking records! Sunil Gavaskar's 36 off 174 balls, Rohit Sharma's 5 centuries in 2019, and Glenn McGrath's 7/15. Subscribe to Cricket Raaz for daily cricket facts!",
+        "tags": ["Cricket", "World Cup", "Rohit Sharma", "Sunil Gavaskar", "Glenn McGrath", "Cricket Records", "Cricket Shorts", "Cricket Raaz"]
+    },
+
+    "test_bowling": {
+        "id": "test_bowling",
+        "topic": "3 Shocking Bowling Feats in Test History",
+        "category": "Test Bowling Records",
+        "hook_title": "3 SHOCKING TEST BOWLING RECORDS",
+        "hook_subtitle": "टेस्ट क्रिकेट के 3 अविश्वसनीय बॉलिंग रिकॉर्ड्स",
+        "hook_narration": "टेस्ट क्रिकेट इतिहास के 3 ऐसे बॉलिंग रिकॉर्ड्स, जिन्हें देखकर आप पूरी तरह हैरान रह जाएंगे!",
+        "facts": [
+            {
+                "fact_number": 1,
+                "badge": "FACT 1 : ANIL KUMBLE 1999",
+                "player_or_subject": "Anil Kumble",
+                "headline": "10 WICKETS IN AN INNINGS",
+                "subheadline": "Feroz Shah Kotla • vs Pakistan",
+                "narration": "फैक्ट नंबर 1. 1999 में दिल्ली टेस्ट में अनिल कुंबले ने पाकिस्तान की पूरी टीम को अकेले आउट करके एक पारी में पूरे 10 विकेट झटके थे.",
+                "footage_query": "cricket spin bowling wicket",
+                "scene_type": "bowler",
+                "stat_callout": "10/74 IN INNINGS",
+                "source_primary": "ESPNCricinfo 2nd Test India vs Pakistan 1999"
+            },
+            {
+                "fact_number": 2,
+                "badge": "FACT 2 : JASPRIT BUMRAH 2022",
+                "player_or_subject": "Jasprit Bumrah",
+                "headline": "35 RUNS IN SINGLE OVER",
+                "subheadline": "Off Stuart Broad • Edgbaston",
+                "narration": "फैक्ट नंबर 2. टेस्ट में एक ओवर में सबसे ज्यादा 35 रन बनाने का वर्ल्ड रिकॉर्ड किसी बल्लेबाज के नाम नहीं, बल्कि तेज गेंदबाज जसप्रीत बुमराह के नाम है.",
+                "footage_query": "cricket fast bowler run up",
+                "scene_type": "batsman",
+                "stat_callout": "35 RUNS IN 1 OVER",
+                "source_primary": "ESPNCricinfo 5th Test India vs England 2022"
+            },
+            {
+                "fact_number": 3,
+                "badge": "FACT 3 : MURALITHARAN 2010",
+                "player_or_subject": "Muttiah Muralitharan",
+                "headline": "800th WICKET ON LAST BALL",
+                "subheadline": "Galle Farewell Test • Historic Record",
+                "narration": "और फैक्ट नंबर 3. मुथैया मुरलीधरन ने अपने 800 टेस्ट विकेट पूरे करने के लिए करियर की आखिरी गेंद पर प्रज्ञान ओझा का विकेट लेकर इतिहास रचा था.",
+                "footage_query": "cricket spin bowling stumps bails",
+                "scene_type": "celebration",
+                "stat_callout": "800 TEST WICKETS",
+                "source_primary": "ESPNCricinfo 1st Test Sri Lanka vs India 2010"
+            }
+        ],
+        "outro_narration": "क्या भविष्य में कोई भी गेंदबाज 800 टेस्ट विकेट का रिकॉर्ड तोड़ पाएगा? अपनी राय कमेंट्स में बताएं और सब्सक्राइब करें!",
+        "seo_title": "Test Cricket Ke 3 Sabse Shocking Bowling Records! 🤯 #Shorts #CricketRaaz",
+        "seo_description": "Test cricket history ke 3 sabse unbelievable bowling records! Anil Kumble's 10-wicket haul, Jasprit Bumrah's 35-run over, and Muttiah Muralitharan's 800th wicket on his final delivery. Subscribe to Cricket Raaz!",
+        "tags": ["Anil Kumble", "Jasprit Bumrah", "Muralitharan", "Test Cricket", "Bowling Records", "Cricket Shorts", "Cricket Raaz"]
+    },
+
+    "rare_india": {
+        "id": "rare_india",
+        "topic": "3 Rare Incidents in Indian Cricket",
+        "category": "Indian Cricket Incidents",
+        "hook_title": "3 RARE INDIAN CRICKET INCIDENTS",
+        "hook_subtitle": "भारतीय क्रिकेट की 3 सबसे अनोखी घटनाएं",
+        "hook_narration": "भारतीय क्रिकेट की 3 ऐसी अनोखी घटनाएं, जिनके बारे में 99% फैंस आज भी नहीं जानते!",
+        "facts": [
+            {
+                "fact_number": 1,
+                "badge": "FACT 1 : SACHIN TENDULKAR 1987",
+                "player_or_subject": "Sachin Tendulkar",
+                "headline": "FIELDED FOR PAKISTAN",
+                "subheadline": "Age 14 • Brabourne Stadium 1987",
+                "narration": "फैक्ट नंबर 1. 1987 में 14 साल के सचिन तेंदुलकर ने भारत से पहले पाकिस्तान की टीम के लिए सबस्टीट्यूट फील्डर के तौर पर फील्डिंग की थी.",
+                "footage_query": "cricket field aerial view match",
+                "scene_type": "general",
+                "stat_callout": "FIELDED FOR PAKISTAN",
+                "source_primary": "CCI Golden Jubilee Match 1987"
+            },
+            {
+                "fact_number": 2,
+                "badge": "FACT 2 : ROHIT SHARMA 2009",
+                "player_or_subject": "Rohit Sharma",
+                "headline": "IPL HAT-TRICK RECORD",
+                "subheadline": "Deccan Chargers vs Mumbai Indians",
+                "narration": "फैक्ट नंबर 2. रोहित शर्मा ने 2009 के IPL में मुंबई इंडियंस के खिलाफ सिर्फ 2 ओवर में 6 रन देकर हैट्रिक चटकाई थी.",
+                "footage_query": "cricket wicketkeeper catching ball",
+                "scene_type": "bowler",
+                "stat_callout": "IPL HAT-TRICK (4/6)",
+                "source_primary": "IPL 2009 Match 32 Deccan Chargers vs Mumbai Indians"
+            },
+            {
+                "fact_number": 3,
+                "badge": "FACT 3 : MULTAN DECLARATION 2004",
+                "player_or_subject": "Sachin & Dravid",
+                "headline": "DECLARATION AT 194*",
+                "subheadline": "Multan Test • 16 Overs Left",
+                "narration": "और फैक्ट नंबर 3. मुल्तान टेस्ट में राहुल द्रविड़ ने भारतीय पारी तब घोषित कर दी जब सचिन तेंदुलकर 194 रनों पर नाबाद खेल रहे थे.",
+                "footage_query": "cricket stadium crowd cheering",
+                "scene_type": "stadium",
+                "stat_callout": "DECLARED AT 194*",
+                "source_primary": "ESPNCricinfo 1st Test India in Pakistan 2004"
+            }
+        ],
+        "outro_narration": "क्या उस दिन राहुल द्रविड़ का पारी घोषित करने का फैसला सही था? अपनी राय कमेंट्स में जरूर बताइए और सब्सक्राइब करें!",
+        "seo_title": "Indian Cricket Ki 3 Sabse Ajeeb Ghatnayein! 🇮🇳 #Shorts #CricketRaaz",
+        "seo_description": "Indian cricket history ke 3 sabse anokhe aur surprising incidents! Sachin Tendulkar fielding for Pakistan in 1987, Rohit Sharma's IPL hat-trick, and Dravid's declaration at 194*. Subscribe to Cricket Raaz!",
+        "tags": ["Sachin Tendulkar", "Rohit Sharma", "Rahul Dravid", "Indian Cricket", "Rare Facts", "Cricket Shorts", "Cricket Raaz"]
+    }
+}
