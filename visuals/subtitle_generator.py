@@ -11,8 +11,42 @@ from typing import List, Dict, Any
 
 class SubtitleGenerator:
     DEFAULT_FONT = "Noto Sans Devanagari"
-    FONT_SIZE = 56
-    MARGIN_BOTTOM = 350 # Pixels from bottom (above YouTube shorts UI)
+    FONT_SIZE = 52
+    MARGIN_BOTTOM = 260 # Pixels from bottom (safe zone for 9:16 mobile YouTube shorts)
+
+    @classmethod
+    def _chunk_boundaries(cls, boundaries: List[Dict[str, Any]], max_words: int = 5) -> List[Dict[str, Any]]:
+        """
+        Subdivides long speech boundaries into rapid, punchy 3-5 word subtitle bursts.
+        Guarantees zero text overflow, no overlapping lines, and maximum viewer retention.
+        """
+        refined = []
+        for item in boundaries:
+            text = item.get("text", "").strip()
+            if not text:
+                continue
+            words = text.split()
+            if len(words) <= max_words:
+                refined.append(item)
+                continue
+
+            total_dur = max(0.5, item["end"] - item["start"])
+            total_words = len(words)
+            curr_start = item["start"]
+            
+            # Split into chunks of max_words
+            for i in range(0, total_words, max_words):
+                chunk_words = words[i:i + max_words]
+                chunk_dur = total_dur * (len(chunk_words) / total_words)
+                chunk_end = curr_start + chunk_dur
+                refined.append({
+                    "start": round(curr_start, 2),
+                    "end": round(chunk_end, 2),
+                    "text": " ".join(chunk_words)
+                })
+                curr_start = chunk_end
+
+        return refined
 
     @classmethod
     def generate_ass(
@@ -24,12 +58,13 @@ class SubtitleGenerator:
     ) -> str:
         """
         Creates an ASS subtitle file formatted with bold Devanagari styling,
-        drop shadow, and yellow highlight color for key cricket terms.
+        clean black outline, and Gold/Yellow highlight for key cricket numbers and terms.
         """
         os.makedirs(os.path.dirname(os.path.abspath(output_ass_path)), exist_ok=True)
+        refined_boundaries = cls._chunk_boundaries(boundaries, max_words=5)
 
         ass_header = f"""[Script Info]
-Title: Cricket Facts Factory Subtitles
+Title: Cricket Raaz Countdown Subtitles
 ScriptType: v4.00+
 WrapStyle: 0
 ScaledBorderAndShadow: yes
@@ -39,20 +74,19 @@ PlayResY: 1920
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,{font_name},{font_size},&H00FFFFFF,&H000000FF,&H00000000,&H90000000,-1,0,0,0,100,100,0,0,1,3.8,1.8,2,60,60,{cls.MARGIN_BOTTOM},1
+Style: Default,{font_name},{font_size},&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,3.6,1.5,2,50,50,{cls.MARGIN_BOTTOM},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
         events = []
-        for item in boundaries:
+        for item in refined_boundaries:
             start_str = cls._format_ass_time(item["start"])
             end_str = cls._format_ass_time(item["end"])
             text = item["text"]
 
-            # Highlight numbers, records, and key English cricket keywords in Gold/Yellow (&H00D7FF&)
+            # Highlight numbers and key keywords in Gold/Yellow (&H004AB8E8&)
             styled_text = cls._highlight_keywords(text)
-
             events.append(f"Dialogue: 0,{start_str},{end_str},Default,,0,0,0,,{styled_text}")
 
         with open(output_ass_path, "w", encoding="utf-8") as f:
@@ -113,7 +147,8 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         for w in words:
             clean_w = re.sub(r'[^\w\s]', '', w).lower()
             if clean_w in highlight_targets or re.match(r'^\d+$', clean_w):
-                styled_words.append(f"{{\\c&H00D7FF&}}{w}{{\\c&HFFFFFF&}}")
+                # Brand Gold in ASS format: &H004AB8E8&
+                styled_words.append(f"{{\\c&H004AB8E8&}}{w}{{\\c&HFFFFFF&}}")
             else:
                 styled_words.append(w)
 

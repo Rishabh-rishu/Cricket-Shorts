@@ -12,6 +12,9 @@ import logging
 import subprocess
 from typing import Optional, Dict, Any, List, Tuple
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logger = logging.getLogger("cricket_shorts.pexels")
 
@@ -94,8 +97,15 @@ class PexelsVideoProvider:
             best_video = videos[0]
             video_files = best_video.get("video_files", [])
 
-            # Sort files by resolution (width * height)
-            video_files.sort(key=lambda x: (x.get("width") or 0) * (x.get("height") or 0), reverse=True)
+            # Prefer optimal 1080p HD files for rapid download and crisp 1080x1920 output
+            def score_file(f):
+                w = f.get("width") or 0
+                h = f.get("height") or 0
+                penalty = 50000 if (w > 2160 or h > 2160) else 0
+                diff = abs(w - 1080) + abs(h - 1920) if h > w else abs(w - 1920) + abs(h - 1080)
+                return penalty + diff
+
+            video_files.sort(key=score_file)
             chosen_file = video_files[0]
             download_url = chosen_file.get("link")
 

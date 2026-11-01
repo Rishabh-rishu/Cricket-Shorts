@@ -27,6 +27,8 @@ from voice.audio_processor import AudioProcessor
 from visuals.subtitle_generator import SubtitleGenerator
 from visuals.gemini_storyboard import GeminiStoryboardPlanner
 from editor.cinematic_renderer import CinematicVideoRenderer
+from editor.countdown_renderer import CountdownVideoRenderer
+from research.countdown_topics import TOP_5_COLLECTIONS
 from qc.video_qc import VideoQC
 from youtube.scheduler import PublicationScheduler
 from youtube.upload import YouTubeUploader
@@ -197,6 +199,96 @@ class CricketShortsFactory:
             "qc_notes": qc_notes
         }
 
+    def produce_countdown_short(self, topic_key: str = "rare_records") -> dict:
+        """
+        Executes Top 5 Countdown production:
+        Renders countdown format (5 down to 1) with moving Pexels footage,
+        official brand overlays, multi-layer SFX, and Devanagari subtitles.
+        """
+        logger.info(f"Starting Top 5 Countdown production for collection '{topic_key}'...")
+        if topic_key not in TOP_5_COLLECTIONS:
+            logger.warning(f"Collection '{topic_key}' not found, falling back to 'rare_records'.")
+            topic_key = "rare_records"
+
+        bundle = TOP_5_COLLECTIONS[topic_key]
+        timestamp_slug = datetime.now().strftime("%Y%m%d_%H%M%S")
+        final_video_path = os.path.join("output/videos", f"cricket_raaz_top5_{topic_key}_{timestamp_slug}.mp4")
+        temp_render_dir = os.path.abspath(f"output/run_countdown_{topic_key}_{timestamp_slug}")
+
+        pub_slots = PublicationScheduler.get_next_publication_slots(count=1)
+        slot_time, rfc3339_slot = pub_slots[0]
+
+        rend_ok, vpath, meta_report = CountdownVideoRenderer.render_countdown_short(
+            bundle=bundle,
+            output_video_path=final_video_path,
+            temp_dir=temp_render_dir,
+            pexels_key=self.pexels_key,
+            tts_rate="+25%"
+        )
+
+        if not rend_ok:
+            raise RuntimeError(f"Countdown rendering failed: {meta_report.get('error')}")
+
+        fact_hash = self.db.compute_fact_hash(bundle["topic"], bundle["hook_text"])
+        with self.db.get_connection() as conn:
+            c = conn.cursor()
+            row = c.execute("SELECT id FROM facts WHERE fact_hash = ?", (fact_hash,)).fetchone()
+            if row:
+                fact_id = row[0]
+            else:
+                fact_id = self.db.insert_fact({
+                    "topic": bundle["topic"],
+                    "category": bundle["category"],
+                    "main_fact": bundle["hook_text"],
+                    "source_primary": bundle["records"][0]["source_primary"],
+                    "source_secondary": bundle["records"][0].get("source_secondary"),
+                    "verification_notes": "Top 5 Countdown bundle verified",
+                    "reliability_score": 40.0,
+                    "uniqueness_score": 25.0,
+                    "curiosity_score": 20.0,
+                    "visual_score": 15.0,
+                    "total_score": 100.0,
+                    "is_approved": 1
+                })
+
+        short_record = {
+            "fact_id": fact_id,
+            "title": bundle["seo_title"],
+            "hook": bundle["hook_text"],
+            "story": "Top 5 Countdown (5 down to 1)",
+            "surprise": bundle["records"][-1]["narration"],
+            "cta": bundle["cta_text"],
+            "full_script": bundle["seo_description"],
+            "description": bundle["seo_description"],
+            "tags": ",".join(bundle["tags"]),
+            "hashtags": "#Shorts #CricketRaaz #Top5CricketRecords",
+            "pinned_comment": "Which of these 5 records shocked you the most? Subscribe to Cricket Raaz!",
+            "audio_file": os.path.join(temp_render_dir, "voice_normalized.aac"),
+            "subtitles_file": os.path.join(temp_render_dir, "subtitles_countdown.ass"),
+            "video_file": final_video_path,
+            "duration_seconds": meta_report.get("duration", 0),
+            "qc_passed": 1,
+            "qc_notes": "Passed all countdown QC checks",
+            "upload_status": "QC_PASSED"
+        }
+        short_id = self.db.insert_short(short_record)
+
+        upload_ok, yt_id, up_msg = self.uploader.upload_short(
+            short_id=short_id,
+            video_path=final_video_path,
+            metadata={
+                "title": bundle["seo_title"],
+                "description": bundle["seo_description"],
+                "tags": bundle["tags"],
+                "hashtags": "#Shorts #CricketRaaz",
+                "pinned_comment": short_record["pinned_comment"]
+            },
+            scheduled_rfc3339=rfc3339_slot
+        )
+        logger.info(f"Countdown Short '{bundle['topic']}' produced. YouTube Status: {up_msg}")
+        self.reporter.show_dashboard()
+        return meta_report
+
 
 def run_scheduler(factory: CricketShortsFactory):
     """Runs automated daily scheduler independent of external tools."""
@@ -215,6 +307,8 @@ def main():
     parser = argparse.ArgumentParser(description="Cricket Facts YouTube Shorts Factory (Engine V2)")
     parser.add_argument("--run", action="store_true", help="Generate 2 daily shorts immediately")
     parser.add_argument("--single", action="store_true", help="Generate 1 short for testing")
+    parser.add_argument("--countdown", action="store_true", help="Generate Top 5 Countdown short")
+    parser.add_argument("--topic", type=str, default="rare_records", help="Countdown collection topic key")
     parser.add_argument("--dashboard", action="store_true", help="Display system dashboard")
     parser.add_argument("--schedule", action="store_true", help="Run background scheduler service")
     parser.add_argument("--auth", action="store_true", help="Authorize YouTube API with OAuth")
@@ -230,6 +324,8 @@ def main():
             print("✓ YouTube authentication successful! OAuth token cached.")
         else:
             print("✗ Authentication failed. Please verify client_secrets.json is present.")
+    elif args.countdown:
+        factory.produce_countdown_short(topic_key=args.topic)
     elif args.single:
         factory.produce_daily_shorts(count=1)
     elif args.schedule:

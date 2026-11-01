@@ -47,12 +47,8 @@ class AudioProcessor:
         os.makedirs(os.path.dirname(os.path.abspath(output_processed_path)), exist_ok=True)
 
         # Filter:
-        # 1. silenceremove: removes long silence (>0.25s) between sentences
-        # 2. loudnorm: broadcast loudness normalization for YouTube Shorts
-        audio_filter = (
-            "silenceremove=stop_periods=-1:stop_duration=0.3:stop_threshold=-40dB,"
-            f"loudnorm=I={target_lufs}:TP=-1.5:LRA=11"
-        )
+        # Loudnorm: broadcast EBU R128 loudness normalization for YouTube Shorts (-16 LUFS)
+        audio_filter = f"loudnorm=I={target_lufs}:TP=-1.5:LRA=11"
 
         cmd = [
             "ffmpeg", "-y",

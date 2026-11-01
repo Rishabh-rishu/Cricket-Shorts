@@ -14,6 +14,8 @@ output/visuals/*
 output/metadata/*
 !output/metadata/.gitkeep
 output/snapshots/*
+output/snapshots_countdown/*
+output/test_*
 output/run_*
 logs/*.log
 assets/footage_cache/

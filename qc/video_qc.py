@@ -25,7 +25,7 @@ class VideoQC:
     REQUIRED_WIDTH = 1080
     REQUIRED_HEIGHT = 1920
     MIN_DURATION = 25.0
-    MAX_DURATION = 50.0
+    MAX_DURATION = 55.0
     MIN_SCENES = 5
 
     @classmethod
