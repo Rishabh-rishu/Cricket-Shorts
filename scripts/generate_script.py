@@ -32,53 +32,76 @@ class ScriptGenerator:
     def generate(cls, fact_data: Dict[str, Any]) -> Dict[str, str]:
         """
         Creates a structured, timed Hindi script for a YouTube Short based on the verified fact.
+        Calibrated for ~100-115 words so audio lands squarely in 35-43 seconds at 1.2x pace.
         """
         topic = fact_data.get("topic", "")
         category = fact_data.get("category", "")
         main_fact = fact_data.get("main_fact", "")
+        topic_lower = topic.lower()
+        fact_lower = main_fact.lower()
 
-        # Select dynamic Hook based on category
-        if "rules" in category.lower():
+        # 1. Dynamic Curiosity-Driven Hook
+        if "rules" in category.lower() or "law" in topic_lower:
             hook = "क्रिकेट के नियमों की किताब में एक ऐसा गुप्त नियम छुपा है, जिसके बारे में 99% फैंस नहीं जानते!"
         elif "ipl" in category.lower():
-            hook = "IPL इतिहास का एक ऐसा अनसुना रिकॉर्ड, जिस पर यकीन करना नामुमकिन लगता है!"
+            hook = "IPL इतिहास का एक ऐसा अनसुना रिकॉर्ड, जिस पर आज भी यकीन करना नामुमकिन लगता है!"
         elif "world cup" in category.lower():
-            hook = "वर्ल्ड कप के इतिहास का यह सबसे बड़ा उलटफेर आपको हैरान कर देगा!"
-        elif "legendary" in category.lower():
+            hook = "वर्ल्ड कप इतिहास का यह सबसे रहस्यमयी और चौंकाने वाला वाकया आज भी हर क्रिकेट फैन को हैरान कर देता है!"
+        elif "bumrah" in topic_lower or "बुमराह" in main_fact:
+            hook = "क्रिकेट इतिहास का एक ऐसा अविश्वसनीय रिकॉर्ड, जिस पर आज भी यकीन करना नामुमकिन लगता है!"
+        elif "legendary" in category.lower() or "सचिन" in main_fact or "धोनी" in main_fact:
             hook = "क्रिकेट के इस महानतम खिलाड़ी का एक ऐसा सच, जिसे जानकर आपके होश उड़ जाएंगे!"
         else:
             hook = "क्रिकेट इतिहास का यह हैरान कर देने वाला सच बहुत कम लोग जानते हैं!"
 
-        # Build Main Story
-        # Clean and expand main_fact for spoken Hindi cadence
-        cleaned_fact = main_fact.strip()
-        story = f"बात दरअसल यह है कि {cleaned_fact}"
+        # 2. Main Story & 3. Surprise Climax
+        if "बुमराह" in main_fact or "bumrah" in topic_lower:
+            story = "क्या आप जानते हैं कि टेस्ट क्रिकेट के एक ओवर में सबसे ज्यादा 35 रन बनाने का वर्ल्ड रिकॉर्ड किसी बल्लेबाज के नाम नहीं, बल्कि भारत के तेज गेंदबाज जसप्रीत बुमराह के नाम है? साल 2022 के एजबेस्टन टेस्ट में बुमराह ने स्टुअर्ट ब्रॉड के एक ही ओवर में चार चौके और दो गगनचुंबी छक्के जड़कर 35 रन बटोरे थे."
+            surprise = "स्टुअर्ट ब्रॉड वही गेंदबाज हैं जिनके ओवर में युवराज सिंह ने छह छक्के जड़े थे, और 15 साल बाद बुमराह ने उनके खिलाफ यह इतिहास रचा."
+            cta = "क्या आपको लगता है कि बुमराह का यह रिकॉर्ड कभी कोई बल्लेबाज तोड़ पाएगा? कमेंट्स में जरूर बताएं और चैनल को सब्सक्राइब करें!"
 
-        # Build Surprise element
-        if "helmet" in main_fact.lower() or "हेलमेट" in main_fact:
+        elif "गावस्कर" in main_fact or "gavaskar" in topic_lower:
+            story = "1975 के पहले क्रिकेट वर्ल्ड कप में इंग्लैंड के 334 रनों के लक्ष्य का पीछा करते हुए भारत के महान बल्लेबाज सुनील गावस्कर ने पूरे 60 ओवर बल्लेबाजी की. लेकिन 174 गेंदें खेलने के बावजूद गावस्कर ने सिर्फ 36 रन बनाए और नाबाद रहे, जिसमें केवल 1 चौका था."
+            surprise = "पूरे 60 ओवर क्रीज पर टिके रहने के बाद भी भारत 202 रनों के भारी अंतर से हार गया, जो आज भी वर्ल्ड कप का सबसे रहस्यमयी मैच माना जाता है."
+            cta = "गावस्कर की इस बेहद धीमी पारी के पीछे क्या वजह हो सकती है? अपनी राय कमेंट्स में जरूर बताएं और ऐसे ही अनसुने क्रिकेट फैक्ट्स के लिए सब्सक्राइब करें!"
+
+        elif "मुरलीधरन" in main_fact or "muralitharan" in topic_lower:
+            story = "श्रीलंका के महान स्पिनर मुथैया मुरलीधरन को 800 टेस्ट विकेट पूरे करने के लिए अपने विदाई मैच के अंतिम दिन सिर्फ 1 विकेट चाहिए था. भारत के खिलाफ गॉल टेस्ट में भारतीय टीम की आखिरी जोड़ी मैदान पर डटी थी और मुरलीधरन के पास करियर का आखिरी ओवर था."
+            surprise = "मुरलीधरन ने अपने टेस्ट करियर की आखिरी गेंद पर प्रज्ञान ओझा को कैच आउट कराकर अपना 800वां ऐतिहासिक टेस्ट विकेट हासिल कर लिया."
+            cta = "क्या भविष्य में कोई भी गेंदबाज 800 टेस्ट विकेट का वर्ल्ड रिकॉर्ड तोड़ पाएगा? कमेंट्स में बताएं और सब्सक्राइब करें!"
+
+        elif "helmet" in fact_lower or "हेलमेट" in main_fact:
+            story = f"बात दरअसल यह है कि {main_fact.strip()}"
             surprise = "यानी अगर फील्डर का रखा हुआ हेलमेट गेंद से छू भी जाए, तो अंपायर तुरंत हाथ उठाकर 5 रन पेनल्टी दे देता है और गेंद तुरंत डेड हो जाती है."
-        elif "timed out" in main_fact.lower() or "टाइम आउट" in main_fact:
-            surprise = "मैथ्यूज के हेलमेट का स्ट्रैप टूट गया था, लेकिन ICC नियमों के अनुसार 2 मिनट का समय खत्म होते ही विपक्षी कप्तान ने अपील की और अंपायर को आउट देना पड़ा."
-        elif "गावस्कर" in main_fact or "gavaskar" in main_fact.lower():
-            surprise = "पूरे 60 ओवर बल्लेबाजी करने के बाद भी भारत यह मुकाबला 202 रनों के भारी अंतर से हार गया था, जो आज भी वर्ल्ड कप का सबसे रहस्यमयी मैच माना जाता है."
-        elif "सचिन" in main_fact or "tendulkar" in main_fact.lower():
-            surprise = "उस दिन जावेद मियांदाद मैदान छोड़कर चले गए थे, और सिर्फ 14 साल के सचिन तेंदुलकर इमरान खान की कप्तानी में पाकिस्तान के लिए फील्डिंग कर रहे थे."
-        elif "रोहित" in main_fact or "rohit" in main_fact.lower():
-            surprise = "रोहित शर्मा ने केवल 2 ओवरों में सिर्फ 6 रन देकर 4 विकेट चटकाए थे, और उस साल डेक्कन चार्जर्स ने IPL का खिताब भी जीता था."
-        elif "धोनी" in main_fact or "dhoni" in main_fact.lower():
-            surprise = "धोनी ने सेना देशों यानी साउथ अफ्रीका, इंग्लैंड, न्यूजीलैंड और ऑस्ट्रेलिया में कई यादगार पारियां खेलीं, लेकिन 90 टेस्ट मैचों में उनका कोई टेस्ट शतक वहां नहीं लगा."
-        elif "बुमराह" in main_fact or "bumrah" in main_fact.lower():
-            surprise = "स्टुअर्ट ब्रॉड वही गेंदबाज हैं जिनके ओवर में युवराज सिंह ने 6 छक्के जड़े थे, और 15 साल बाद बुमराह ने उनके खिलाफ एक ओवर में 35 रन कूट दिए."
-        else:
-            surprise = "क्रिकेट के रिकॉर्ड्स में ऐसी घटनाएं दशकों में सिर्फ एक बार देखने को मिलती हैं."
+            cta = "क्या आपके हिसाब से क्रिकेट में यह नियम सही है? अपनी राय कमेंट्स में लिखें और चैनल को अभी सब्सक्राइब करें!"
 
-        # Select CTA
-        cta = CTA_TEMPLATES[hash(topic) % len(CTA_TEMPLATES)]
+        elif "timed out" in fact_lower or "मैथ्यूज" in main_fact:
+            story = f"बात दरअसल यह है कि {main_fact.strip()}"
+            surprise = "मैथ्यूज के हेलमेट का स्ट्रैप टूट गया था, लेकिन ICC नियमों के अनुसार 2 मिनट का समय खत्म होते ही विपक्षी कप्तान ने अपील की और अंपायर को आउट देना पड़ा."
+            cta = "क्या शाकिब का टाइम आउट अपील करना खेल भावना के खिलाफ था? कमेंट्स में जरूर बताएं और चैनल को सब्सक्राइब करें!"
+
+        elif "appealing" in topic_lower or "law 31" in topic_lower:
+            story = f"बात दरअसल यह है कि {main_fact.strip()}"
+            surprise = "यानी अगर बल्लेबाज बोल्ड भी हो जाए और बैटर चलता बने, लेकिन अगर फील्डिंग टीम ने अपील नहीं की तो नियम के मुताबिक अंपायर उसे आउट नहीं मान सकता."
+            cta = "क्या आपको क्रिकेट के इस गुप्त नियम के बारे में पहले पता था? कमेंट्स में जरूर बताएं और चैनल को सब्सक्राइब करें!"
+
+        elif "सचिन" in main_fact or "tendulkar" in topic_lower:
+            story = f"बात दरअसल यह है कि {main_fact.strip()}"
+            surprise = "उस दिन जावेद मियांदाद मैदान छोड़कर चले गए थे, और सिर्फ 14 साल के सचिन तेंदुलकर इमरान खान की कप्तानी में पाकिस्तान के लिए फील्डिंग कर रहे थे."
+            cta = "क्या आप जानते थे कि सचिन ने भारत से पहले पाकिस्तान के लिए फील्डिंग की थी? कमेंट्स में बताएं और सब्सक्राइब करें!"
+
+        elif "रोहित" in main_fact or "rohit" in topic_lower:
+            story = f"बात दरअसल यह है कि {main_fact.strip()}"
+            surprise = "रोहित शर्मा ने केवल 2 ओवरों में सिर्फ 6 रन देकर 4 विकेट चटकाए थे, और उस साल डेक्कन चार्जर्स ने IPL का खिताब भी जीता था."
+            cta = "क्या आप रोहित शर्मा की इस जादुई गेंदबाजी के बारे में जानते थे? कमेंट्स में जरूर बताएं और सब्सक्राइब करें!"
+
+        else:
+            story = f"बात दरअसल यह है कि {main_fact.strip()}"
+            surprise = "क्रिकेट के 150 साल पुराने इतिहास में ऐसी अविश्वसनीय घटनाएं दशकों में सिर्फ एक बार देखने को मिलती हैं."
+            cta = "क्रिकेट का कौन सा अनसुना रिकॉर्ड आपको सबसे ज्यादा चौंकाता है? कमेंट्स में बताएं और सब्सक्राइब करना न भूलें!"
 
         # Combine into complete script with natural pauses
         full_script = f"{hook} {story} {surprise} {cta}"
-
-        # Clean multiple spaces
         full_script = re.sub(r'\s+', ' ', full_script).strip()
 
         return {
@@ -88,5 +111,5 @@ class ScriptGenerator:
             "cta": cta,
             "full_script": full_script,
             "word_count": len(full_script.split()),
-            "estimated_duration_sec": round(len(full_script.split()) / 2.8, 1) # At ~165 wpm (1.2x)
+            "estimated_duration_sec": round(len(full_script.split()) / 2.8, 1)
         }

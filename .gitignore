@@ -16,6 +16,7 @@ output/metadata/*
 output/snapshots/*
 output/run_*
 logs/*.log
+assets/footage_cache/
 
 # Large TTS Models
 assets/models/*.onnx
