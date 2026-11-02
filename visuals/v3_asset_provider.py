@@ -131,7 +131,8 @@ class V3AssetProvider:
             tournament_header=fact.get("tournament_header") or fact.get("tournament_year") or fact.get("badge", "CRICKET RECORD"),
             stats_table=fact.get("stats_table"),
             achievement_tag=fact.get("achievement_tag", "HISTORIC RECORD"),
-            player_img_path=fact.get("player_img_path")
+            player_img_path=fact.get("player_img_path"),
+            fact_index=idx
         )
 
         total_frames = int(duration * 30) + 5
