@@ -29,3 +29,34 @@
 2026-11-02 09:01:49,370 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: LGdugP65g_A (https://youtube.com/shorts/LGdugP65g_A)
 2026-11-02 09:01:49,372 [INFO] cricket_shorts.main: V3 Short '3 Rare Incidents in Indian Cricket' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/LGdugP65g_A
 2026-11-02 09:01:49,390 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-02 21:49:55,264 [WARNING] cricket_shorts.storyboard: Could not initialize Google GenAI Client: cannot import name 'genai' from 'google' (unknown location)
+2026-11-02 21:49:55,264 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-02 21:49:55,265 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'ipl_records' ---
+2026-11-02 21:49:55,265 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'ipl_records'...
+2026-11-02 21:49:55,278 [INFO] cricket_shorts.v3_engine: V3 Narration (114 words): 'IPL इतिहास के 3 ऐसे चमत्कारिक रिकॉर्ड्स, जिन्हें आज तक कोई भी खिलाड़ी नहीं तोड़ ...'
+2026-11-02 21:50:08,535 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_ipl_records_20261102_214955/raw_voice.mp3
+2026-11-02 21:50:08,535 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_ipl_records_20261102_214955/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_ipl_records_20261102_214955/voice_normalized.aac
+2026-11-02 21:50:10,659 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 45.83s
+2026-11-02 21:50:10,660 [INFO] cricket_shorts.v3_engine: Voice narration ready. Total duration: 45.83s
+2026-11-02 21:50:10,660 [INFO] cricket_shorts.v3_engine: Planned 8 cinematic scenes. Total video duration: 45.82s
+2026-11-02 21:50:10,660 [INFO] cricket_shorts.v3_engine: Rendering Segment 0 (hook, 7.05s)...
+2026-11-02 21:50:18,951 [INFO] cricket_shorts.v3_engine: Rendering Segment 1 (fact_card, 4.49s)...
+2026-11-02 21:50:21,058 [INFO] cricket_shorts.v3_engine: Rendering Segment 2 (footage_overlay, 5.49s)...
+2026-11-02 21:50:28,425 [INFO] cricket_shorts.v3_engine: Rendering Segment 3 (fact_card, 4.34s)...
+2026-11-02 21:50:30,353 [INFO] cricket_shorts.v3_engine: Rendering Segment 4 (footage_overlay, 5.31s)...
+2026-11-02 21:50:36,054 [INFO] cricket_shorts.v3_engine: Rendering Segment 5 (fact_card, 4.31s)...
+2026-11-02 21:50:37,600 [INFO] cricket_shorts.v3_engine: Rendering Segment 6 (footage_overlay, 5.26s)...
+2026-11-02 21:50:46,500 [INFO] cricket_shorts.v3_engine: Rendering Segment 7 (outro, 9.57s)...
+2026-11-02 21:50:56,632 [INFO] cricket_shorts.sfx: Mixing 8 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_ipl_records_20261102_214955/soundtrack_v3.aac
+2026-11-02 21:50:57,985 [INFO] cricket_shorts.v3_engine: Assembling final V3 Cinematic Short: output/videos/cricket_raaz_v3_ipl_records_20261102_214955.mp4
+2026-11-02 21:51:21,912 [INFO] cricket_shorts.v3_engine: Executing automated Technical Quality Control (QC)...
+2026-11-02 21:51:22,219 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 45.9s, 8 Moving Footage Scenes, Codecs: h264/aac, Size: 18.23MB, Font: Devanagari Verified
+2026-11-02 21:51:22,219 [INFO] cricket_shorts.v3_engine: ✓ V3 Cinematic Short successfully generated! Duration: 45.88s
+2026-11-02 21:51:22,435 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-02 21:51:22,436 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-02 21:51:24,406 [INFO] cricket_shorts.youtube_upload: Uploading 'IPL Ke 3 Sabse Unbelievable Records! 🏏🔥 #Shorts #CricketRaaz': 27%
+2026-11-02 21:51:24,653 [INFO] cricket_shorts.youtube_upload: Uploading 'IPL Ke 3 Sabse Unbelievable Records! 🏏🔥 #Shorts #CricketRaaz': 54%
+2026-11-02 21:51:24,896 [INFO] cricket_shorts.youtube_upload: Uploading 'IPL Ke 3 Sabse Unbelievable Records! 🏏🔥 #Shorts #CricketRaaz': 82%
+2026-11-02 21:51:25,557 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: FAYdP0Oxx10 (https://youtube.com/shorts/FAYdP0Oxx10)
+2026-11-02 21:51:25,693 [INFO] cricket_shorts.main: V3 Short '3 Unbelievable IPL Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/FAYdP0Oxx10
+2026-11-02 21:51:25,708 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
