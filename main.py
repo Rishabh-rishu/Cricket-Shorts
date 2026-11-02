@@ -67,7 +67,7 @@ class CricketShortsFactory:
         self.uploader = YouTubeUploader(self.db, auto_upload=self.auto_upload)
         self.reporter = DashboardReporter(self.db)
 
-    def produce_daily_shorts(self, count: int = 2) -> list:
+    def produce_daily_shorts(self, count: int = 2, immediate: bool = False) -> list:
         """
         Executes daily production run for 2 premium sports broadcast cricket shorts:
         Renders V3 3-Connected-Facts documentary shorts with Pic 2 broadcast cards,
@@ -106,7 +106,7 @@ class CricketShortsFactory:
             t_key = selected_topics[idx]
             logger.info(f"--- Producing Daily Broadcast Short {idx+1}/{count}: '{t_key}' ---")
             try:
-                res = self.produce_v3_short(topic_key=t_key)
+                res = self.produce_v3_short(topic_key=t_key, immediate=immediate)
                 if res:
                     produced_shorts.append(res)
             except Exception as e:
@@ -345,7 +345,7 @@ class CricketShortsFactory:
         self.reporter.show_dashboard()
         return meta_report
 
-    def produce_v3_short(self, topic_key: str = "wc_records") -> dict:
+    def produce_v3_short(self, topic_key: str = "wc_records", immediate: bool = False) -> dict:
         """
         Executes V3 3-Connected-Facts Documentary Short production:
         Renders 8 dynamic scenes (Hook + 3 Facts with Ken Burns presentation cards & moving action footage + Outro),
@@ -362,7 +362,10 @@ class CricketShortsFactory:
         final_video_path = os.path.join("output/videos", f"cricket_raaz_v3_{topic_key}_{timestamp_slug}.mp4")
         temp_render_dir = os.path.abspath(f"output/run_v3_{topic_key}_{timestamp_slug}")
 
-        slot_time, rfc3339_slot = PublicationScheduler.get_immediate_or_next_slot()
+        if immediate:
+            slot_time, rfc3339_slot = datetime.now(), None
+        else:
+            slot_time, rfc3339_slot = PublicationScheduler.get_immediate_or_next_slot()
 
         rend_ok, vpath, meta_report = V3CinematicEngine.render_v3_short(
             bundle=bundle,
@@ -482,6 +485,7 @@ def main():
     parser.add_argument("--dashboard", action="store_true", help="Display system dashboard")
     parser.add_argument("--schedule", action="store_true", help="Run background scheduler service")
     parser.add_argument("--auth", action="store_true", help="Authorize YouTube API with OAuth")
+    parser.add_argument("--immediate", action="store_true", help="Force immediate public upload (bypass schedule window)")
 
     args = parser.parse_args()
     factory = CricketShortsFactory()
@@ -495,15 +499,15 @@ def main():
         else:
             print("✗ Authentication failed. Please verify client_secrets.json is present.")
     elif args.v3:
-        factory.produce_v3_short(topic_key=args.v3_topic)
+        factory.produce_v3_short(topic_key=args.v3_topic, immediate=args.immediate)
     elif args.countdown:
         factory.produce_countdown_short(topic_key=args.topic)
     elif args.single:
-        factory.produce_daily_shorts(count=1)
+        factory.produce_daily_shorts(count=1, immediate=args.immediate)
     elif args.schedule:
         run_scheduler(factory)
     elif args.run:
-        factory.produce_daily_shorts(count=2)
+        factory.produce_daily_shorts(count=2, immediate=args.immediate)
     else:
         # Default: show dashboard and brief usage
         factory.reporter.show_dashboard()

@@ -39,3 +39,8 @@ assets/stadium_bg_base.jpg
 .DS_Store
 .idea/
 .vscode/
+client_secrets.json
+
+client_secrets.json
+token.pickle
+*base64.txt
