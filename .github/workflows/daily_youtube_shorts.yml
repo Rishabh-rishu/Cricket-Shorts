@@ -1,0 +1,135 @@
+name: Cricket Shorts Daily Auto Upload
+
+on:
+  schedule:
+    # 06:25 UTC = 11:55 AM IST (Generates in ~3-5 mins and publishes at 12:00 PM IST Noon Peak)
+    - cron: '25 6 * * *'
+    # 12:25 UTC = 05:55 PM IST (Generates in ~3-5 mins and publishes at 06:00 PM IST Evening Peak)
+    - cron: '25 12 * * *'
+  # Allows triggering manually from GitHub Actions UI anytime
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Production Mode (single = 1 short, run = 2 shorts, dashboard = view stats)'
+        required: true
+        default: 'single'
+        type: choice
+        options:
+          - single
+          - run
+          - dashboard
+      auto_upload:
+        description: 'Publish live to YouTube (true) or Dry-Run (false)'
+        required: true
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  publish_cricket_short:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 10
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install System Dependencies (FFmpeg & Noto Devanagari Fonts)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-noto-core fonts-noto-color-emoji
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt python-dotenv
+
+      - name: Configure Credentials & Environment
+        env:
+          GEMINI_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_KEY: ${{ secrets.PEXELS_API_KEY }}
+          CLIENT_SECRETS_BASE64: ${{ secrets.YOUTUBE_CLIENT_SECRETS_BASE64 }}
+          CLIENT_SECRETS_RAW: ${{ secrets.YOUTUBE_CLIENT_SECRETS }}
+          TOKEN_PICKLE_BASE64: ${{ secrets.YOUTUBE_TOKEN_PICKLE_BASE64 }}
+          TOKEN_BASE64: ${{ secrets.YOUTUBE_TOKEN_BASE64 }}
+          TOKEN_JSON_BASE64: ${{ secrets.YOUTUBE_TOKEN_JSON_BASE64 }}
+          INPUT_AUTO_UPLOAD: ${{ inputs.auto_upload }}
+          SECRET_AUTO_UPLOAD: ${{ secrets.AUTO_UPLOAD }}
+        run: |
+          # Determine AUTO_UPLOAD setting (default true for scheduled runs unless specified)
+          AUTO_UP="true"
+          if [ -n "$INPUT_AUTO_UPLOAD" ]; then
+            AUTO_UP="$INPUT_AUTO_UPLOAD"
+          elif [ -n "$SECRET_AUTO_UPLOAD" ]; then
+            AUTO_UP="$SECRET_AUTO_UPLOAD"
+          fi
+
+          echo "AUTO_UPLOAD=${AUTO_UP}" > .env
+          echo "GEMINI_API_KEY=${GEMINI_KEY}" >> .env
+          echo "PEXELS_API_KEY=${PEXELS_KEY}" >> .env
+          echo "TIMEZONE=Asia/Kolkata" >> .env
+          echo "LOG_LEVEL=INFO" >> .env
+
+          # Reconstruct client_secrets.json from base64 or plaintext secret
+          if [ -n "$CLIENT_SECRETS_BASE64" ]; then
+            echo "$CLIENT_SECRETS_BASE64" | base64 -d > client_secrets.json
+          elif [ -n "$CLIENT_SECRETS_RAW" ]; then
+            echo "$CLIENT_SECRETS_RAW" > client_secrets.json
+          fi
+
+          # Reconstruct token.pickle from base64 secret
+          if [ -n "$TOKEN_PICKLE_BASE64" ]; then
+            echo "$TOKEN_PICKLE_BASE64" | base64 -d > token.pickle
+          elif [ -n "$TOKEN_BASE64" ]; then
+            echo "$TOKEN_BASE64" | base64 -d > token.pickle
+          fi
+
+          # If user provided token.json instead, convert it to token.pickle
+          if [ -n "$TOKEN_JSON_BASE64" ]; then
+            echo "$TOKEN_JSON_BASE64" | base64 -d > token.json
+            if [ ! -f token.pickle ]; then
+              python -c "from google.oauth2.credentials import Credentials; import pickle; creds = Credentials.from_authorized_user_file('token.json'); pickle.dump(creds, open('token.pickle', 'wb'))" 2>/dev/null || true
+            fi
+          fi
+
+      - name: Run Production Pipeline
+        run: |
+          MODE="${{ inputs.mode }}"
+          if [ -z "$MODE" ]; then
+            MODE="single"
+          fi
+          echo "Executing Cricket Shorts pipeline with mode: --$MODE"
+          python main.py --$MODE
+
+      - name: Upload Video Artifact (Backup & Verification)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-cricket-shorts
+          path: |
+            output/videos/*.mp4
+            logs/*.log
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Commit and Push Updated Content Database & Logs
+        if: always()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || true
+          git add -f database/cricket_facts.db logs/ 2>/dev/null || true
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-published YouTube Short & updated content database [skip ci]" && git push origin main)
