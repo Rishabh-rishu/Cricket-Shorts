@@ -29,3 +29,34 @@
 2026-11-03 14:32:51,458 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: TajVf7PhpRg (https://youtube.com/shorts/TajVf7PhpRg)
 2026-11-03 14:32:51,460 [INFO] cricket_shorts.main: V3 Short '3 Fastest Records in Cricket History' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/TajVf7PhpRg
 2026-11-03 14:32:51,479 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-03 19:39:51,957 [WARNING] cricket_shorts.storyboard: Could not initialize Google GenAI Client: cannot import name 'genai' from 'google' (unknown location)
+2026-11-03 19:39:51,957 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-03 19:39:51,957 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'dhoni_magic' ---
+2026-11-03 19:39:51,958 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'dhoni_magic'...
+2026-11-03 19:39:51,967 [INFO] cricket_shorts.v3_engine: V3 Narration (126 words): 'महेंद्र सिंह धोनी के 3 ऐसे चमत्कारिक रिकॉर्ड्स, जो साबित करते हैं कि कैप्टन कूल ...'
+2026-11-03 19:40:12,577 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_dhoni_magic_20261103_193951/raw_voice.mp3
+2026-11-03 19:40:12,577 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_dhoni_magic_20261103_193951/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_dhoni_magic_20261103_193951/voice_normalized.aac
+2026-11-03 19:40:14,685 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 50.71s
+2026-11-03 19:40:14,686 [INFO] cricket_shorts.v3_engine: Voice narration ready. Total duration: 50.71s
+2026-11-03 19:40:14,686 [INFO] cricket_shorts.v3_engine: Planned 8 cinematic scenes. Total video duration: 50.71s
+2026-11-03 19:40:14,686 [INFO] cricket_shorts.v3_engine: Rendering Segment 0 (hook, 7.94s)...
+2026-11-03 19:40:21,969 [INFO] cricket_shorts.v3_engine: Rendering Segment 1 (fact_card, 4.96s)...
+2026-11-03 19:40:23,626 [INFO] cricket_shorts.v3_engine: Rendering Segment 2 (footage_overlay, 6.07s)...
+2026-11-03 19:40:29,900 [INFO] cricket_shorts.v3_engine: Rendering Segment 3 (fact_card, 5.36s)...
+2026-11-03 19:40:31,574 [INFO] cricket_shorts.v3_engine: Rendering Segment 4 (footage_overlay, 6.55s)...
+2026-11-03 19:40:38,089 [INFO] cricket_shorts.v3_engine: Rendering Segment 5 (fact_card, 5.21s)...
+2026-11-03 19:40:39,827 [INFO] cricket_shorts.v3_engine: Rendering Segment 6 (footage_overlay, 6.37s)...
+2026-11-03 19:40:44,963 [INFO] cricket_shorts.v3_engine: Rendering Segment 7 (outro, 8.25s)...
+2026-11-03 19:40:53,238 [INFO] cricket_shorts.sfx: Mixing 8 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_dhoni_magic_20261103_193951/soundtrack_v3.aac
+2026-11-03 19:40:54,685 [INFO] cricket_shorts.v3_engine: Assembling final V3 Cinematic Short: output/videos/cricket_raaz_v3_dhoni_magic_20261103_193951.mp4
+2026-11-03 19:41:19,358 [INFO] cricket_shorts.v3_engine: Executing automated Technical Quality Control (QC)...
+2026-11-03 19:41:19,599 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 50.8s, 8 Moving Footage Scenes, Codecs: h264/aac, Size: 17.07MB, Font: Devanagari Verified
+2026-11-03 19:41:19,599 [INFO] cricket_shorts.v3_engine: ✓ V3 Cinematic Short successfully generated! Duration: 50.76s
+2026-11-03 19:41:19,704 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-03 19:41:19,705 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-03 19:41:21,555 [INFO] cricket_shorts.youtube_upload: Uploading 'MS Dhoni Ke 3 Sabse Miracle Records! 🇮🇳🔥 #Shorts #CricketRaaz': 29%
+2026-11-03 19:41:21,647 [INFO] cricket_shorts.youtube_upload: Uploading 'MS Dhoni Ke 3 Sabse Miracle Records! 🇮🇳🔥 #Shorts #CricketRaaz': 58%
+2026-11-03 19:41:21,745 [INFO] cricket_shorts.youtube_upload: Uploading 'MS Dhoni Ke 3 Sabse Miracle Records! 🇮🇳🔥 #Shorts #CricketRaaz': 87%
+2026-11-03 19:41:22,483 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: DvLzX6HgkuE (https://youtube.com/shorts/DvLzX6HgkuE)
+2026-11-03 19:41:22,483 [INFO] cricket_shorts.main: V3 Short '3 Unbelievable MS Dhoni Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/DvLzX6HgkuE
+2026-11-03 19:41:22,496 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
