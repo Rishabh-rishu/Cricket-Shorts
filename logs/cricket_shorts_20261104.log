@@ -59,3 +59,34 @@
 2026-11-04 06:11:01,270 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: 6S_tP5d9zHI (https://youtube.com/shorts/6S_tP5d9zHI)
 2026-11-04 06:11:01,273 [INFO] cricket_shorts.main: V3 Short '3 Miracle World Cup Innings by Captains' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/6S_tP5d9zHI
 2026-11-04 06:11:01,287 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-04 14:45:10,933 [WARNING] cricket_shorts.storyboard: Could not initialize Google GenAI Client: cannot import name 'genai' from 'google' (unknown location)
+2026-11-04 14:45:10,933 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-04 14:45:10,933 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'test_resilience' ---
+2026-11-04 14:45:10,933 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'test_resilience'...
+2026-11-04 14:45:10,942 [INFO] cricket_shorts.v3_engine: V3 Narration (119 words): 'टेस्ट क्रिकेट इतिहास के 3 ऐसे अटूट रिकॉर्ड्स, जिन्हें तोड़ना किसी भी मॉडर्न क्रि...'
+2026-11-04 14:45:27,217 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_test_resilience_20261104_144510/raw_voice.mp3
+2026-11-04 14:45:27,217 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_test_resilience_20261104_144510/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_test_resilience_20261104_144510/voice_normalized.aac
+2026-11-04 14:45:29,411 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 49.20s
+2026-11-04 14:45:29,411 [INFO] cricket_shorts.v3_engine: Voice narration ready. Total duration: 49.20s
+2026-11-04 14:45:29,412 [INFO] cricket_shorts.v3_engine: Planned 8 cinematic scenes. Total video duration: 49.19s
+2026-11-04 14:45:29,412 [INFO] cricket_shorts.v3_engine: Rendering Segment 0 (hook, 8.37s)...
+2026-11-04 14:45:37,799 [INFO] cricket_shorts.v3_engine: Rendering Segment 1 (fact_card, 5.18s)...
+2026-11-04 14:45:39,593 [INFO] cricket_shorts.v3_engine: Rendering Segment 2 (footage_overlay, 6.33s)...
+2026-11-04 14:45:44,819 [INFO] cricket_shorts.v3_engine: Rendering Segment 3 (fact_card, 4.2s)...
+2026-11-04 14:45:46,261 [INFO] cricket_shorts.v3_engine: Rendering Segment 4 (footage_overlay, 5.14s)...
+2026-11-04 14:45:51,237 [INFO] cricket_shorts.v3_engine: Rendering Segment 5 (fact_card, 4.75s)...
+2026-11-04 14:45:53,153 [INFO] cricket_shorts.v3_engine: Rendering Segment 6 (footage_overlay, 5.8s)...
+2026-11-04 14:46:00,105 [INFO] cricket_shorts.v3_engine: Rendering Segment 7 (outro, 9.42s)...
+2026-11-04 14:46:09,304 [INFO] cricket_shorts.sfx: Mixing 8 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_test_resilience_20261104_144510/soundtrack_v3.aac
+2026-11-04 14:46:10,745 [INFO] cricket_shorts.v3_engine: Assembling final V3 Cinematic Short: output/videos/cricket_raaz_v3_test_resilience_20261104_144510.mp4
+2026-11-04 14:46:35,263 [INFO] cricket_shorts.v3_engine: Executing automated Technical Quality Control (QC)...
+2026-11-04 14:46:35,512 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 49.2s, 8 Moving Footage Scenes, Codecs: h264/aac, Size: 17.93MB, Font: Devanagari Verified
+2026-11-04 14:46:35,513 [INFO] cricket_shorts.v3_engine: ✓ V3 Cinematic Short successfully generated! Duration: 49.25s
+2026-11-04 14:46:35,651 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-04 14:46:35,653 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-04 14:46:37,473 [INFO] cricket_shorts.youtube_upload: Uploading 'Test Cricket Ke 3 Sabse Unbreakable Records! 🧱🏏 #Shorts #CricketRaaz': 27%
+2026-11-04 14:46:37,591 [INFO] cricket_shorts.youtube_upload: Uploading 'Test Cricket Ke 3 Sabse Unbreakable Records! 🧱🏏 #Shorts #CricketRaaz': 55%
+2026-11-04 14:46:37,705 [INFO] cricket_shorts.youtube_upload: Uploading 'Test Cricket Ke 3 Sabse Unbreakable Records! 🧱🏏 #Shorts #CricketRaaz': 83%
+2026-11-04 14:46:38,309 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: rIxihVlzc1w (https://youtube.com/shorts/rIxihVlzc1w)
+2026-11-04 14:46:38,310 [INFO] cricket_shorts.main: V3 Short '3 Unbreakable Test Cricket Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/rIxihVlzc1w
+2026-11-04 14:46:38,323 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
