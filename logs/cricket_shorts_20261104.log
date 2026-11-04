@@ -29,3 +29,33 @@
 2026-11-04 02:17:00,279 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: jWAFIZgRS8c (https://youtube.com/shorts/jWAFIZgRS8c)
 2026-11-04 02:17:00,280 [INFO] cricket_shorts.main: V3 Short '3 Shocking Cricket Rules' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/jWAFIZgRS8c
 2026-11-04 02:17:00,298 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-04 06:09:35,713 [WARNING] cricket_shorts.storyboard: Could not initialize Google GenAI Client: cannot import name 'genai' from 'google' (unknown location)
+2026-11-04 06:09:35,714 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-04 06:09:35,714 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'world_cup_legends' ---
+2026-11-04 06:09:35,714 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'world_cup_legends'...
+2026-11-04 06:09:35,723 [INFO] cricket_shorts.v3_engine: V3 Narration (114 words): 'वर्ल्ड कप इतिहास की 3 ऐसी चमत्कारी पारियां, जिन्होंने हार चुकी टीम को चैंपियन बन...'
+2026-11-04 06:09:50,523 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_world_cup_legends_20261104_060935/raw_voice.mp3
+2026-11-04 06:09:50,523 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_world_cup_legends_20261104_060935/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_world_cup_legends_20261104_060935/voice_normalized.aac
+2026-11-04 06:09:52,624 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 47.29s
+2026-11-04 06:09:52,624 [INFO] cricket_shorts.v3_engine: Voice narration ready. Total duration: 47.29s
+2026-11-04 06:09:52,624 [INFO] cricket_shorts.v3_engine: Planned 8 cinematic scenes. Total video duration: 47.29s
+2026-11-04 06:09:52,624 [INFO] cricket_shorts.v3_engine: Rendering Segment 0 (hook, 7.23s)...
+2026-11-04 06:09:59,877 [INFO] cricket_shorts.v3_engine: Rendering Segment 1 (fact_card, 4.3s)...
+2026-11-04 06:10:01,536 [INFO] cricket_shorts.v3_engine: Rendering Segment 2 (footage_overlay, 5.26s)...
+2026-11-04 06:10:06,556 [INFO] cricket_shorts.v3_engine: Rendering Segment 3 (fact_card, 4.86s)...
+2026-11-04 06:10:08,365 [INFO] cricket_shorts.v3_engine: Rendering Segment 4 (footage_overlay, 5.94s)...
+2026-11-04 06:10:14,961 [INFO] cricket_shorts.v3_engine: Rendering Segment 5 (fact_card, 5.27s)...
+2026-11-04 06:10:16,822 [INFO] cricket_shorts.v3_engine: Rendering Segment 6 (footage_overlay, 6.45s)...
+2026-11-04 06:10:23,200 [INFO] cricket_shorts.v3_engine: Rendering Segment 7 (outro, 7.98s)...
+2026-11-04 06:10:32,061 [INFO] cricket_shorts.sfx: Mixing 8 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_world_cup_legends_20261104_060935/soundtrack_v3.aac
+2026-11-04 06:10:33,425 [INFO] cricket_shorts.v3_engine: Assembling final V3 Cinematic Short: output/videos/cricket_raaz_v3_world_cup_legends_20261104_060935.mp4
+2026-11-04 06:10:58,894 [INFO] cricket_shorts.v3_engine: Executing automated Technical Quality Control (QC)...
+2026-11-04 06:10:59,162 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 47.3s, 8 Moving Footage Scenes, Codecs: h264/aac, Size: 14.38MB, Font: Devanagari Verified
+2026-11-04 06:10:59,162 [INFO] cricket_shorts.v3_engine: ✓ V3 Cinematic Short successfully generated! Duration: 47.35s
+2026-11-04 06:10:59,338 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-04 06:10:59,339 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-04 06:11:00,594 [INFO] cricket_shorts.youtube_upload: Uploading 'World Cup Ki 3 Sabse Miracle Captain Inning! 🏆🏏 #Shorts #CricketRaaz': 34%
+2026-11-04 06:11:00,769 [INFO] cricket_shorts.youtube_upload: Uploading 'World Cup Ki 3 Sabse Miracle Captain Inning! 🏆🏏 #Shorts #CricketRaaz': 69%
+2026-11-04 06:11:01,270 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: 6S_tP5d9zHI (https://youtube.com/shorts/6S_tP5d9zHI)
+2026-11-04 06:11:01,273 [INFO] cricket_shorts.main: V3 Short '3 Miracle World Cup Innings by Captains' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/6S_tP5d9zHI
+2026-11-04 06:11:01,287 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
