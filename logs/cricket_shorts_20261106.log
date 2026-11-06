@@ -29,3 +29,34 @@
 2026-11-06 14:29:42,921 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: qhWXIs-xHS8 (https://youtube.com/shorts/qhWXIs-xHS8)
 2026-11-06 14:29:42,923 [INFO] cricket_shorts.main: V3 Short '3 Unbelievable World Cup Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/qhWXIs-xHS8
 2026-11-06 14:29:42,937 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-06 19:35:02,430 [WARNING] cricket_shorts.storyboard: Could not initialize Google GenAI Client: cannot import name 'genai' from 'google' (unknown location)
+2026-11-06 19:35:02,431 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-06 19:35:02,431 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'wc_records' ---
+2026-11-06 19:35:02,431 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'wc_records'...
+2026-11-06 19:35:02,448 [INFO] cricket_shorts.v3_engine: V3 Narration (118 words): 'वर्ल्ड कप इतिहास के 3 ऐसे अनसुने रिकॉर्ड्स, जिन पर आज भी यकीन करना नामुमकिन लगता...'
+2026-11-06 19:35:03,780 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_wc_records_20261106_193502/raw_voice.mp3
+2026-11-06 19:35:03,780 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_wc_records_20261106_193502/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_wc_records_20261106_193502/voice_normalized.aac
+2026-11-06 19:35:06,991 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 46.85s
+2026-11-06 19:35:06,991 [INFO] cricket_shorts.v3_engine: Voice narration ready. Total duration: 46.85s
+2026-11-06 19:35:06,991 [INFO] cricket_shorts.v3_engine: Planned 8 cinematic scenes. Total video duration: 46.86s
+2026-11-06 19:35:06,991 [INFO] cricket_shorts.v3_engine: Rendering Segment 0 (hook, 6.75s)...
+2026-11-06 19:35:16,218 [INFO] cricket_shorts.v3_engine: Rendering Segment 1 (fact_card, 4.45s)...
+2026-11-06 19:35:18,557 [INFO] cricket_shorts.v3_engine: Rendering Segment 2 (footage_overlay, 5.44s)...
+2026-11-06 19:35:25,407 [INFO] cricket_shorts.v3_engine: Rendering Segment 3 (fact_card, 4.38s)...
+2026-11-06 19:35:27,717 [INFO] cricket_shorts.v3_engine: Rendering Segment 4 (footage_overlay, 5.35s)...
+2026-11-06 19:35:35,916 [INFO] cricket_shorts.v3_engine: Rendering Segment 5 (fact_card, 5.21s)...
+2026-11-06 19:35:38,472 [INFO] cricket_shorts.v3_engine: Rendering Segment 6 (footage_overlay, 6.36s)...
+2026-11-06 19:35:48,245 [INFO] cricket_shorts.v3_engine: Rendering Segment 7 (outro, 8.92s)...
+2026-11-06 19:35:59,543 [INFO] cricket_shorts.sfx: Mixing 8 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_wc_records_20261106_193502/soundtrack_v3.aac
+2026-11-06 19:36:01,272 [INFO] cricket_shorts.v3_engine: Assembling final V3 Cinematic Short: output/videos/cricket_raaz_v3_wc_records_20261106_193502.mp4
+2026-11-06 19:36:33,100 [INFO] cricket_shorts.v3_engine: Executing automated Technical Quality Control (QC)...
+2026-11-06 19:36:33,483 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 46.9s, 8 Moving Footage Scenes, Codecs: h264/aac, Size: 19.83MB, Font: Devanagari Verified
+2026-11-06 19:36:33,483 [INFO] cricket_shorts.v3_engine: ✓ V3 Cinematic Short successfully generated! Duration: 46.90s
+2026-11-06 19:36:33,683 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-06 19:36:33,685 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-06 19:36:35,360 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket World Cup Ke 3 Sabse Unbelievable Records! 😱 #Shorts #CricketRaaz': 25%
+2026-11-06 19:36:35,651 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket World Cup Ke 3 Sabse Unbelievable Records! 😱 #Shorts #CricketRaaz': 50%
+2026-11-06 19:36:35,979 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket World Cup Ke 3 Sabse Unbelievable Records! 😱 #Shorts #CricketRaaz': 75%
+2026-11-06 19:36:36,551 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: CZj6Ds1hDrU (https://youtube.com/shorts/CZj6Ds1hDrU)
+2026-11-06 19:36:36,552 [INFO] cricket_shorts.main: V3 Short '3 Unbelievable World Cup Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/CZj6Ds1hDrU
+2026-11-06 19:36:36,570 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
