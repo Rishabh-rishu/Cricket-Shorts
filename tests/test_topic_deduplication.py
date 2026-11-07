@@ -186,7 +186,7 @@ class TestTopicDeduplicationAndLocking(unittest.TestCase):
     # ---------------------------------------------------------
     def test_atomic_reservation_locking(self):
         new_topic = {
-            "topic_key": "hattrick_masters",
+            "topic_key": "test_atomic_lock_key",
             "topic_title": "Cricket Ke 3 Fastest Hattricks",
             "normalized_title": TopicDedupEngine.normalize_text("Cricket Ke 3 Fastest Hattricks"),
             "category": "Bowling",
@@ -198,17 +198,17 @@ class TestTopicDeduplicationAndLocking(unittest.TestCase):
         self.db.register_topic(new_topic)
 
         # Worker A attempts reservation -> Succeeds
-        res_a = self.db.reserve_topic("hattrick_masters", "worker-token-A")
+        res_a = self.db.reserve_topic("test_atomic_lock_key", "worker-token-A")
         self.assertTrue(res_a, "Worker A must successfully acquire reservation")
 
         # Worker B attempts reservation -> Fails (Already RESERVED)
-        res_b = self.db.reserve_topic("hattrick_masters", "worker-token-B")
+        res_b = self.db.reserve_topic("test_atomic_lock_key", "worker-token-B")
         self.assertFalse(res_b, "Worker B must be rejected due to atomic lock")
 
         # Check DB status
         all_topics = {t["topic_key"]: t for t in self.db.get_all_registered_topics()}
-        self.assertEqual(all_topics["hattrick_masters"]["status"], "RESERVED")
-        self.assertEqual(all_topics["hattrick_masters"]["reservation_token"], "worker-token-A")
+        self.assertEqual(all_topics["test_atomic_lock_key"]["status"], "RESERVED")
+        self.assertEqual(all_topics["test_atomic_lock_key"]["reservation_token"], "worker-token-A")
 
     # ---------------------------------------------------------
     # 6. Recovery from Failure / Cancellation (Unreserve)
