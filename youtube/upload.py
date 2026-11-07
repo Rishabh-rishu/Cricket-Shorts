@@ -75,6 +75,20 @@ class YouTubeUploader:
 
         # If scheduled time provided, add publishAt
         if scheduled_rfc3339:
+            from datetime import datetime, timezone, timedelta
+            try:
+                dt = datetime.fromisoformat(scheduled_rfc3339.replace("Z", "+00:00"))
+                now_utc = datetime.now(timezone.utc)
+                min_safe = now_utc + timedelta(minutes=16)
+                if dt < min_safe:
+                    logger.warning(
+                        f"Requested schedule time {scheduled_rfc3339} is less than 15 minutes from now. "
+                        f"Adjusting to safe YouTube schedule window: {min_safe.strftime('%Y-%m-%dT%H:%M:%SZ')}"
+                    )
+                    scheduled_rfc3339 = min_safe.strftime("%Y-%m-%dT%H:%M:%SZ")
+            except Exception as ex:
+                logger.warning(f"Error validating schedule buffer: {ex}")
+
             body["status"]["publishAt"] = scheduled_rfc3339
 
         media = MediaFileUpload(
@@ -98,6 +112,16 @@ class YouTubeUploader:
                 if status:
                     logger.info(f"Uploading '{title}': {int(status.progress() * 100)}%")
             except HttpError as e:
+                err_text = str(e).lower()
+                if ("publishat" in err_text or "scheduled" in err_text) and retry_count < MAX_RETRIES:
+                    retry_count += 1
+                    logger.warning(f"YouTube rejected publishAt ({e}). Adjusting to safe +20m window and retrying...")
+                    new_time = (datetime.now(timezone.utc) + timedelta(minutes=20)).strftime("%Y-%m-%dT%H:%M:%SZ")
+                    body["status"]["publishAt"] = new_time
+                    scheduled_rfc3339 = new_time
+                    request = service.videos().insert(part="snippet,status", body=body, media_body=media)
+                    continue
+
                 if e.resp.status in RETRYABLE_STATUS_CODES and retry_count < MAX_RETRIES:
                     retry_count += 1
                     sleep_time = 2 ** retry_count

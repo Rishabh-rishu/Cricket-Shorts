@@ -13,6 +13,7 @@ from datetime import datetime
 import pytz
 import schedule
 import yaml
+from typing import Optional, Dict, Any, List
 from dotenv import load_dotenv
 
 # Load environment variables from .env
@@ -71,7 +72,7 @@ class CricketShortsFactory:
         self.uploader = YouTubeUploader(self.db, auto_upload=self.auto_upload)
         self.reporter = DashboardReporter(self.db)
 
-    def produce_daily_shorts(self, count: int = 2, immediate: bool = False) -> list:
+    def produce_daily_shorts(self, count: int = 2, immediate: bool = False, scheduled_rfc3339: Optional[str] = None) -> list:
         """
         Executes daily production run for unique cricket documentary shorts:
         Selects strictly non-duplicate topics via TopicDedupEngine,
@@ -121,7 +122,12 @@ class CricketShortsFactory:
 
             logger.info(f"--- Producing Daily Broadcast Short {idx+1}/{count}: '{t_key}' ('{bundle['topic']}') ---")
             try:
-                res = self.produce_v3_short(topic_key=t_key, bundle=bundle, immediate=immediate)
+                res = self.produce_v3_short(
+                    topic_key=t_key,
+                    bundle=bundle,
+                    immediate=immediate,
+                    scheduled_rfc3339=scheduled_rfc3339
+                )
                 if res:
                     produced_shorts.append(res)
             except Exception as e:
@@ -361,7 +367,13 @@ class CricketShortsFactory:
         self.reporter.show_dashboard()
         return meta_report
 
-    def produce_v3_short(self, topic_key: str = "wc_records", bundle: Optional[Dict[str, Any]] = None, immediate: bool = False) -> dict:
+    def produce_v3_short(
+        self,
+        topic_key: str = "wc_records",
+        bundle: Optional[Dict[str, Any]] = None,
+        immediate: bool = False,
+        scheduled_rfc3339: Optional[str] = None
+    ) -> dict:
         """
         Executes V3 3-Connected-Facts Documentary Short production:
         Renders 8 dynamic scenes (Hook + 3 Facts with Ken Burns presentation cards & moving action footage + Outro),
@@ -384,6 +396,8 @@ class CricketShortsFactory:
 
         if immediate:
             slot_time, rfc3339_slot = datetime.now(), None
+        elif scheduled_rfc3339:
+            slot_time, rfc3339_slot = datetime.now(), scheduled_rfc3339
         else:
             slot_time, rfc3339_slot = PublicationScheduler.get_immediate_or_next_slot()
 
@@ -501,9 +515,25 @@ def main():
     parser.add_argument("--schedule", action="store_true", help="Run background scheduler service")
     parser.add_argument("--auth", action="store_true", help="Authorize YouTube API with OAuth")
     parser.add_argument("--immediate", action="store_true", help="Force immediate public upload (bypass schedule window)")
+    parser.add_argument("--schedule-time", type=str, default=None, help="Specific schedule time (HH:MM or RFC3339 format)")
 
     args = parser.parse_args()
     factory = CricketShortsFactory()
+
+    scheduled_rfc3339 = None
+    if args.schedule_time:
+        from datetime import timezone
+        tz = pytz.timezone("Asia/Kolkata")
+        now_local = datetime.now(tz)
+        if ":" in args.schedule_time and "T" not in args.schedule_time:
+            parts = args.schedule_time.strip().split(":")
+            h, m = int(parts[0]), int(parts[1])
+            target_dt = tz.localize(datetime(now_local.year, now_local.month, now_local.day, h, m, 0))
+            if target_dt < now_local:
+                target_dt += timedelta(days=1)
+            scheduled_rfc3339 = target_dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        else:
+            scheduled_rfc3339 = args.schedule_time
 
     if args.dashboard:
         factory.reporter.show_dashboard()
@@ -514,15 +544,15 @@ def main():
         else:
             print("✗ Authentication failed. Please verify client_secrets.json is present.")
     elif args.v3:
-        factory.produce_v3_short(topic_key=args.v3_topic, immediate=args.immediate)
+        factory.produce_v3_short(topic_key=args.v3_topic, immediate=args.immediate, scheduled_rfc3339=scheduled_rfc3339)
     elif args.countdown:
         factory.produce_countdown_short(topic_key=args.topic)
     elif args.single:
-        factory.produce_daily_shorts(count=1, immediate=args.immediate)
+        factory.produce_daily_shorts(count=1, immediate=args.immediate, scheduled_rfc3339=scheduled_rfc3339)
     elif args.schedule:
         run_scheduler(factory)
     elif args.run:
-        factory.produce_daily_shorts(count=2, immediate=args.immediate)
+        factory.produce_daily_shorts(count=2, immediate=args.immediate, scheduled_rfc3339=scheduled_rfc3339)
     else:
         # Default: show dashboard and brief usage
         factory.reporter.show_dashboard()

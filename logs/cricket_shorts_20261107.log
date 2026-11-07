@@ -91,3 +91,58 @@
 2026-11-07 13:24:49,879 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: ZQryZ_bI6Lk (https://youtube.com/shorts/ZQryZ_bI6Lk)
 2026-11-07 13:24:49,881 [INFO] cricket_shorts.main: V3 Short '3 Unbelievable World Cup Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/ZQryZ_bI6Lk
 2026-11-07 13:24:49,900 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-07 21:20:34,718 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-07 21:20:34,779 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-07 21:20:34,779 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-07 21:20:34,780 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 10 published topics, 0 reserved.
+2026-11-07 21:20:34,785 [WARNING] cricket_shorts.dedup_engine: Topic '3 Unbelievable Century World Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['rohit sharma', 'rohit'] with published short.
+2026-11-07 21:20:34,832 [WARNING] cricket_shorts.dedup_engine: Topic '3 Shocking Hat-Trick Records in Cricket' REJECTED: [EXACT_KEY_MATCH] Topic key 'hattrick_masters' was already published.
+2026-11-07 21:20:34,835 [WARNING] cricket_shorts.dedup_engine: Topic '3 Craziest Super Over Finishes in Cricket' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['rohit sharma', 'rohit'] with published short.
+2026-11-07 21:20:34,887 [WARNING] cricket_shorts.dedup_engine: Topic '3 Fastest Deliveries Ever Bowled in Cricket' REJECTED: [ACCEPTABLE] Distinct topic.
+2026-11-07 21:20:34,938 [WARNING] cricket_shorts.dedup_engine: Topic '3 Greatest Run Chases in Cricket History' REJECTED: [CONCEPT_SIMILARITY] Concept narrative similarity (0.63) with topic '3 Shocking Hat-Trick Records in Cricket'.
+2026-11-07 21:20:34,950 [WARNING] cricket_shorts.dedup_engine: Topic '3 Mind-Blowing Cricket Stadium Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['sachin tendulkar', 'sachin'] with published short.
+2026-11-07 21:20:34,986 [WARNING] cricket_shorts.dedup_engine: Topic '3 Greatest Match-Winning Catches in History' REJECTED: [PLAYER_RECORD_COLLISION] Shares player ['kapil dev'] and stat ['1983'] with published short.
+2026-11-07 21:20:35,013 [WARNING] cricket_shorts.dedup_engine: Topic '3 Most Impossible IPL Last-Over Finishes' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['ms dhoni', 'dhoni'] with published short.
+2026-11-07 21:20:35,013 [INFO] cricket_shorts.dedup_engine: All curated collections have been published or reserved. Triggering dynamic AI topic generator.
+2026-11-07 21:20:35,014 [INFO] cricket_shorts.main: All curated collections published or reserved. Triggering Gemini 3.8 Flash AI research engine...
+2026-11-07 21:20:35,015 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 1/3)...
+2026-11-07 21:20:35,177 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-07 21:24:09,821 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-07 21:24:09,842 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-07 21:24:09,842 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-07 21:24:09,844 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 10 published topics, 0 reserved.
+2026-11-07 21:24:09,859 [WARNING] cricket_shorts.dedup_engine: Topic '3 Unbelievable Century World Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['rohit sharma', 'sachin tendulkar'] with published short.
+2026-11-07 21:24:09,910 [INFO] cricket_shorts.dedup_engine: Topic '3 Shocking Hat-Trick Records in Cricket' PASSED duplicate check (Max similarity: 0.26).
+2026-11-07 21:24:09,928 [INFO] cricket_shorts.dedup_engine: ✓ Atomically reserved curated topic 'hattrick_masters' with worker token 62bad06f.
+2026-11-07 21:24:09,928 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'hattrick_masters' ('3 Shocking Hat-Trick Records in Cricket') ---
+2026-11-07 21:24:09,929 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'hattrick_masters'...
+2026-11-07 21:24:09,929 [INFO] cricket_shorts.v3_engine: V3 Narration (113 words): 'क्रिकेट इतिहास की 3 ऐसी चमत्कारी हैट्रिक्स, जिन्होंने पूरे क्रिकेट जगत को हिलाकर...'
+2026-11-07 21:24:19,640 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/rishabh/Cricket shorts/output/run_v3_hattrick_masters_20261107_212409/raw_voice.mp3
+2026-11-07 21:24:19,641 [INFO] cricket_shorts.audio: Processing voice audio: /home/rishabh/Cricket shorts/output/run_v3_hattrick_masters_20261107_212409/raw_voice.mp3 -> /home/rishabh/Cricket shorts/output/run_v3_hattrick_masters_20261107_212409/voice_normalized.aac
+2026-11-07 21:24:24,000 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 46.16s
+2026-11-07 21:24:24,000 [INFO] cricket_shorts.v3_engine: Voice narration ready. Total duration: 46.16s
+2026-11-07 21:24:24,000 [INFO] cricket_shorts.v3_engine: Planned 8 cinematic scenes. Total video duration: 46.16s
+2026-11-07 21:24:24,000 [INFO] cricket_shorts.v3_engine: Rendering Segment 0 (hook, 7.14s)...
+2026-11-07 21:24:38,011 [INFO] cricket_shorts.v3_engine: Rendering Segment 1 (fact_card, 4.57s)...
+2026-11-07 21:24:41,973 [INFO] cricket_shorts.v3_engine: Rendering Segment 2 (footage_overlay, 5.59s)...
+2026-11-07 21:25:03,098 [INFO] cricket_shorts.v3_engine: Rendering Segment 3 (fact_card, 4.15s)...
+2026-11-07 21:25:06,355 [INFO] cricket_shorts.v3_engine: Rendering Segment 4 (footage_overlay, 5.08s)...
+2026-11-07 21:25:16,085 [INFO] cricket_shorts.v3_engine: Rendering Segment 5 (fact_card, 5.2s)...
+2026-11-07 21:25:19,597 [INFO] cricket_shorts.v3_engine: Rendering Segment 6 (footage_overlay, 6.36s)...
+2026-11-07 21:25:30,786 [INFO] cricket_shorts.v3_engine: Rendering Segment 7 (outro, 8.07s)...
+2026-11-07 21:25:46,564 [INFO] cricket_shorts.sfx: Mixing 8 SFX cues into sound design bed: /home/rishabh/Cricket shorts/output/run_v3_hattrick_masters_20261107_212409/soundtrack_v3.aac
+2026-11-07 21:25:50,603 [INFO] cricket_shorts.v3_engine: Assembling final V3 Cinematic Short: output/videos/cricket_raaz_v3_hattrick_masters_20261107_212409.mp4
+2026-11-07 21:26:32,671 [INFO] cricket_shorts.v3_engine: Executing automated Technical Quality Control (QC)...
+2026-11-07 21:26:33,116 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 46.2s, 8 Moving Footage Scenes, Codecs: h264/aac, Size: 18.28MB, Font: Devanagari Verified
+2026-11-07 21:26:33,116 [INFO] cricket_shorts.v3_engine: ✓ V3 Cinematic Short successfully generated! Duration: 46.19s
+2026-11-07 21:26:33,116 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'hattrick_masters'...
+2026-11-07 21:26:33,148 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'hattrick_masters'. Duration: 46.2s, Size: 18.28MB.
+2026-11-07 21:26:33,174 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-07 21:26:33,186 [WARNING] cricket_shorts.youtube_upload: Requested schedule time 2026-11-07T16:00:00Z is less than 15 minutes from now. Adjusting to safe YouTube schedule window: 2026-11-07T16:12:33Z
+2026-11-07 21:26:39,140 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ki 3 Sabse Miracle Hat-Tricks! 🎩🏏 #Shorts #CricketRaaz': 27%
+2026-11-07 21:26:41,455 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ki 3 Sabse Miracle Hat-Tricks! 🎩🏏 #Shorts #CricketRaaz': 54%
+2026-11-07 21:26:44,988 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ki 3 Sabse Miracle Hat-Tricks! 🎩🏏 #Shorts #CricketRaaz': 82%
+2026-11-07 21:26:48,006 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: Wbq8iH4v2ic (https://youtube.com/shorts/Wbq8iH4v2ic)
+2026-11-07 21:26:48,035 [INFO] cricket_shorts.main: ✓ Topic 'hattrick_masters' published live and persisted to registry & ledger: Wbq8iH4v2ic
+2026-11-07 21:26:48,036 [INFO] cricket_shorts.main: V3 Short '3 Shocking Hat-Trick Records in Cricket' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/Wbq8iH4v2ic
+2026-11-07 21:26:48,084 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.

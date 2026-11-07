@@ -149,13 +149,13 @@ class TopicDedupEngine:
         # 1. Exact Fingerprint / Key Match
         c_key = candidate.get("id") or candidate.get("topic_key")
         h_key = historical.get("topic_key") or historical.get("id")
-        if c_key and h_key and c_key == h_key:
+        if c_key and h_key and c_key == h_key and historical.get("status", "PUBLISHED") == "PUBLISHED":
             return 1.0, "EXACT_KEY_MATCH", f"Topic key '{c_key}' was already published."
 
         c_norm_title = cls.normalize_text(candidate.get("topic") or candidate.get("topic_title", ""))
         h_norm_title = cls.normalize_text(historical.get("topic_title") or historical.get("topic", ""))
 
-        if c_norm_title and h_norm_title and c_norm_title == h_norm_title:
+        if c_norm_title and h_norm_title and c_norm_title == h_norm_title and historical.get("status", "PUBLISHED") == "PUBLISHED":
             return 1.0, "EXACT_TITLE_MATCH", f"Title '{c_norm_title}' exactly matches published topic."
 
         # 2. Entity & Record Collision Check
@@ -166,18 +166,25 @@ class TopicDedupEngine:
         common_rules = c_ent["rules"].intersection(h_ent["rules"])
         common_numbers = c_ent["numbers"].intersection(h_ent["numbers"])
 
+        # Deduplicate common players so ("rohit", "rohit sharma") counts as ONE distinct cricketer
+        distinct_common_players = set()
+        for p in common_players:
+            if any(other != p and p in other for other in common_players):
+                continue
+            distinct_common_players.add(p)
+
         # Collision rule 1: Same rule incident (e.g. Timed Out, Helmet Penalty, Mankad)
         if common_rules:
             matched_rule = list(common_rules)[0]
             return 1.0, "RULE_COLLISION", f"Cricket rule '{matched_rule}' is already covered in published short."
 
         # Collision rule 2: Shares 2 or more distinct cricketers
-        if len(common_players) >= 2:
-            return 0.95, "MULTI_PLAYER_COLLISION", f"Shares multiple players {list(common_players)} with published short."
+        if len(distinct_common_players) >= 2:
+            return 0.95, "MULTI_PLAYER_COLLISION", f"Shares multiple players {list(distinct_common_players)} with published short."
 
         # Collision rule 3: Shares 1 cricketer AND specific record numbers
-        if len(common_players) >= 1 and len(common_numbers) >= 1:
-            return 0.90, "PLAYER_RECORD_COLLISION", f"Shares player {list(common_players)} and stat {list(common_numbers)} with published short."
+        if len(distinct_common_players) >= 1 and len(common_numbers) >= 1:
+            return 0.90, "PLAYER_RECORD_COLLISION", f"Shares player {list(distinct_common_players)} and stat {list(common_numbers)} with published short."
 
         # 3. Lexical Token Overlap (Jaccard)
         c_tokens = cls.get_content_tokens(
@@ -252,9 +259,10 @@ class TopicDedupEngine:
         5. If curated collections are exhausted, returns (None, None) so AI generator can create a new topic.
         """
         worker_id = worker_id or str(uuid.uuid4())
-        historical_topics = db_manager.get_all_registered_topics()
-        published_keys = {t["topic_key"] for t in historical_topics if t.get("status") == "PUBLISHED"}
-        reserved_keys = {t["topic_key"] for t in historical_topics if t.get("status") == "RESERVED"}
+        published_topics = db_manager.get_published_topics()
+        published_keys = {t["topic_key"] for t in published_topics}
+        all_registered = db_manager.get_all_registered_topics()
+        reserved_keys = {t["topic_key"] for t in all_registered if t.get("status") == "RESERVED"}
 
         logger.info(f"Deduplication Engine: {len(published_keys)} published topics, {len(reserved_keys)} reserved.")
 
@@ -264,7 +272,7 @@ class TopicDedupEngine:
                 continue
 
             # Check semantic validity against all published topics
-            is_valid, reason, score, match = cls.validate_candidate(bundle, historical_topics)
+            is_valid, reason, score, match = cls.validate_candidate(bundle, published_topics)
             if not is_valid:
                 continue
 
