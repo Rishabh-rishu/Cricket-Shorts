@@ -146,3 +146,44 @@
 2026-11-07 21:26:48,035 [INFO] cricket_shorts.main: ✓ Topic 'hattrick_masters' published live and persisted to registry & ledger: Wbq8iH4v2ic
 2026-11-07 21:26:48,036 [INFO] cricket_shorts.main: V3 Short '3 Shocking Hat-Trick Records in Cricket' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/Wbq8iH4v2ic
 2026-11-07 21:26:48,084 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-07 17:47:59,977 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-07 17:47:59,977 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-07 17:47:59,977 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-07 17:47:59,978 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 12 published topics, 0 reserved.
+2026-11-07 17:47:59,982 [WARNING] cricket_shorts.dedup_engine: Topic '3 Unbelievable Century World Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['sachin tendulkar', 'rohit sharma'] with published short.
+2026-11-07 17:47:59,983 [WARNING] cricket_shorts.dedup_engine: Topic '3 Craziest Super Over Finishes in Cricket' REJECTED: [PLAYER_RECORD_COLLISION] Shares player ['rohit sharma'] and stat ['15'] with published short.
+2026-11-07 17:47:59,998 [INFO] cricket_shorts.dedup_engine: Topic '3 Fastest Deliveries Ever Bowled in Cricket' PASSED duplicate check (Max similarity: 0.48).
+2026-11-07 17:48:00,004 [INFO] cricket_shorts.dedup_engine: ✓ Atomically reserved curated topic 'bowling_speed_demons' with worker token d6d479e7.
+2026-11-07 17:48:00,004 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'bowling_speed_demons' ('3 Fastest Deliveries Ever Bowled in Cricket') ---
+2026-11-07 17:48:00,004 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'bowling_speed_demons'...
+2026-11-07 17:48:00,020 [INFO] cricket_shorts.v3_engine: V3 Narration (126 words): 'क्रिकेट इतिहास की 3 सबसे तेज और खौफनाक गेंदें, जिनकी स्पीड देखकर बल्लेबाजों के प...'
+2026-11-07 17:48:07,248 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_bowling_speed_demons_20261107_174800/raw_voice.mp3
+2026-11-07 17:48:07,248 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_bowling_speed_demons_20261107_174800/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_bowling_speed_demons_20261107_174800/voice_normalized.aac
+2026-11-07 17:48:08,975 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 53.77s
+2026-11-07 17:48:08,975 [INFO] cricket_shorts.v3_engine: Voice narration ready. Total duration: 53.77s
+2026-11-07 17:48:08,976 [INFO] cricket_shorts.v3_engine: Planned 8 cinematic scenes. Total video duration: 53.78s
+2026-11-07 17:48:08,976 [INFO] cricket_shorts.v3_engine: Rendering Segment 0 (hook, 7.98s)...
+2026-11-07 17:48:15,732 [INFO] cricket_shorts.v3_engine: Rendering Segment 1 (fact_card, 5.63s)...
+2026-11-07 17:48:17,484 [INFO] cricket_shorts.v3_engine: Rendering Segment 2 (footage_overlay, 6.89s)...
+2026-11-07 17:48:24,540 [INFO] cricket_shorts.v3_engine: Rendering Segment 3 (fact_card, 5.22s)...
+2026-11-07 17:48:26,017 [INFO] cricket_shorts.v3_engine: Rendering Segment 4 (footage_overlay, 6.38s)...
+2026-11-07 17:48:30,895 [INFO] cricket_shorts.v3_engine: Rendering Segment 5 (fact_card, 5.41s)...
+2026-11-07 17:48:32,463 [INFO] cricket_shorts.v3_engine: Rendering Segment 6 (footage_overlay, 6.61s)...
+2026-11-07 17:48:38,518 [INFO] cricket_shorts.v3_engine: Rendering Segment 7 (outro, 9.66s)...
+2026-11-07 17:48:46,084 [INFO] cricket_shorts.sfx: Mixing 8 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_bowling_speed_demons_20261107_174800/soundtrack_v3.aac
+2026-11-07 17:48:47,196 [INFO] cricket_shorts.v3_engine: Assembling final V3 Cinematic Short: output/videos/cricket_raaz_v3_bowling_speed_demons_20261107_174800.mp4
+2026-11-07 17:49:08,481 [INFO] cricket_shorts.v3_engine: Executing automated Technical Quality Control (QC)...
+2026-11-07 17:49:08,727 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 53.8s, 8 Moving Footage Scenes, Codecs: h264/aac, Size: 20.5MB, Font: Devanagari Verified
+2026-11-07 17:49:08,727 [INFO] cricket_shorts.v3_engine: ✓ V3 Cinematic Short successfully generated! Duration: 53.82s
+2026-11-07 17:49:08,728 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'bowling_speed_demons'...
+2026-11-07 17:49:08,774 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'bowling_speed_demons'. Duration: 53.8s, Size: 20.50MB.
+2026-11-07 17:49:08,964 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-07 17:49:08,965 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-07 17:49:10,240 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ki 3 Sabse Fast Aur Khaufnak Deliveries! ⚡🏏 #Shorts #CricketRaaz': 24%
+2026-11-07 17:49:10,510 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ki 3 Sabse Fast Aur Khaufnak Deliveries! ⚡🏏 #Shorts #CricketRaaz': 48%
+2026-11-07 17:49:10,770 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ki 3 Sabse Fast Aur Khaufnak Deliveries! ⚡🏏 #Shorts #CricketRaaz': 73%
+2026-11-07 17:49:11,061 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ki 3 Sabse Fast Aur Khaufnak Deliveries! ⚡🏏 #Shorts #CricketRaaz': 97%
+2026-11-07 17:49:11,457 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: n4QhAzF8kRQ (https://youtube.com/shorts/n4QhAzF8kRQ)
+2026-11-07 17:49:11,461 [INFO] cricket_shorts.main: ✓ Topic 'bowling_speed_demons' published live and persisted to registry & ledger: n4QhAzF8kRQ
+2026-11-07 17:49:11,461 [INFO] cricket_shorts.main: V3 Short '3 Fastest Deliveries Ever Bowled in Cricket' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/n4QhAzF8kRQ
+2026-11-07 17:49:11,473 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
