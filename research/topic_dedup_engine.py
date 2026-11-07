@@ -112,7 +112,8 @@ class TopicDedupEngine:
                 found_rules.add(r)
 
         # Extract specific numbers (e.g. 36, 174, 5, 175, 800, 10, 183, 973, 501, 21)
-        found_numbers = set(re.findall(r'\b\d{2,4}\b', full_text))
+        # Filter out match years (1870 to 2035) so dates are not mistaken for record stats
+        found_numbers = {n for n in re.findall(r'\b\d{2,4}\b', full_text) if not (1870 <= int(n) <= 2035)}
 
         return {
             "players": found_players,
@@ -226,17 +227,21 @@ class TopicDedupEngine:
 
         for item in historical_registry:
             score, match_type, reason = cls.compare_candidate_against_item(candidate_topic, item)
-            if score > highest_score:
-                highest_score = score
-                worst_match = item
-                worst_reason = f"[{match_type}] {reason}"
+            if match_type != "ACCEPTABLE":
+                if score > highest_score:
+                    highest_score = score
+                    worst_match = item
+                    worst_reason = f"[{match_type}] {reason}"
 
-            # Fast rejection on high confidence collision
-            if score >= 0.85:
-                logger.warning(f"Topic '{candidate_topic.get('topic')}' REJECTED: {worst_reason}")
-                return False, worst_reason, score, item
+                # Fast rejection on high confidence collision
+                if score >= 0.85:
+                    logger.warning(f"Topic '{candidate_topic.get('topic')}' REJECTED: {worst_reason}")
+                    return False, worst_reason, score, item
+            else:
+                if score > highest_score and highest_score < cls.SIMILARITY_REJECTION_THRESHOLD:
+                    highest_score = score
 
-        if highest_score >= cls.SIMILARITY_REJECTION_THRESHOLD:
+        if worst_match and highest_score >= cls.SIMILARITY_REJECTION_THRESHOLD:
             logger.warning(f"Topic '{candidate_topic.get('topic')}' REJECTED: {worst_reason}")
             return False, worst_reason, highest_score, worst_match
 
