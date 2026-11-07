@@ -1,11 +1,9 @@
 """
 Cricket Shorts Engine V3 - Dynamic Multi-Theme Broadcast Graphics Engine
-Implements strict visual uniqueness & dynamic theme color palettes:
-1. Scene 1 (Opening Hook): Pure Atmospheric Night Stadium (No repeated player image)
-2. Scene 2 (Player Hero): Displate Style Sports Poster Cutout (Virat celebration)
-3. Scene 3 (Record Statistics): Authentic World Cup Batting Action Photo (4928x3264)
-4. Scene 4 (Leaderboard): Intense Match Captaincy Portrait (2644x2365) + Zero-Tofu Badges
-5. Scene 5 (Outro & Debate): Golden ICC World Cup Trophy (2448x3264) + Community Debate Pod
+Implements strict visual uniqueness, dynamic theme palettes, and format-specific styling:
+- Reusable across any cricket format (Test, ODI, T20) and any player
+- Full 1080x1920 canvas utilization, 5 broadcast scene templates
+- Zero-tofu typography (Mukta-Bold / Noto Sans)
 """
 
 import os
@@ -65,6 +63,7 @@ class V3DemoGraphics:
 
         stadium_candidates = [
             bg_image_path,
+            os.path.join(PROJECT_ROOT, "assets", "stadium_beams_clean.jpg"),
             os.path.join(PROJECT_ROOT, "assets", "stadium_beams_cropped.jpg"),
             os.path.join(PROJECT_ROOT, "assets", "stadium_bg_base.jpg")
         ]
@@ -103,7 +102,7 @@ class V3DemoGraphics:
                 b = int(theme["bg_dark"][2] + 25 * ratio)
                 draw.line([(0, y), (cls.W, y)], fill=(r, g, b, 255))
 
-        # 2. Volumetric theme floodlights
+        # Volumetric theme floodlights
         beams = Image.new("RGBA", (cls.W, cls.H), (0, 0, 0, 0))
         b_draw = ImageDraw.Draw(beams)
         for angle in range(-45, 10, 6):
@@ -122,7 +121,7 @@ class V3DemoGraphics:
         beams = beams.filter(ImageFilter.GaussianBlur(30))
         canvas.alpha_composite(beams)
 
-        # 3. Vignette shadows
+        # Vignette shadows
         vignette = Image.new("RGBA", (cls.W, cls.H), (0, 0, 0, 0))
         v_draw = ImageDraw.Draw(vignette)
         for y in range(1420, cls.H):
@@ -142,7 +141,7 @@ class V3DemoGraphics:
         cls,
         canvas: Image.Image,
         theme: Dict[str, Any],
-        category: str = "ICC WORLD CUP • HISTORIC MOMENT",
+        category: str = "ICC TEST CRICKET • HISTORIC MILESTONE",
         badge_text: str = "CRICKET RAAZ EXCLUSIVE"
     ):
         """Top broadcast header pill at y=80-160 using theme colors."""
@@ -174,29 +173,39 @@ class V3DemoGraphics:
         )
         draw.text((cx + 15, py + 12), category, font=font_cat, fill=theme["accent_gold"])
 
+    @staticmethod
+    def draw_star(draw: ImageDraw.ImageDraw, center: Tuple[int, int], radius: float, fill: Any):
+        """Draws a crisp 5-point vector star to prevent missing glyph / tofu rendering."""
+        points = []
+        for i in range(10):
+            r = radius if i % 2 == 0 else radius * 0.42
+            angle = -math.pi / 2 + i * (math.pi / 5)
+            points.append((center[0] + r * math.cos(angle), center[1] + r * math.sin(angle)))
+        draw.polygon(points, fill=fill)
+
     # =========================================================================
-    # SCENE 1: OPENING HOOK (Pure Stadium Floodlights & 3D Title, No Player Image)
+    # SCENE 1: OPENING HOOK
     # =========================================================================
     @classmethod
     def create_opening_scene(
         cls,
         theme: Dict[str, Any],
         bg_stadium_path: Optional[str] = None,
-        title: str = "50TH ODI CENTURY",
-        subtitle: str = "THE CHASE MASTER",
+        alert_tag: str = "TEST RECORD ALERT",
+        title: str = "400 NOT OUT",
+        subtitle: str = "THE GREATEST TEST INNINGS",
+        pod_title: str = "THE HISTORIC MATCH",
+        pod_sub: str = "4th Test Match • Antigua Recreation Ground",
+        rows_data: Optional[List[Tuple[str, str]]] = None,
         output_path: str = "output/demo_v3/previews/scene1_opening_hook.png"
     ) -> str:
-        """
-        Creates Hook scene: Pure atmospheric night stadium with volumetric light rays,
-        stadium crowd atmosphere, and massive 3D kinetic typography.
-        """
         os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
         canvas = cls.create_base_canvas(theme, bg_image_path=bg_stadium_path)
-        cls.add_broadcast_header(canvas, theme, category="ALL-TIME WORLD RECORD", badge_text="CRICKET RAAZ SPECIAL")
+        cls.add_broadcast_header(canvas, theme, category="TEST CRICKET RECORD", badge_text="CRICKET RAAZ SPECIAL")
 
         draw = ImageDraw.Draw(canvas)
 
-        # 1. Central thematic radiant aura
+        # Central thematic radiant aura
         aura = Image.new("RGBA", (cls.W, cls.H), (0, 0, 0, 0))
         a_draw = ImageDraw.Draw(aura)
         a_draw.ellipse([(cls.W // 2 - 450, 420), (cls.W // 2 + 450, 1050)], fill=theme["glow_primary"])
@@ -204,39 +213,51 @@ class V3DemoGraphics:
         aura = aura.filter(ImageFilter.GaussianBlur(80))
         canvas.alpha_composite(aura)
 
-        # 2. Alert Badge
+        # Alert Badge with crisp vector stars (Zero Tofu)
         draw = ImageDraw.Draw(canvas)
-        tag_w, tag_h = 440, 52
-        tx, ty = (cls.W - tag_w) // 2, 290
-        draw.rounded_rectangle([(tx, ty), (tx + tag_w, ty + tag_h)], radius=26, fill=theme["accent_primary"], outline=theme["accent_gold"], width=2)
         font_tag = cls.get_font(26, weight="bold")
-        draw.text((tx + 32, ty + 12), "★ WORLD RECORD ALERT ★", font=font_tag, fill=theme["text_white"])
+        clean_tag = alert_tag.replace("★", "").replace("•", "").strip()
+        bbox_tag = draw.textbbox((0, 0), clean_tag, font=font_tag)
+        tag_text_w = bbox_tag[2] - bbox_tag[0]
+        tag_w = tag_text_w + 120
+        tag_h = 52
+        tx, ty = (cls.W - tag_w) // 2, 280
 
-        # 3. Giant 3D Title
-        font_main = cls.get_font(88, weight="bold")
+        draw.rounded_rectangle(
+            [(tx, ty), (tx + tag_w, ty + tag_h)],
+            radius=26,
+            fill=theme["accent_primary"],
+            outline=theme["accent_gold"],
+            width=2
+        )
+        draw.text((tx + 60, ty + 12), clean_tag, font=font_tag, fill=theme["text_white"])
+        cls.draw_star(draw, (tx + 32, ty + 26), 9, fill=theme["accent_gold"])
+        cls.draw_star(draw, (tx + tag_w - 32, ty + 26), 9, fill=theme["accent_gold"])
+
+        # Giant 3D Title
+        font_main = cls.get_font(92, weight="bold")
         bbox_m = draw.textbbox((0, 0), title, font=font_main)
         mw = bbox_m[2] - bbox_m[0]
         mx = (cls.W - mw) // 2
-        my = 380
+        my = 365
 
-        # Drop shadows
         for offset in [(4, 4), (2, 2), (-2, 2), (2, -2)]:
             draw.text((mx + offset[0], my + offset[1]), title, font=font_main, fill=(0, 0, 0, 240))
         draw.text((mx, my), title, font=font_main, fill=theme["accent_gold"])
 
         # Subtitle
-        font_sub = cls.get_font(48, weight="bold")
+        font_sub = cls.get_font(44, weight="bold")
         bbox_s = draw.textbbox((0, 0), subtitle, font=font_sub)
         sw = bbox_s[2] - bbox_s[0]
         sx = (cls.W - sw) // 2
-        sy = 495
+        sy = 485
         draw.text((sx + 2, sy + 2), subtitle, font=font_sub, fill=(0, 0, 0, 220))
         draw.text((sx, sy), subtitle, font=font_sub, fill=theme["accent_silver"])
 
-        # 4. Central Visual Card: Historic Match Context Pod (y=640 to 1320)
-        pod_w, pod_h = 920, 640
+        # Context Pod
+        pod_w, pod_h = 920, 600
         pod_x = (cls.W - pod_w) // 2
-        pod_y = 660
+        pod_y = 580
 
         draw.rounded_rectangle(
             [(pod_x, pod_y), (pod_x + pod_w, pod_y + pod_h)],
@@ -245,8 +266,6 @@ class V3DemoGraphics:
             outline=theme["border_highlight"],
             width=3
         )
-
-        # Header bar inside pod
         draw.rounded_rectangle(
             [(pod_x, pod_y), (pod_x + pod_w, pod_y + 110)],
             radius=28,
@@ -255,59 +274,85 @@ class V3DemoGraphics:
 
         font_pod_h = cls.get_font(38, weight="bold")
         font_pod_sub = cls.get_font(26, weight="semi")
-        draw.text((pod_x + 40, pod_y + 24), "THE HISTORIC DAY", font=font_pod_h, fill=theme["text_white"])
-        draw.text((pod_x + 40, pod_y + 70), "ICC Cricket World Cup Semi-Final", font=font_pod_sub, fill=theme["text_muted"])
+        draw.text((pod_x + 40, pod_y + 24), pod_title, font=font_pod_h, fill=theme["text_white"])
+        draw.text((pod_x + 40, pod_y + 70), pod_sub, font=font_pod_sub, fill=theme["text_muted"])
 
-        # Match Details Rows
-        rows_data = [
-            ("MATCH VENUE", "Wankhede Stadium, Mumbai"),
-            ("HISTORIC DATE", "15 November 2023"),
-            ("OPPONENT", "India vs New Zealand"),
-            ("THE MILESTONE", "Broke Sachin Tendulkar's Record of 49 ODI Tons")
-        ]
+        if not rows_data:
+            rows_data = [
+                ("MATCH VENUE", "Antigua Recreation Ground, St John's"),
+                ("HISTORIC DATE", "10 - 12 April 2004"),
+                ("OPPONENT", "West Indies vs England (4th Test)"),
+                ("THE RECORD", "First & Only 400 In 147 Years of Test Cricket")
+            ]
 
         font_rk = cls.get_font(24, weight="semi")
         font_rv = cls.get_font(32, weight="bold")
 
-        ry = pod_y + 140
+        ry = pod_y + 135
         for i, (k, v) in enumerate(rows_data):
             draw.text((pod_x + 40, ry), k, font=font_rk, fill=theme["text_muted"])
             val_col = theme["accent_gold"] if i == 3 else theme["text_white"]
             draw.text((pod_x + 40, ry + 32), v, font=font_rv, fill=val_col)
             if i < len(rows_data) - 1:
-                draw.line([(pod_x + 40, ry + 82), (pod_x + pod_w - 40, ry + 82)], fill=(255, 255, 255, 25), width=1)
-            ry += 115
+                draw.line([(pod_x + 40, ry + 80), (pod_x + pod_w - 40, ry + 80)], fill=(255, 255, 255, 25), width=1)
+            ry += 112
+
+        # Bottom Broadcast Feature Banner (Full-Screen Utilization, No Dead Space)
+        b_banner_y = 1240
+        b_banner_h = 170
+        draw.rounded_rectangle(
+            [(pod_x, b_banner_y), (pod_x + pod_w, b_banner_y + b_banner_h)],
+            radius=22,
+            fill=theme["bg_card"],
+            outline=theme["accent_primary"],
+            width=2
+        )
+        draw.rounded_rectangle(
+            [(pod_x + 24, b_banner_y + 20), (pod_x + 360, b_banner_y + 64)],
+            radius=12,
+            fill=theme["accent_primary"]
+        )
+        font_bpill = cls.get_font(22, weight="bold")
+        draw.text((pod_x + 42, b_banner_y + 30), "UNBROKEN WORLD RECORD", font=font_bpill, fill=theme["text_white"])
+
+        font_btitle = cls.get_font(32, weight="bold")
+        font_bsub = cls.get_font(24, weight="semi")
+        draw.text((pod_x + 30, b_banner_y + 82), "778 Minutes At The Crease • 582 Balls Faced", font=font_btitle, fill=theme["accent_gold"])
+        draw.text((pod_x + 30, b_banner_y + 124), "147 Years of Test Cricket • Still The Highest Score in History", font=font_bsub, fill=theme["accent_silver"])
 
         canvas.save(output_path, quality=95)
         return output_path
 
     # =========================================================================
-    # SCENE 2: PLAYER HERO SPORTS POSTER (Displate Style Celebration Cutout)
+    # SCENE 2: PLAYER HERO SPORTS POSTER
     # =========================================================================
     @classmethod
     def create_player_hero_scene(
         cls,
         theme: Dict[str, Any],
         player_poster_path: str,
+        player_name: str = "BRIAN LARA",
+        hero_tag: str = "THE PRINCE OF TRINIDAD | TEST CRICKET ICON",
+        stencil_lines: Tuple[str, str] = ("BRIAN", "LARA"),
+        callouts: Optional[List[Dict[str, Any]]] = None,
+        bot_banner1: str = "THE RECORD STANDS UNBROKEN",
+        bot_banner2: str = "400*",
         output_path: str = "output/demo_v3/previews/scene2_player_hero.png"
     ) -> str:
-        """
-        Creates full-bleed sports poster using fresh Displate celebration cutout.
-        """
         os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
         canvas = cls.create_base_canvas(theme)
-        cls.add_broadcast_header(canvas, theme, category="CRICKET ICON • LEGEND", badge_text="#VK18 SPECIAL")
+        cls.add_broadcast_header(canvas, theme, category="TEST CRICKET LEGEND", badge_text="#400NOTOUT")
 
-        # 1. Background Big Stencil: "KING KOHLI"
+        # Background Stencil Typography
         stencil = Image.new("RGBA", (cls.W, cls.H), (0, 0, 0, 0))
         st_draw = ImageDraw.Draw(stencil)
         font_stencil = cls.get_font(180, weight="bold")
-        st_draw.text((60, 360), "KING", font=font_stencil, fill=(255, 255, 255, 24))
-        st_draw.text((60, 520), "KOHLI", font=font_stencil, fill=(255, 255, 255, 20))
+        st_draw.text((60, 360), stencil_lines[0], font=font_stencil, fill=(255, 255, 255, 22))
+        st_draw.text((60, 520), stencil_lines[1], font=font_stencil, fill=(255, 255, 255, 18))
         stencil = stencil.filter(ImageFilter.GaussianBlur(2))
         canvas.alpha_composite(stencil)
 
-        # 2. Hero Cutout Placement
+        # Hero Player Cutout
         if os.path.exists(player_poster_path):
             try:
                 p_crop = Image.open(player_poster_path).convert("RGBA")
@@ -329,21 +374,19 @@ class V3DemoGraphics:
             except Exception as e:
                 print(f"Error loading hero poster: {e}")
 
-        # 3. Typography
+        # Typography
         draw = ImageDraw.Draw(canvas)
         font_name = cls.get_font(92, weight="bold")
         font_sub = cls.get_font(30, weight="bold")
 
-        name_text = "VIRAT KOHLI"
-        name_bbox = draw.textbbox((0, 0), name_text, font=font_name)
+        name_bbox = draw.textbbox((0, 0), player_name, font=font_name)
         nw = name_bbox[2] - name_bbox[0]
         nx = (cls.W - nw) // 2
         ny = 200
 
-        draw.text((nx + 3, ny + 3), name_text, font=font_name, fill=(0, 0, 0, 240))
-        draw.text((nx, ny), name_text, font=font_name, fill=theme["text_white"])
+        draw.text((nx + 3, ny + 3), player_name, font=font_name, fill=(0, 0, 0, 240))
+        draw.text((nx, ny), player_name, font=font_name, fill=theme["text_white"])
 
-        hero_tag = "THE KING OF CHASES | INDIAN CRICKET ICON"
         sub_bbox = draw.textbbox((0, 0), hero_tag, font=font_sub)
         sw = sub_bbox[2] - sub_bbox[0]
         sx = (cls.W - sw) // 2
@@ -351,21 +394,21 @@ class V3DemoGraphics:
         draw.text((sx + 2, sy + 2), hero_tag, font=font_sub, fill=(0, 0, 0, 200))
         draw.text((sx, sy), hero_tag, font=font_sub, fill=theme["accent_primary"])
 
-        # 4. Kinetic Callouts
-        callouts = [
-            {"text": "PASSION", "x": 60, "y": 620, "color": theme["text_white"], "border": theme["accent_primary"]},
-            {"text": "AGGRESSION", "x": 70, "y": 740, "color": theme["text_white"], "border": theme["accent_gold"]},
-            {"text": "INTENSITY", "x": 80, "y": 860, "color": theme["text_white"], "border": theme["accent_silver"]},
-            {"text": "50 ODI TONS", "x": 770, "y": 620, "color": theme["accent_gold"], "border": theme["accent_gold"]},
-            {"text": "CHASE MASTER", "x": 750, "y": 740, "color": theme["accent_primary"], "border": theme["accent_primary"]},
-            {"text": "LEGENDARY", "x": 780, "y": 860, "color": theme["text_white"], "border": theme["accent_silver"]},
-        ]
+        if not callouts:
+            callouts = [
+                {"text": "RECORD HOLDER", "x": 50, "y": 620, "color": theme["text_white"], "border": theme["accent_primary"]},
+                {"text": "13 HOURS BATTING", "x": 50, "y": 740, "color": theme["text_white"], "border": theme["accent_gold"]},
+                {"text": "582 BALLS FACED", "x": 50, "y": 860, "color": theme["text_white"], "border": theme["accent_silver"]},
+                {"text": "400* UNBEATEN", "x": 730, "y": 620, "color": theme["accent_gold"], "border": theme["accent_gold"]},
+                {"text": "43 FOURS 4 SIXES", "x": 710, "y": 740, "color": theme["accent_primary"], "border": theme["accent_primary"]},
+                {"text": "THE PRINCE", "x": 750, "y": 860, "color": theme["text_white"], "border": theme["accent_silver"]},
+            ]
 
-        font_badge = cls.get_font(28, weight="bold")
+        font_badge = cls.get_font(26, weight="bold")
         for b in callouts:
             bb = draw.textbbox((0, 0), b["text"], font=font_badge)
-            bw = (bb[2] - bb[0]) + 36
-            bh = 46
+            bw = (bb[2] - bb[0]) + 44
+            bh = 48
             bx, by = b["x"], b["y"]
             draw.rounded_rectangle(
                 [(bx, by), (bx + bw, by + bh)],
@@ -374,7 +417,8 @@ class V3DemoGraphics:
                 outline=b["border"],
                 width=2
             )
-            draw.text((bx + 18, by + 8), b["text"], font=font_badge, fill=b["color"])
+            cls.draw_star(draw, (bx + 18, by + 24), 6, fill=b["color"])
+            draw.text((bx + 32, by + 8), b["text"], font=font_badge, fill=b["color"])
 
         # Bottom banner
         bot_banner_y = 1430
@@ -385,41 +429,42 @@ class V3DemoGraphics:
             outline=theme["accent_gold"],
             width=2
         )
-        font_bot1 = cls.get_font(38, weight="bold")
-        font_bot2 = cls.get_font(42, weight="bold")
-        draw.text((95, bot_banner_y + 18), "THE LEGEND CONTINUES", font=font_bot1, fill=theme["text_white"])
-        draw.text((820, bot_banner_y + 16), "vk 18", font=font_bot2, fill=theme["accent_gold"])
+        font_bot1 = cls.get_font(34, weight="bold")
+        font_bot2 = cls.get_font(44, weight="bold")
+        draw.text((95, bot_banner_y + 20), bot_banner1, font=font_bot1, fill=theme["text_white"])
+        draw.text((820, bot_banner_y + 14), bot_banner2, font=font_bot2, fill=theme["accent_gold"])
 
         canvas.save(output_path, quality=95)
         return output_path
 
     # =========================================================================
-    # SCENE 3: RECORD STATISTICS (Authentic World Cup Batting Action Photo)
+    # SCENE 3: RECORD STATISTICS PRESENTATION
     # =========================================================================
     @classmethod
     def create_record_stats_scene(
         cls,
         theme: Dict[str, Any],
         action_photo_path: str,
+        player_name: str = "Masterclass Lara",
+        stats_subtitle: str = "World Record Stats in Test Cricket",
+        stats: Optional[List[Dict[str, Any]]] = None,
+        bot_tag1: str = "#TEST CRICKET",
+        bot_tag2: str = "CRICKET RAAZ",
+        bot_tag3: str = "WEST INDIES",
         output_path: str = "output/demo_v3/previews/scene3_record_stats.png"
     ) -> str:
-        """
-        Creates split-screen broadcast stats card with authentic World Cup batting action photo.
-        """
         os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
         canvas = cls.create_base_canvas(theme)
-        cls.add_broadcast_header(canvas, theme, category="CAREER MILESTONE", badge_text="ESPN CRICINFO STYLE")
+        cls.add_broadcast_header(canvas, theme, category="TEST MILESTONE", badge_text="ESPN CRICINFO STYLE")
 
-        # 1. Action Batting Cutout on Left Side (x=-40 to 480)
         if os.path.exists(action_photo_path):
             try:
                 p_img = Image.open(action_photo_path).convert("RGBA")
-                target_h = 1250
+                target_h = 1280
                 aspect = p_img.width / p_img.height
                 target_w = int(target_h * aspect)
                 p_img = p_img.resize((target_w, target_h), Image.Resampling.LANCZOS)
 
-                # Fade right edge & bottom
                 mask = Image.new("L", (target_w, target_h), 255)
                 m_arr = np.array(mask, dtype=np.float32)
                 fade_r = int(target_w * 0.35)
@@ -430,22 +475,21 @@ class V3DemoGraphics:
                     m_arr[y, :] *= ((target_h - 1 - y) / fade_b) ** 1.3
                 p_img.putalpha(Image.fromarray(m_arr.astype(np.uint8)))
 
-                # Glow behind action player
                 glow = Image.new("RGBA", (cls.W, cls.H), (0, 0, 0, 0))
                 g_draw = ImageDraw.Draw(glow)
-                g_draw.ellipse([(20, 300), (450, 1100)], fill=theme["glow_primary"])
+                g_draw.ellipse([(20, 300), (450, 1100)], fill=theme.get("glow_primary", (120, 20, 40, 60)))
                 glow = glow.filter(ImageFilter.GaussianBlur(60))
                 canvas.alpha_composite(glow)
 
-                canvas.alpha_composite(p_img, (-40, 260))
+                canvas.alpha_composite(p_img, (-30, 240))
             except Exception as e:
                 print(f"Stats action photo error: {e}")
 
-        # 2. Broadcast Card on Right Side
-        card_x = 460
-        card_y = 220
-        card_w = 570
-        card_h = 1220
+        # Broadcast Card on Right Side
+        card_x = 450
+        card_y = 200
+        card_w = 580
+        card_h = 1260
 
         panel = Image.new("RGBA", (cls.W, cls.H), (0, 0, 0, 0))
         p_draw = ImageDraw.Draw(panel)
@@ -457,98 +501,102 @@ class V3DemoGraphics:
             width=2
         )
         p_draw.rounded_rectangle(
-            [(card_x, card_y), (card_x + card_w, card_y + 160)],
+            [(card_x, card_y), (card_x + card_w, card_y + 150)],
             radius=24,
             fill=theme["bg_card_header"]
         )
         canvas.alpha_composite(panel)
 
-        # 3. Card Typography & Statistics
         draw = ImageDraw.Draw(canvas)
-        font_title = cls.get_font(48, weight="bold")
-        font_sub = cls.get_font(26, weight="semi")
-        draw.text((card_x + 36, card_y + 26), "Sensational Kohli", font=font_title, fill=theme["text_white"])
-        draw.text((card_x + 36, card_y + 88), "World Record Stats in ODI Cricket", font=font_sub, fill=theme["text_muted"])
+        font_title = cls.get_font(46, weight="bold")
+        font_sub = cls.get_font(24, weight="semi")
+        draw.text((card_x + 36, card_y + 24), player_name, font=font_title, fill=theme["text_white"])
+        draw.text((card_x + 36, card_y + 82), stats_subtitle, font=font_sub, fill=theme["text_muted"])
 
-        # Accent divider
-        draw.line([(card_x + 36, card_y + 158), (card_x + card_w - 36, card_y + 158)], fill=theme["accent_primary"], width=4)
+        draw.line([(card_x + 36, card_y + 148), (card_x + card_w - 36, card_y + 148)], fill=theme["accent_gold"], width=4)
 
-        stats = [
-            {"label": "CENTURIES", "value": "50", "highlight": True},
-            {"label": "INNINGS TAKEN", "value": "279", "sub": "Fastest in 147 Yrs"},
-            {"label": "CHASE RUNS", "value": "7,794", "sub": "Average 65.4"},
-            {"label": "CHASE 100s", "value": "27", "highlight": True},
-            {"label": "CAREER AVERAGE", "value": "58.67", "sub": "Highest in Era"},
-        ]
+        if not stats:
+            stats = [
+                {"label": "TOTAL RUNS", "value": "400*", "highlight": True},
+                {"label": "BALLS FACED", "value": "582", "sub": "Strike Rate 68.7"},
+                {"label": "TIME ON CREASE", "value": "778m", "sub": "13 Hours Batting"},
+                {"label": "BOUNDARIES", "value": "47", "sub": "43 Fours & 4 Sixes"},
+                {"label": "TEAM TOTAL", "value": "751/5", "sub": "Decl vs England"},
+            ]
 
-        font_lbl = cls.get_font(24, weight="semi")
-        font_val = cls.get_font(68, weight="bold")
+        font_lbl = cls.get_font(22, weight="semi")
+        font_val = cls.get_font(58, weight="bold")
+        font_val_hl = cls.get_font(64, weight="bold")
         font_note = cls.get_font(22, weight="regular")
 
-        row_y = card_y + 185
-        spacing = (card_h - 280) / len(stats)
+        start_y = card_y + 175
+        spacing = (card_h - 260) / len(stats)
 
         for i, s in enumerate(stats):
-            cy = int(row_y + i * spacing)
+            cy = int(start_y + i * spacing)
             if s.get("highlight"):
                 draw.rounded_rectangle(
-                    [(card_x + 20, cy - 6), (card_x + card_w - 20, cy + 96)],
-                    radius=12,
-                    fill=(theme["accent_primary"][0], theme["accent_primary"][1], theme["accent_primary"][2], 40),
+                    [(card_x + 20, cy - 6), (card_x + card_w - 20, cy + 128)],
+                    radius=16,
+                    fill=(theme["accent_primary"][0], theme["accent_primary"][1], theme["accent_primary"][2], 60),
                     outline=theme["accent_gold"],
-                    width=1
+                    width=2
                 )
-
-            draw.text((card_x + 36, cy + 6), s["label"].upper(), font=font_lbl, fill=theme["text_muted"])
-            val_color = theme["accent_gold"] if s.get("highlight") else theme["text_white"]
-            draw.text((card_x + 36, cy + 32), s["value"], font=font_val, fill=val_color)
-
-            if s.get("sub"):
-                draw.text((card_x + 220, cy + 54), f"• {s['sub']}", font=font_note, fill=theme["accent_silver"])
+                draw.text((card_x + 36, cy + 8), s["label"].upper(), font=font_lbl, fill=theme["accent_gold"])
+                draw.text((card_x + 36, cy + 42), s["value"], font=font_val_hl, fill=theme["accent_gold"])
+                cls.draw_star(draw, (card_x + card_w - 50, cy + 40), 12, fill=theme["accent_gold"])
+                if s.get("sub"):
+                    draw.text((card_x + 230, cy + 62), f"• {s['sub']}", font=font_note, fill=theme["accent_silver"])
+            else:
+                draw.text((card_x + 36, cy + 8), s["label"].upper(), font=font_lbl, fill=theme["text_muted"])
+                draw.text((card_x + 36, cy + 38), s["value"], font=font_val, fill=theme["text_white"])
+                if s.get("sub"):
+                    draw.text((card_x + 210, cy + 54), f"• {s['sub']}", font=font_note, fill=theme["accent_silver"])
 
             if i < len(stats) - 1:
-                draw.line([(card_x + 36, cy + 104), (card_x + card_w - 36, cy + 104)], fill=(255, 255, 255, 25), width=1)
+                draw.line([(card_x + 36, cy + int(spacing - 15)), (card_x + card_w - 36, cy + int(spacing - 15))], fill=(255, 255, 255, 30), width=1)
 
         # Bottom Bar
         bot_y = card_y + card_h - 60
-        font_bot = cls.get_font(24, weight="bold")
-        draw.text((card_x + 36, bot_y), "#CWC23", font=font_bot, fill=theme["text_muted"])
-        draw.text((card_x + 190, bot_y), "CRICKET RAAZ", font=font_bot, fill=theme["accent_gold"])
-        draw.text((card_x + card_w - 120, bot_y), "INDIA", font=font_bot, fill=theme["accent_primary"])
+        font_bot = cls.get_font(22, weight="bold")
+        draw.text((card_x + 36, bot_y), bot_tag1, font=font_bot, fill=theme["text_muted"])
+        draw.text((card_x + 210, bot_y), bot_tag2, font=font_bot, fill=theme["accent_gold"])
+        draw.text((card_x + card_w - 170, bot_y), bot_tag3, font=font_bot, fill=theme["accent_primary"])
 
         canvas.save(output_path, quality=95)
         return output_path
 
     # =========================================================================
-    # SCENE 4: LEADERBOARD (Intense Captaincy Portrait + Zero-Tofu Badges)
+    # SCENE 4: ALL-TIME LEADERBOARD
     # =========================================================================
     @classmethod
     def create_leaderboard_scene(
         cls,
         theme: Dict[str, Any],
         captain_photo_path: str,
+        title: str = "INTO THE RECORD BOOKS",
+        subtitle: str = "HIGHEST INDIVIDUAL SCORES IN TEST CRICKET*",
+        rows: Optional[List[Dict[str, Any]]] = None,
+        callout_h: str = "ONLY QUADRUPLE CENTURY IN HISTORY",
+        callout_s: str = "Brian Lara broke Hayden's 380 record just 6 months later!",
         output_path: str = "output/demo_v3/previews/scene4_leaderboard.png"
     ) -> str:
-        """
-        Creates modern leaderboard with intense match captain portrait.
-        Uses clean typography with ZERO square-box tofu glyphs.
-        """
         os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
         canvas = cls.create_base_canvas(theme)
         cls.add_broadcast_header(canvas, theme, category="HISTORIC RANKINGS", badge_text="ICC HALL OF FAME")
 
-        # 1. Player Cutout on Right Side
+        # High-res player portrait in Test whites positioned on right half
         if os.path.exists(captain_photo_path):
             try:
                 p_img = Image.open(captain_photo_path).convert("RGBA")
-                target_h = 1200
+                target_h = 1240
                 aspect = p_img.width / p_img.height
                 target_w = int(target_h * aspect)
                 p_img = p_img.resize((target_w, target_h), Image.Resampling.LANCZOS)
 
                 mask = Image.new("L", (target_w, target_h), 255)
                 m_arr = np.array(mask, dtype=np.float32)
-                fade_l = int(target_w * 0.4)
+                fade_l = int(target_w * 0.45)
                 for x in range(fade_l):
                     m_arr[:, x] *= (x / fade_l) ** 1.3
                 fade_b = 320
@@ -557,138 +605,146 @@ class V3DemoGraphics:
                 p_img.putalpha(Image.fromarray(m_arr.astype(np.uint8)))
 
                 px = cls.W - target_w + 30
-                py = 320
+                py = 280
                 canvas.alpha_composite(p_img, (px, py))
             except Exception as e:
                 print(f"Leaderboard captain photo error: {e}")
 
-        # 2. Table Section
         draw = ImageDraw.Draw(canvas)
         font_h1 = cls.get_font(68, weight="bold")
-        font_h2 = cls.get_font(28, weight="semi")
+        font_h2 = cls.get_font(26, weight="semi")
 
-        draw.text((60, 210), "INTO THE RECORD BOOKS", font=font_h1, fill=theme["text_white"])
-        draw.text((64, 290), "MOST CENTURIES IN MEN'S ODI CRICKET*", font=font_h2, fill=theme["text_muted"])
+        draw.text((50, 200), title, font=font_h1, fill=theme["text_white"])
+        draw.text((54, 280), subtitle, font=font_h2, fill=theme["text_muted"])
 
-        draw.line([(60, 345), (660, 345)], fill=(255, 255, 255, 60), width=2)
+        draw.line([(50, 335), (680, 335)], fill=(255, 255, 255, 60), width=2)
 
-        # Header Columns
-        font_col = cls.get_font(24, weight="bold")
-        draw.text((70, 365), "#", font=font_col, fill=theme["text_muted"])
-        draw.text((120, 365), "PLAYER", font=font_col, fill=theme["text_muted"])
-        draw.text((450, 365), "INNS", font=font_col, fill=theme["text_muted"])
-        draw.text((570, 365), "100s", font=font_col, fill=theme["text_muted"])
+        # Clean Column Headers with exact spacing (NO COLLISION)
+        font_col = cls.get_font(22, weight="bold")
+        draw.text((65, 350), "#", font=font_col, fill=theme["text_muted"])
+        draw.text((115, 350), "BATSMAN", font=font_col, fill=theme["text_muted"])
+        draw.text((380, 350), "OPPONENT", font=font_col, fill=theme["text_muted"])
+        draw.text((605, 350), "RUNS", font=font_col, fill=theme["text_muted"])
 
-        draw.line([(60, 405), (660, 405)], fill=(255, 255, 255, 40), width=1)
+        draw.line([(50, 385), (680, 385)], fill=(255, 255, 255, 40), width=1)
 
-        rows = [
-            {"rank": "1", "player": "Virat Kohli", "country": "IND", "inns": "279", "stat": "50", "highlight": True},
-            {"rank": "2", "player": "Sachin Tendulkar", "country": "IND", "inns": "452", "stat": "49", "highlight": False},
-            {"rank": "3", "player": "Rohit Sharma", "country": "IND", "inns": "262", "stat": "31", "highlight": False},
-            {"rank": "4", "player": "Ricky Ponting", "country": "AUS", "inns": "365", "stat": "30", "highlight": False},
-            {"rank": "5", "player": "Sanath Jayasuriya", "country": "SL", "inns": "433", "stat": "28", "highlight": False},
-        ]
+        if not rows:
+            rows = [
+                {"rank": "1", "player": "Brian Lara", "country": "WI", "inns": "v ENG (2004)", "stat": "400*", "highlight": True},
+                {"rank": "2", "player": "Matthew Hayden", "country": "AUS", "inns": "v ZIM (2003)", "stat": "380", "highlight": False},
+                {"rank": "3", "player": "Brian Lara", "country": "WI", "inns": "v ENG (1994)", "stat": "375", "highlight": False},
+                {"rank": "4", "player": "M. Jayawardene", "country": "SL", "inns": "v SA (2006)", "stat": "374", "highlight": False},
+                {"rank": "5", "player": "Gary Sobers", "country": "WI", "inns": "v PAK (1958)", "stat": "365*", "highlight": False},
+            ]
 
-        start_y = 425
-        row_height = 110
-        font_row_name = cls.get_font(34, weight="bold")
-        font_row_country = cls.get_font(24, weight="semi")
-        font_row_stat = cls.get_font(42, weight="bold")
-        font_badge_txt = cls.get_font(20, weight="bold")
+        start_y = 405
+        row_height = 120
+        font_row_name = cls.get_font(30, weight="bold")
+        font_row_country = cls.get_font(20, weight="semi")
+        font_row_inns = cls.get_font(22, weight="bold")
+        font_row_stat = cls.get_font(44, weight="bold")
 
         for i, r in enumerate(rows):
-            ry = start_y + i * (row_height + 15)
+            ry = start_y + i * (row_height + 12)
             if r.get("highlight"):
-                # Glowing Row for #1
                 draw.rounded_rectangle(
-                    [(50, ry - 6), (670, ry + row_height - 6)],
+                    [(50, ry - 6), (680, ry + row_height - 6)],
                     radius=16,
                     fill=theme["bg_card"],
                     outline=theme["accent_gold"],
                     width=3
                 )
-                # Clean zero-tofu badge for #1
-                draw.rounded_rectangle([(65, ry + 24), (105, ry + 64)], radius=8, fill=theme["accent_gold"])
-                draw.text((75, ry + 30), "1", font=font_row_country, fill=(10, 15, 30))
+                draw.rounded_rectangle([(62, ry + 24), (100, ry + 62)], radius=8, fill=theme["accent_gold"])
+                draw.text((74, ry + 30), "1", font=font_row_inns, fill=(10, 15, 30))
 
-                draw.text((120, ry + 16), r["player"], font=font_row_name, fill=theme["accent_gold"])
-                draw.text((120, ry + 60), f"({r['country']})", font=font_row_country, fill=theme["accent_silver"])
-                draw.text((455, ry + 30), r["inns"], font=font_row_country, fill=theme["text_white"])
-                draw.text((570, ry + 20), r["stat"], font=font_row_stat, fill=theme["accent_gold"])
+                draw.text((115, ry + 16), r["player"], font=font_row_name, fill=theme["accent_gold"])
+                draw.text((115, ry + 56), f"({r['country']})", font=font_row_country, fill=theme["accent_silver"])
+                draw.text((380, ry + 30), r["inns"], font=font_row_inns, fill=theme["text_white"])
+
+                # Right-aligned score to completely prevent any text overlap
+                s_bbox = draw.textbbox((0, 0), r["stat"], font=font_row_stat)
+                s_w = s_bbox[2] - s_bbox[0]
+                draw.text((665 - s_w, ry + 18), r["stat"], font=font_row_stat, fill=theme["accent_gold"])
             else:
                 draw.rounded_rectangle(
-                    [(50, ry - 6), (670, ry + row_height - 6)],
+                    [(50, ry - 6), (680, ry + row_height - 6)],
                     radius=14,
                     fill=theme["pill_bg"],
                     outline=(255, 255, 255, 30),
                     width=1
                 )
-                draw.text((75, ry + 30), r["rank"], font=font_row_country, fill=theme["text_muted"])
-                draw.text((120, ry + 16), r["player"], font=font_row_name, fill=theme["text_white"])
-                draw.text((120, ry + 60), f"({r['country']})", font=font_row_country, fill=theme["text_muted"])
-                draw.text((455, ry + 30), r["inns"], font=font_row_country, fill=theme["text_muted"])
-                draw.text((570, ry + 22), r["stat"], font=font_row_stat, fill=theme["text_white"])
+                draw.text((74, ry + 30), r["rank"], font=font_row_inns, fill=theme["text_muted"])
+                draw.text((115, ry + 16), r["player"], font=font_row_name, fill=theme["text_white"])
+                draw.text((115, ry + 56), f"({r['country']})", font=font_row_country, fill=theme["text_muted"])
+                draw.text((380, ry + 30), r["inns"], font=font_row_inns, fill=theme["text_muted"])
 
-        # Footnote & callout pill
-        font_note = cls.get_font(22, weight="regular")
-        draw.text((64, 1180), "*ALL-TIME ICC MEN'S ODI CRICKET RECORDS (AS OF 2026)", font=font_note, fill=theme["text_muted"])
+                # Right-aligned score
+                s_bbox = draw.textbbox((0, 0), r["stat"], font=font_row_stat)
+                s_w = s_bbox[2] - s_bbox[0]
+                draw.text((665 - s_w, ry + 20), r["stat"], font=font_row_stat, fill=theme["text_white"])
 
+        font_note = cls.get_font(20, weight="regular")
+        draw.text((54, 1160), "*ALL-TIME ICC MEN'S TEST CRICKET RECORDS (AS OF 2026)", font=font_note, fill=theme["text_muted"])
+
+        # Bottom Callout Card with Zero Tofu
         draw.rounded_rectangle(
-            [(60, 1240), (cls.W - 60, 1340)],
+            [(50, 1210), (cls.W - 50, 1330)],
             radius=18,
             fill=theme["bg_card"],
             outline=theme["accent_primary"],
             width=2
         )
         font_callout = cls.get_font(28, weight="bold")
-        draw.text((90, 1258), "FASTEST TO 50 TONS: 279 INNINGS", font=font_callout, fill=theme["accent_gold"])
-        draw.text((90, 1294), "Kohli beat Tendulkar's record in 173 fewer innings!", font=font_note, fill=theme["text_white"])
+        cls.draw_star(draw, (85, 1248), 10, fill=theme["accent_gold"])
+        draw.text((110, 1232), callout_h, font=font_callout, fill=theme["accent_gold"])
+        draw.text((110, 1276), callout_s, font=font_note, fill=theme["text_white"])
 
         canvas.save(output_path, quality=95)
         return output_path
 
     # =========================================================================
-    # SCENE 5: OUTRO & DEBATE (Golden World Cup Trophy & Community Pod)
+    # SCENE 5: OUTRO & DEBATE
     # =========================================================================
     @classmethod
     def create_final_reveal_scene(
         cls,
         theme: Dict[str, Any],
         trophy_photo_path: str,
+        header: str = "THE GREATEST INNINGS IN TEST HISTORY?",
+        question_title: str = "सवाल आपके लिए",
+        question_hindi: str = "क्या कोई बल्लेबाज टेस्ट क्रिकेट में कभी\n400 रन का रिकॉर्ड तोड़ पाएगा?",
+        question_eng: str = "Can any batsman in modern cricket ever\nsurpass Brian Lara's 400 not out?",
         output_path: str = "output/demo_v3/previews/scene5_final_reveal.png"
     ) -> str:
-        """
-        Creates climactic outro using authentic ICC Cricket World Cup Golden Trophy.
-        """
         os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
         canvas = cls.create_base_canvas(theme)
         cls.add_broadcast_header(canvas, theme, category="COMMUNITY DEBATE", badge_text="SHARE YOUR OPINION")
 
-        # 1. Golden Trophy Cutout in Center-Right Spotlight
         if os.path.exists(trophy_photo_path):
             try:
                 t_img = Image.open(trophy_photo_path).convert("RGBA")
-                target_h = 1050
+                target_h = 1200
                 aspect = t_img.width / t_img.height
                 target_w = int(target_h * aspect)
                 t_img = t_img.resize((target_w, target_h), Image.Resampling.LANCZOS)
 
-                # Fade edges smoothly
-                mask = Image.new("L", (target_w, target_h), 255)
+                # Soft atmospheric alpha composite
+                mask = Image.new("L", (target_w, target_h), 140)
                 m_arr = np.array(mask, dtype=np.float32)
-                fade_b = 260
+                fade_b = 350
                 for y in range(target_h - fade_b, target_h):
                     m_arr[y, :] *= ((target_h - 1 - y) / fade_b) ** 1.3
+                fade_t = 120
+                for y in range(fade_t):
+                    m_arr[y, :] *= (y / fade_t) ** 1.3
                 t_img.putalpha(Image.fromarray(m_arr.astype(np.uint8)))
 
-                # Place trophy in right-center
-                px = cls.W - target_w - 40
-                py = 350
+                px = (cls.W - target_w) // 2
+                py = 220
                 canvas.alpha_composite(t_img, (px, py))
             except Exception as e:
-                print(f"Trophy photo error: {e}")
+                print(f"Trophy/Celebration photo error: {e}")
 
-        # 2. Golden Aura
         aura = Image.new("RGBA", (cls.W, cls.H), (0, 0, 0, 0))
         a_draw = ImageDraw.Draw(aura)
         a_draw.ellipse([(cls.W // 2 - 380, 400), (cls.W // 2 + 380, 1100)], fill=theme["glow_secondary"])
@@ -697,9 +753,8 @@ class V3DemoGraphics:
 
         draw = ImageDraw.Draw(canvas)
         font_h1 = cls.get_font(56, weight="bold")
-        draw.text((70, 230), "THE GREATEST OF ALL TIME?", font=font_h1, fill=theme["accent_gold"])
+        draw.text((70, 230), header, font=font_h1, fill=theme["accent_gold"])
 
-        # 3. Interactive Debate Pod (Left / Mid Section)
         pod_x, pod_y = 60, 350
         pod_w, pod_h = cls.W - 120, 560
 
@@ -715,13 +770,12 @@ class V3DemoGraphics:
         font_q_hindi = cls.get_font(38, weight="bold")
         font_q_eng = cls.get_font(28, weight="semi")
 
-        draw.text((pod_x + 40, pod_y + 36), "सवाल आपके लिए", font=font_q_title, fill=theme["accent_primary"])
+        draw.text((pod_x + 40, pod_y + 36), question_title, font=font_q_title, fill=theme["accent_primary"])
         draw.line([(pod_x + 40, pod_y + 100), (pod_x + pod_w - 40, pod_y + 100)], fill=theme["accent_gold"], width=2)
 
-        draw.text((pod_x + 40, pod_y + 130), "क्या कोई बल्लेबाज कभी विराट के 50\nशतकों का महा-रिकॉर्ड तोड़ पाएगा?", font=font_q_hindi, fill=theme["text_white"])
-        draw.text((pod_x + 40, pod_y + 250), "Can anyone in modern cricket ever surpass\nKohli's milestone of 50 ODI centuries?", font=font_q_eng, fill=theme["text_muted"])
+        draw.text((pod_x + 40, pod_y + 130), question_hindi, font=font_q_hindi, fill=theme["text_white"])
+        draw.text((pod_x + 40, pod_y + 250), question_eng, font=font_q_eng, fill=theme["text_muted"])
 
-        # Comment prompt
         draw.rounded_rectangle(
             [(pod_x + 40, pod_y + 400), (pod_x + pod_w - 40, pod_y + 490)],
             radius=20,
@@ -730,7 +784,6 @@ class V3DemoGraphics:
         font_prompt = cls.get_font(32, weight="bold")
         draw.text((pod_x + 95, pod_y + 428), "COMMENT YOUR ANSWER BELOW!", font=font_prompt, fill=(10, 15, 30))
 
-        # 4. Subscribe CTA Section
         sub_x, sub_y = 60, 1000
         sub_w, sub_h = cls.W - 120, 360
 

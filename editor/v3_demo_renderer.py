@@ -1,14 +1,14 @@
 """
-Cricket Shorts Engine V3 - Standalone Demo Video Renderer (Unique Visuals & Format-Specific Jerseys)
-Renders full-length vertical (1080x1920 @ 30FPS) cinematic demo short:
-- Topic: 'Virat Kohli: The King of Chases & 50th ODI Century'
-- Format-Specific Player Jerseys: 100% Authentic ODI Colored Kit (Zero Test Whites)
+Cricket Shorts Engine V3 - Dynamic Standalone Video Renderer
+Renders full-length vertical (1080x1920 @ 30FPS) cinematic short:
+- Topic: 'Brian Lara 400 Not Out: The Highest Individual Score in Test Cricket'
+- Format-Specific Jersey Enforcement: 100% Authentic Test Cricket Whites
 - Perceptual Image Uniqueness (dhash > 10 bits difference)
 - Permanent Topic Deduplication Engine Verified
-- Theme: CRIMSON_OBSIDIAN (Midnight Obsidian + Crimson Red + Platinum Silver + Trophy Gold)
+- Theme: CARIBBEAN_MAROON (West Indies Maroon + Trophy Gold + Platinum White + Deep Obsidian)
 - Zero-Tofu Devanagari & Latin Typography
 - Dual-track sound design (voice normalized to -16 LUFS, tension bed, SFX cues)
-- Outputs to output/demo_v3/cricket_raaz_v3_demo.mp4
+- Outputs to output/demo_v3/cricket_raaz_v3_demo_lara400.mp4
 """
 
 import os
@@ -44,13 +44,13 @@ class V3DemoRenderer:
     FPS = 30
     FONTS_DIR = "/usr/share/fonts/truetype/noto"
 
-    DEMO_SCRIPT_PARTS = [
+    LARA_DEMO_SCRIPT_PARTS = [
         # Scene 1: Opening Hook (~6.5s)
         {
             "scene_idx": 0,
             "name": "Opening Hook",
             "type": "opening_hook",
-            "text": "क्रिकेट इतिहास का वो महा-रिकॉर्ड, जिसे तोड़ना नामुमकिन माना जा रहा था! क्या विराट कोहली वाकई वनडे क्रिकेट के सबसे बड़े लीजेंड हैं?",
+            "text": "टेस्ट क्रिकेट इतिहास का वो महा-रिकॉर्ड, जिसे कोई भी बल्लेबाज आज तक तोड़ नहीं पाया! क्या ब्रायन लारा की यह पारी क्रिकेट की सबसे महान पारी है?",
             "sfx": "dramatic_boom"
         },
         # Scene 2: Player Hero Introduction (~9.5s)
@@ -58,7 +58,7 @@ class V3DemoRenderer:
             "scene_idx": 1,
             "name": "Player Hero Intro",
             "type": "player_hero",
-            "text": "15 नवंबर 2023 को वानखेड़े में विराट कोहली ने वो कर दिखाया जो कोई नहीं कर सका। सचिन तेंदुलकर के 49 शतकों का रिकॉर्ड तोड़कर विराट ने 50वां वनडे शतक जड़ा!",
+            "text": "12 अप्रैल 2004 को एंटीगा में ब्रायन लारा ने वो कारनामा किया जो 147 साल के टेस्ट इतिहास में कभी नहीं हुआ। लारा ने इंग्लैंड के खिलाफ अकेले 400 रन बनाकर इतिहास रच दिया!",
             "sfx": "transition_whoosh"
         },
         # Scene 3: Record Statistics Presentation (~10s)
@@ -66,7 +66,7 @@ class V3DemoRenderer:
             "scene_idx": 2,
             "name": "Record Stats",
             "type": "record_stats",
-            "text": "विराट ने सिर्फ 279 पारियों में 50 शतक ठोक दिए! और लक्ष्य का पीछा करते हुए चेज़ में विराट के नाम 27 शतक हैं, जो दुनिया में सबसे ज्यादा हैं!",
+            "text": "लारा लगातार 13 घंटे तक क्रीज पर डटे रहे और 582 गेंदों का सामना करते हुए 43 चौके और 4 छक्के जड़कर 400 नॉट आउट बनाए!",
             "sfx": "bat_hit"
         },
         # Scene 4: All-Time Leaderboard (~8.5s)
@@ -74,7 +74,7 @@ class V3DemoRenderer:
             "scene_idx": 3,
             "name": "Leaderboard",
             "type": "leaderboard",
-            "text": "ऑल-टाइम वनडे शतकों में 50 शतकों के साथ विराट टॉप पर हैं, सचिन 49 पर दूसरे और रोहित शर्मा 31 शतकों के साथ तीसरे नंबर पर हैं!",
+            "text": "ऑल-टाइम टेस्ट स्कोर्स में 400 रनों के साथ ब्रायन लारा दुनिया में नंबर-1 हैं, मैथ्यू हेडन 380 पर दूसरे और महिला जयवर्धने 374 रनों पर तीसरे नंबर पर हैं!",
             "sfx": "dramatic_boom"
         },
         # Scene 5: Outro & Debate (~7.5s)
@@ -82,34 +82,34 @@ class V3DemoRenderer:
             "scene_idx": 4,
             "name": "Outro & Debate",
             "type": "final_reveal",
-            "text": "क्या कोई विराट का ये 50 शतकों का रिकॉर्ड कभी तोड़ पाएगा? कमेंट्स में जरूर बताएं और क्रिकेट राज़ को अभी सब्सक्राइब करें!",
+            "text": "क्या टेस्ट क्रिकेट में कोई बल्लेबाज ब्रायन लारा के 400 रनों का रिकॉर्ड कभी तोड़ पाएगा? कमेंट्स में जरूर बताएं और क्रिकेट राज़ को अभी सब्सक्राइब करें!",
             "sfx": "stadium_cheer"
         }
     ]
 
     @classmethod
-    def render_demo_video(
+    def render_lara_demo_video(
         cls,
-        theme_name: str = "CRIMSON_OBSIDIAN",
+        theme_name: str = "CARIBBEAN_MAROON",
         output_dir: str = "output/demo_v3",
-        video_filename: str = "cricket_raaz_v3_demo.mp4"
+        video_filename: str = "cricket_raaz_v3_demo_lara400.mp4"
     ) -> Tuple[bool, str, Dict[str, Any]]:
         """
         Renders complete standalone V3 short with strict visual uniqueness,
-        format-specific jersey validation, and semantic topic deduplication.
+        format-specific Test whites jersey validation, and semantic topic deduplication.
         """
         os.makedirs(output_dir, exist_ok=True)
-        temp_dir = os.path.join(output_dir, "temp")
-        previews_dir = os.path.join(output_dir, "previews")
+        temp_dir = os.path.join(output_dir, "temp_lara")
+        previews_dir = os.path.join(output_dir, "previews_lara")
         os.makedirs(temp_dir, exist_ok=True)
         os.makedirs(previews_dir, exist_ok=True)
 
         final_video_path = os.path.join(output_dir, video_filename)
         theme = ThemeManager.get_theme(theme_name)
-        topic_title = "Virat Kohli: The King of Chases & 50th ODI Century"
+        topic_title = "Brian Lara 400 Not Out: The Highest Individual Score in Test Cricket History"
 
         logger.info("==================================================================")
-        logger.info("STARTING V3 DEMO VIDEO GENERATION (FORMAT-SPECIFIC JERSEYS & DEDUP)")
+        logger.info("STARTING V3 DEMO VIDEO GENERATION (TEST WHITES & CARIBBEAN THEME)")
         logger.info(f"Topic: {topic_title}")
         logger.info(f"Color Theme: {theme['name']}")
         logger.info(f"Output Video: {final_video_path}")
@@ -123,8 +123,8 @@ class V3DemoRenderer:
         published_history = db.get_published_topics()
         candidate_bundle = {
             "topic": topic_title,
-            "hook_title": "50TH ODI CENTURY",
-            "facts": [{"player_name": "Virat Kohli", "stat_callout": "50 centuries"}]
+            "hook_title": "400 NOT OUT",
+            "facts": [{"player_name": "Brian Lara", "stat_callout": "400 runs in Test"}]
         }
         is_topic_unique, dedup_reason, dedup_score, matched_topic = TopicDedupEngine.validate_candidate(
             candidate_topic=candidate_bundle,
@@ -133,45 +133,45 @@ class V3DemoRenderer:
         logger.info(f"Topic deduplication status: {'APPROVED (Unique)' if is_topic_unique else 'REJECTED'}. Note: {dedup_reason}")
 
         # ---------------------------------------------------------------------
-        # Step 2: Format-Specific Jersey Detection & Validation
+        # Step 2: Format-Specific Jersey Detection & Validation (TEST FORMAT)
         # ---------------------------------------------------------------------
         required_format = JerseyFormatValidator.detect_required_format(topic_title)
-        logger.info(f"Step 2/10: Detected match format: '{required_format}'. Verifying player jerseys...")
+        logger.info(f"Step 2/10: Detected match format: '{required_format}'. Verifying Test cricket whites...")
 
         raw_assets = [
             {
                 "scene_idx": 0,
                 "scene_name": "Opening Hook",
-                "player_name": "Stadium Night Atmosphere",
-                "file_path": os.path.join(PROJECT_ROOT, "assets", "stadium_beams_cropped.jpg"),
+                "player_name": "Antigua Recreation Ground",
+                "file_path": os.path.join(PROJECT_ROOT, "assets", "antigua_stadium_test.jpg"),
                 "role": "stadium"
             },
             {
                 "scene_idx": 1,
                 "scene_name": "Player Hero Poster",
-                "player_name": "Virat Kohli",
-                "file_path": os.path.join(PROJECT_ROOT, "assets", "virat_poster_cropped.jpg"),
+                "player_name": "Brian Lara",
+                "file_path": os.path.join(PROJECT_ROOT, "assets", "lara_hero_portrait_whites.jpg"),
                 "role": "hero"
             },
             {
                 "scene_idx": 2,
                 "scene_name": "Record Stats",
-                "player_name": "Virat Kohli",
-                "file_path": os.path.join(PROJECT_ROOT, "assets", "kohli_cwc_action.jpg"),
+                "player_name": "Brian Lara",
+                "file_path": os.path.join(PROJECT_ROOT, "assets", "lara_test_walk_lords.jpg"),
                 "role": "action"
             },
             {
                 "scene_idx": 3,
                 "scene_name": "Leaderboard",
-                "player_name": "Virat Kohli",
-                "file_path": os.path.join(PROJECT_ROOT, "assets", "kohli_odi_nz_2010.jpg"),
-                "role": "odi_match"
+                "player_name": "Brian Lara",
+                "file_path": os.path.join(PROJECT_ROOT, "assets", "lara_test_portrait_lords.jpg"),
+                "role": "portrait"
             },
             {
                 "scene_idx": 4,
                 "scene_name": "Outro & Debate",
-                "player_name": "World Cup Trophy",
-                "file_path": os.path.join(PROJECT_ROOT, "assets", "icc_world_cup_trophy.jpg"),
+                "player_name": "Wisden Test Series Trophy",
+                "file_path": os.path.join(PROJECT_ROOT, "assets", "wisden_test_trophy.jpg"),
                 "role": "trophy"
             }
         ]
@@ -188,13 +188,13 @@ class V3DemoRenderer:
                 logger.error(f"Jersey format violation on {a['file_path']}: {note}")
                 return False, "", {"error": note}
 
-        logger.info(f"✓ All assets verified: 100% compliant with '{required_format}' kit rules.")
+        logger.info(f"✓ All assets verified: 100% compliant with '{required_format}' kit rules (Test Whites).")
 
         # ---------------------------------------------------------------------
         # Step 3: Perceptual Image Uniqueness Verification (dhash)
         # ---------------------------------------------------------------------
         logger.info("Step 3/10: Verifying visual uniqueness via Perceptual dhash...")
-        video_id = "demo_v3_odi_jersey_verified"
+        video_id = "demo_v3_lara_400_not_out"
         passed, notes, registry_report = AssetRegistry.check_and_register_video_assets(
             video_id=video_id,
             topic=topic_title,
@@ -221,26 +221,81 @@ class V3DemoRenderer:
         V3DemoGraphics.create_opening_scene(
             theme=theme,
             bg_stadium_path=raw_assets[0]["file_path"],
+            alert_tag="TEST RECORD ALERT",
+            title="400 NOT OUT",
+            subtitle="THE GREATEST TEST INNINGS",
+            pod_title="THE HISTORIC MATCH",
+            pod_sub="4th Test Match • Antigua Recreation Ground",
+            rows_data=[
+                ("MATCH VENUE", "Antigua Recreation Ground, St John's"),
+                ("HISTORIC DATE", "10 - 12 April 2004"),
+                ("OPPONENT", "West Indies vs England (4th Test)"),
+                ("THE RECORD", "First & Only 400 In 147 Years of Test Cricket")
+            ],
             output_path=scene_images[0]
         )
+
         V3DemoGraphics.create_player_hero_scene(
             theme=theme,
             player_poster_path=raw_assets[1]["file_path"],
+            player_name="BRIAN LARA",
+            hero_tag="THE PRINCE OF TRINIDAD | TEST CRICKET ICON",
+            stencil_lines=("BRIAN", "LARA"),
+            callouts=[
+                {"text": "RECORD HOLDER", "x": 50, "y": 620, "color": theme["text_white"], "border": theme["accent_primary"]},
+                {"text": "13 HOURS BATTING", "x": 50, "y": 740, "color": theme["text_white"], "border": theme["accent_gold"]},
+                {"text": "582 BALLS FACED", "x": 50, "y": 860, "color": theme["text_white"], "border": theme["accent_silver"]},
+                {"text": "400* UNBEATEN", "x": 730, "y": 620, "color": theme["accent_gold"], "border": theme["accent_gold"]},
+                {"text": "43 FOURS 4 SIXES", "x": 710, "y": 740, "color": theme["accent_primary"], "border": theme["accent_primary"]},
+                {"text": "THE PRINCE", "x": 750, "y": 860, "color": theme["text_white"], "border": theme["accent_silver"]},
+            ],
+            bot_banner1="THE RECORD STANDS UNBROKEN",
+            bot_banner2="400*",
             output_path=scene_images[1]
         )
+
         V3DemoGraphics.create_record_stats_scene(
             theme=theme,
             action_photo_path=raw_assets[2]["file_path"],
+            player_name="Masterclass Lara",
+            stats_subtitle="World Record Stats in Test Cricket",
+            stats=[
+                {"label": "TOTAL RUNS", "value": "400*", "highlight": True},
+                {"label": "BALLS FACED", "value": "582", "sub": "Strike Rate 68.7"},
+                {"label": "TIME ON CREASE", "value": "778m", "sub": "13 Hours Batting"},
+                {"label": "BOUNDARIES", "value": "47", "sub": "43 Fours & 4 Sixes"},
+                {"label": "TEAM TOTAL", "value": "751/5", "sub": "Decl vs England"},
+            ],
+            bot_tag1="#TEST CRICKET",
+            bot_tag2="CRICKET RAAZ",
+            bot_tag3="WEST INDIES",
             output_path=scene_images[2]
         )
+
         V3DemoGraphics.create_leaderboard_scene(
             theme=theme,
             captain_photo_path=raw_assets[3]["file_path"],
+            title="INTO THE RECORD BOOKS",
+            subtitle="HIGHEST INDIVIDUAL SCORES IN TEST CRICKET*",
+            rows=[
+                {"rank": "1", "player": "Brian Lara", "country": "WI", "inns": "v England", "stat": "400*", "highlight": True},
+                {"rank": "2", "player": "Matthew Hayden", "country": "AUS", "inns": "v Zimbabwe", "stat": "380", "highlight": False},
+                {"rank": "3", "player": "Brian Lara", "country": "WI", "inns": "v England", "stat": "375", "highlight": False},
+                {"rank": "4", "player": "M. Jayawardene", "country": "SL", "inns": "v South Africa", "stat": "374", "highlight": False},
+                {"rank": "5", "player": "Gary Sobers", "country": "WI", "inns": "v Pakistan", "stat": "365*", "highlight": False},
+            ],
+            callout_h="ONLY QUADRUPLE CENTURY IN HISTORY",
+            callout_s="Brian Lara broke Hayden's 380 record just 6 months later!",
             output_path=scene_images[3]
         )
+
         V3DemoGraphics.create_final_reveal_scene(
             theme=theme,
             trophy_photo_path=raw_assets[4]["file_path"],
+            header="THE GREATEST INNINGS IN TEST HISTORY?",
+            question_title="सवाल आपके लिए",
+            question_hindi="क्या कोई बल्लेबाज टेस्ट क्रिकेट में कभी\n400 रन का रिकॉर्ड तोड़ पाएगा?",
+            question_eng="Can any batsman in modern cricket ever\nsurpass Brian Lara's 400 not out?",
             output_path=scene_images[4]
         )
         logger.info("✓ All 5 broadcast scene graphics successfully rendered.")
@@ -248,7 +303,7 @@ class V3DemoRenderer:
         # ---------------------------------------------------------------------
         # Step 5: Voice Synthesis via Edge-TTS
         # ---------------------------------------------------------------------
-        full_narration = " ".join([p["text"] for p in cls.DEMO_SCRIPT_PARTS])
+        full_narration = " ".join([p["text"] for p in cls.LARA_DEMO_SCRIPT_PARTS])
         logger.info(f"Step 5/10: Synthesizing Edge-TTS voice ({len(full_narration.split())} words)...")
 
         tts = TTSEngine(voice="hi-IN-MadhurNeural", rate="+20%", pitch="-2Hz")
@@ -276,14 +331,14 @@ class V3DemoRenderer:
         # Step 7: Map Scene Timestamps & Pacing
         # ---------------------------------------------------------------------
         logger.info("Step 7/10: Calculating proportional scene timing...")
-        char_counts = [len(p["text"]) for p in cls.DEMO_SCRIPT_PARTS]
+        char_counts = [len(p["text"]) for p in cls.LARA_DEMO_SCRIPT_PARTS]
         total_chars = sum(char_counts)
         scene_durations = [(c / total_chars) * voice_dur for c in char_counts]
 
         scenes_plan = []
         curr_t = 0.0
         storyboard_sfx = []
-        for i, p in enumerate(cls.DEMO_SCRIPT_PARTS):
+        for i, p in enumerate(cls.LARA_DEMO_SCRIPT_PARTS):
             dur = round(scene_durations[i], 2)
             scenes_plan.append({
                 "index": i,
@@ -422,7 +477,7 @@ class V3DemoRenderer:
         }
 
         logger.info("==================================================================")
-        logger.info("✓ V3 CINEMATIC DEMO GENERATION COMPLETE (AUTHENTIC JERSEYS + DEDUP)!")
+        logger.info("✓ V3 CINEMATIC DEMO GENERATION COMPLETE (TEST WHITES + CARIBBEAN MAROON)!")
         logger.info(f"Video Path: {final_video_path}")
         logger.info(f"Format: {required_format} | Theme: {theme['name']} | Duration: {metrics.get('duration', voice_dur):.2f}s")
         logger.info("==================================================================")
@@ -431,6 +486,6 @@ class V3DemoRenderer:
 
 
 if __name__ == "__main__":
-    success, path, rep = V3DemoRenderer.render_demo_video()
+    success, path, rep = V3DemoRenderer.render_lara_demo_video()
     if not success:
         sys.exit(1)

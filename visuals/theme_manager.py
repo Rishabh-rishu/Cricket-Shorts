@@ -115,6 +115,23 @@ class ThemeManager:
             "border_highlight": (56, 189, 248, 220),
             "pill_bg": (16, 28, 58, 235),
             "tagline_color": (56, 189, 248),
+        },
+        "CARIBBEAN_MAROON": {
+            "name": "Caribbean Maroon",
+            "bg_dark": (18, 8, 14, 255),            # Deep mahogany maroon obsidian
+            "bg_card": (32, 14, 24, 248),           # Rich maroon glass
+            "bg_card_header": (48, 18, 34, 255),    # Card header with deep maroon tone
+            "accent_primary": (190, 24, 60),        # West Indies Maroon (#BE183C)
+            "accent_secondary": (244, 114, 182),    # Rose Pink
+            "accent_gold": (250, 204, 21),          # Trophy Gold (#FACC15)
+            "accent_silver": (241, 245, 249),       # Platinum White
+            "text_white": (255, 255, 255),          # Crisp white
+            "text_muted": (195, 175, 185),          # Cool muted rose
+            "glow_primary": (180, 24, 54, 90),      # Maroon volumetric glow
+            "glow_secondary": (250, 204, 21, 70),   # Golden rim glow
+            "border_highlight": (190, 24, 60, 220), # Maroon border
+            "pill_bg": (34, 16, 28, 235),
+            "tagline_color": (250, 204, 21),        # Gold tagline
         }
     }
 
@@ -129,3 +146,29 @@ class ThemeManager:
         keys = list(cls.THEMES.keys())
         selected_key = keys[video_index % len(keys)]
         return cls.THEMES[selected_key]
+
+    @classmethod
+    def get_theme_for_topic(cls, topic: str, fallback_idx: int = 0) -> Dict[str, Any]:
+        """
+        Selects the best matching broadcast theme based on format, player, or topic,
+        falling back to deterministic rotation across videos.
+        """
+        import re
+        t = topic.lower()
+        def has_word(words):
+            return any(re.search(r'\b' + re.escape(w) + r'\b', t) for w in words)
+
+        if has_word(["test", "tests", "lara", "antigua", "whites", "ashes"]):
+            return cls.THEMES["CARIBBEAN_MAROON"]
+        elif has_word(["bowling", "shami", "kumble", "spin", "pakistan"]):
+            return cls.THEMES["EMERALD_MASTER"]
+        elif has_word(["kohli", "century", "centuries", "sachin", "rohit", "world cup", "odi"]):
+            return cls.THEMES["CRIMSON_OBSIDIAN"]
+        elif has_word(["finisher", "dhoni", "rinku", "six", "chase", "over"]):
+            return cls.THEMES["CHARCOAL_EMBER"]
+        elif has_word(["t20", "t20i", "ipl", "fastest"]):
+            return cls.THEMES["NEON_CYBER"]
+        elif has_word(["captain", "trophy", "icc"]):
+            return cls.THEMES["ROYAL_EMPIRE"]
+        else:
+            return cls.rotate_theme(fallback_idx)
