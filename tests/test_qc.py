@@ -23,7 +23,7 @@ class TestVideoQC(unittest.TestCase):
         # Generate short 1080x1920 video with audio using ffmpeg (32 seconds)
         cmd = [
             "ffmpeg", "-y",
-            "-f", "lavfi", "-i", "color=c=black:s=1080x1920:d=32",
+            "-f", "lavfi", "-i", "color=c=blue:s=1080x1920:d=32",
             "-f", "lavfi", "-i", "sine=f=440:d=32",
             "-c:v", "libx264", "-pix_fmt", "yuv420p",
             "-c:a", "aac",

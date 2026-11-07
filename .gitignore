@@ -39,6 +39,7 @@ assets/stadium_bg_base.jpg
 .DS_Store
 .idea/
 .vscode/
+local_backup*/
 client_secrets.json
 
 client_secrets.json

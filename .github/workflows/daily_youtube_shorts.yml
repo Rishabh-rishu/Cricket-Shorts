@@ -131,5 +131,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin main || true
-          git add -f database/cricket_facts.db logs/ 2>/dev/null || true
+          git add -f database/cricket_facts.db database/published_topics_ledger.jsonl logs/ 2>/dev/null || true
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-published YouTube Short & updated content database [skip ci]" && git push origin main)

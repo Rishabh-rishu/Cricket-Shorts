@@ -31,11 +31,15 @@ from editor.countdown_renderer import CountdownVideoRenderer
 from editor.v3_cinematic_engine import V3CinematicEngine
 from research.countdown_topics import TOP_5_COLLECTIONS
 from research.v3_fact_topics import V3_COLLECTIONS
+from research.topic_dedup_engine import TopicDedupEngine
+from scripts.generate_script_v3 import ScriptGeneratorV3
 from qc.video_qc import VideoQC
+from qc.pre_publish_validator import PrePublishValidator
 from youtube.scheduler import PublicationScheduler
 from youtube.upload import YouTubeUploader
 from youtube.authenticate import YouTubeAuthenticator
 from dashboard.cli_report import DashboardReporter
+import uuid
 
 # Logging setup
 os.makedirs("logs", exist_ok=True)
@@ -69,48 +73,60 @@ class CricketShortsFactory:
 
     def produce_daily_shorts(self, count: int = 2, immediate: bool = False) -> list:
         """
-        Executes daily production run for 2 premium sports broadcast cricket shorts:
-        Renders V3 3-Connected-Facts documentary shorts with Pic 2 broadcast cards,
-        stadium night lighting, moving footage, and acoustic sound design.
+        Executes daily production run for unique cricket documentary shorts:
+        Selects strictly non-duplicate topics via TopicDedupEngine,
+        or dynamically generates fresh AI topics when curated topics are exhausted.
         """
         logger.info(f"Starting broadcast production run for {count} unique cricket shorts.")
         produced_shorts = []
-        topics = list(V3_COLLECTIONS.keys())
-
-        # Identify recently produced topics to avoid immediate duplicates
-        with self.db.get_connection() as conn:
-            c = conn.cursor()
-            rows = c.execute("SELECT story FROM shorts ORDER BY id DESC LIMIT 10").fetchall()
-            recent_stories = [r[0] for r in rows if r[0]]
-
-        selected_topics = []
-        for t in topics:
-            t_title = V3_COLLECTIONS[t]["topic"]
-            if not any(t_title in s for s in recent_stories):
-                selected_topics.append(t)
-            if len(selected_topics) >= count:
-                break
-
-        # If all topics used, cycle back
-        if len(selected_topics) < count:
-            for t in topics:
-                if t not in selected_topics:
-                    selected_topics.append(t)
-                if len(selected_topics) >= count:
-                    break
-
-        while len(selected_topics) < count:
-            selected_topics.append(topics[len(selected_topics) % len(topics)])
+        worker_id = str(uuid.uuid4())
 
         for idx in range(count):
-            t_key = selected_topics[idx]
-            logger.info(f"--- Producing Daily Broadcast Short {idx+1}/{count}: '{t_key}' ---")
+            logger.info(f"--- Selecting Unique Topic for Short {idx+1}/{count} ---")
+            # Step 1: Attempt to select and atomically reserve an unpublished curated collection
+            t_key, bundle = TopicDedupEngine.select_and_reserve_topic(
+                db_manager=self.db,
+                curated_collections=V3_COLLECTIONS,
+                worker_id=worker_id
+            )
+
+            # Step 2: If curated collections exhausted, generate a fresh AI topic with negative exclusions
+            if not t_key or not bundle:
+                logger.info("All curated collections published or reserved. Triggering Gemini 3.8 Flash AI research engine...")
+                all_published = self.db.get_published_topics()
+                bundle = ScriptGeneratorV3.get_or_generate_topic(
+                    topic_key=None,
+                    excluded_topics=all_published
+                )
+                if not bundle:
+                    logger.error("Failed to generate unique AI topic. Aborting production run to prevent duplicate publishing.")
+                    continue
+
+                t_key = bundle.get("id") or f"ai_gen_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                bundle["id"] = t_key
+                # Register and reserve the AI generated topic
+                self.db.register_topic({
+                    "topic_key": t_key,
+                    "topic_title": bundle.get("topic", t_key),
+                    "normalized_title": TopicDedupEngine.normalize_text(bundle.get("topic", t_key)),
+                    "category": bundle.get("category", "AI Research"),
+                    "core_concept": bundle.get("hook_narration", ""),
+                    "key_entities": list(TopicDedupEngine.extract_entities(bundle)["players"]),
+                    "key_facts": [f.get("stat_callout", "") for f in bundle.get("facts", [])],
+                    "status": "RESERVED",
+                    "sha256_fingerprint": hashlib.sha256(f"{t_key}::{bundle.get('topic')}".encode()).hexdigest(),
+                    "source": "AI_GENERATED"
+                })
+                self.db.reserve_topic(t_key, worker_id)
+
+            logger.info(f"--- Producing Daily Broadcast Short {idx+1}/{count}: '{t_key}' ('{bundle['topic']}') ---")
             try:
-                res = self.produce_v3_short(topic_key=t_key, immediate=immediate)
+                res = self.produce_v3_short(topic_key=t_key, bundle=bundle, immediate=immediate)
                 if res:
                     produced_shorts.append(res)
             except Exception as e:
                 logger.error(f"Error producing V3 short for topic '{t_key}': {e}", exc_info=True)
+                self.db.mark_topic_failed(t_key, str(e))
 
         logger.info(f"Daily production cycle completed. {len(produced_shorts)}/{count} shorts generated.")
         self.reporter.show_dashboard()
@@ -345,19 +361,23 @@ class CricketShortsFactory:
         self.reporter.show_dashboard()
         return meta_report
 
-    def produce_v3_short(self, topic_key: str = "wc_records", immediate: bool = False) -> dict:
+    def produce_v3_short(self, topic_key: str = "wc_records", bundle: Optional[Dict[str, Any]] = None, immediate: bool = False) -> dict:
         """
         Executes V3 3-Connected-Facts Documentary Short production:
         Renders 8 dynamic scenes (Hook + 3 Facts with Ken Burns presentation cards & moving action footage + Outro),
         multi-track sound design (-16 LUFS voice + ambient tension bed + SFX cues),
-        and Devanagari bold subtitles.
+        and Devanagari bold subtitles with Pre-Publish Quality Validation.
         """
         logger.info(f"Starting V3 3-Connected-Facts production for collection '{topic_key}'...")
-        if topic_key not in V3_COLLECTIONS:
-            logger.warning(f"V3 Collection '{topic_key}' not found, falling back to 'wc_records'.")
-            topic_key = "wc_records"
+        if bundle is None:
+            if topic_key in V3_COLLECTIONS:
+                bundle = V3_COLLECTIONS[topic_key]
+            else:
+                logger.info(f"Topic '{topic_key}' not in static collections. Fetching from ScriptGeneratorV3...")
+                bundle = ScriptGeneratorV3.get_or_generate_topic(topic_key=topic_key)
+                if not bundle:
+                    raise ValueError(f"Topic '{topic_key}' could not be loaded or generated.")
 
-        bundle = V3_COLLECTIONS[topic_key]
         timestamp_slug = datetime.now().strftime("%Y%m%d_%H%M%S")
         final_video_path = os.path.join("output/videos", f"cricket_raaz_v3_{topic_key}_{timestamp_slug}.mp4")
         temp_render_dir = os.path.abspath(f"output/run_v3_{topic_key}_{timestamp_slug}")
@@ -376,29 +396,35 @@ class CricketShortsFactory:
         )
 
         if not rend_ok:
+            self.db.mark_topic_failed(topic_key, f"Rendering failed: {meta_report.get('error')}")
             raise RuntimeError(f"V3 Cinematic rendering failed: {meta_report.get('error')}")
 
+        # Pre-Publish Quality Gate Check
+        passed, pre_qc_msg = PrePublishValidator.validate_before_upload(
+            topic_key=topic_key,
+            topic_bundle=bundle,
+            video_path=final_video_path,
+            db_manager=self.db
+        )
+        if not passed:
+            self.db.mark_topic_failed(topic_key, pre_qc_msg)
+            raise RuntimeError(f"Pre-Publish Quality Check failed: {pre_qc_msg}")
+
         fact_hash = self.db.compute_fact_hash(bundle["topic"], bundle["hook_narration"])
-        with self.db.get_connection() as conn:
-            c = conn.cursor()
-            row = c.execute("SELECT id FROM facts WHERE fact_hash = ?", (fact_hash,)).fetchone()
-            if row:
-                fact_id = row[0]
-            else:
-                fact_id = self.db.insert_fact({
-                    "topic": bundle["topic"],
-                    "category": bundle["category"],
-                    "main_fact": bundle["hook_narration"],
-                    "source_primary": bundle["facts"][0]["source_primary"],
-                    "source_secondary": bundle["facts"][1].get("source_primary"),
-                    "verification_notes": "V3 3-Connected-Facts bundle verified",
-                    "reliability_score": 40.0,
-                    "uniqueness_score": 25.0,
-                    "curiosity_score": 20.0,
-                    "visual_score": 15.0,
-                    "total_score": 100.0,
-                    "is_approved": 1
-                })
+        fact_id = self.db.insert_fact({
+            "topic": bundle["topic"],
+            "category": bundle.get("category", "Cricket Records"),
+            "main_fact": bundle["hook_narration"],
+            "source_primary": bundle["facts"][0]["source_primary"],
+            "source_secondary": bundle["facts"][1].get("source_primary") if len(bundle["facts"]) > 1 else "",
+            "verification_notes": "V3 3-Connected-Facts bundle verified",
+            "reliability_score": 40.0,
+            "uniqueness_score": 25.0,
+            "curiosity_score": 20.0,
+            "visual_score": 15.0,
+            "total_score": 100.0,
+            "is_approved": 1
+        })
 
         short_record = {
             "fact_id": fact_id,
@@ -409,7 +435,7 @@ class CricketShortsFactory:
             "cta": bundle["outro_narration"],
             "full_script": bundle["seo_description"],
             "description": bundle["seo_description"],
-            "tags": ",".join(bundle["tags"]),
+            "tags": ",".join(bundle.get("tags", ["Shorts", "Cricket"])),
             "hashtags": "#Shorts #CricketRaaz #CricketFacts",
             "pinned_comment": f"Which of these 3 records shocked you the most? Subscribe to Cricket Raaz!",
             "audio_file": os.path.join(temp_render_dir, "voice_normalized.aac"),
@@ -421,28 +447,8 @@ class CricketShortsFactory:
             "upload_status": "QC_PASSED"
         }
 
-        with self.db.get_connection() as conn:
-            c = conn.cursor()
-            existing_short = c.execute("SELECT id FROM shorts WHERE fact_id = ?", (fact_id,)).fetchone()
-            if existing_short:
-                short_id = existing_short[0]
-                c.execute("""
-                UPDATE shorts SET
-                    title = ?, hook = ?, story = ?, surprise = ?, cta = ?,
-                    full_script = ?, description = ?, tags = ?, hashtags = ?,
-                    pinned_comment = ?, video_file = ?, duration_seconds = ?,
-                    qc_passed = 1, qc_notes = ?
-                WHERE id = ?
-                """, (
-                    short_record["title"], short_record["hook"], short_record["story"],
-                    short_record["surprise"], short_record["cta"], short_record["full_script"],
-                    short_record["description"], short_record["tags"], short_record["hashtags"],
-                    short_record["pinned_comment"], short_record["video_file"],
-                    short_record["duration_seconds"], short_record["qc_notes"], short_id
-                ))
-                conn.commit()
-            else:
-                short_id = self.db.insert_short(short_record)
+        # Always record a new short history entry
+        short_id = self.db.insert_short(short_record)
 
         upload_ok, yt_id, up_msg = self.uploader.upload_short(
             short_id=short_id,
@@ -450,12 +456,21 @@ class CricketShortsFactory:
             metadata={
                 "title": bundle["seo_title"],
                 "description": bundle["seo_description"],
-                "tags": bundle["tags"],
+                "tags": bundle.get("tags", []),
                 "hashtags": "#Shorts #CricketRaaz",
                 "pinned_comment": short_record["pinned_comment"]
             },
             scheduled_rfc3339=rfc3339_slot
         )
+
+        if upload_ok and yt_id and not yt_id.startswith("DRYRUN"):
+            self.db.mark_topic_published(topic_key, yt_id, bundle)
+            self.db.update_short_upload(short_id, yt_id, scheduled_time=rfc3339_slot)
+            logger.info(f"✓ Topic '{topic_key}' published live and persisted to registry & ledger: {yt_id}")
+        elif not upload_ok:
+            self.db.mark_topic_failed(topic_key, up_msg)
+            logger.error(f"Upload failed for topic '{topic_key}': {up_msg}")
+
         logger.info(f"V3 Short '{bundle['topic']}' produced. YouTube Status: {up_msg}")
         self.reporter.show_dashboard()
         return meta_report
