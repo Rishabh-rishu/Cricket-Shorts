@@ -19,8 +19,7 @@ class TestTopicDeduplicationAndLocking(unittest.TestCase):
         self.test_db_path = os.path.join(self.temp_dir, "test_cricket.db")
         self.test_ledger_path = os.path.join(self.temp_dir, "test_ledger.jsonl")
 
-        self.db = DatabaseManager(self.test_db_path)
-        self.db.LEDGER_PATH = self.test_ledger_path
+        self.db = DatabaseManager(self.test_db_path, ledger_path=self.test_ledger_path)
 
         # Seed historical topics in the test database
         self.seed_topics = [
@@ -98,7 +97,7 @@ class TestTopicDeduplicationAndLocking(unittest.TestCase):
     def test_exact_title_match_rejection(self):
         candidate = {
             "topic_key": "brand_new_key_123",
-            "topic": "Cricket World Cup Ke 3 Sabse Unbelievable Records!",
+            "topic": "World Cup Ke 3 Sabse Shocking Records!",
             "hook_narration": "Brand new hook"
         }
         all_topics = self.db.get_all_registered_topics()
