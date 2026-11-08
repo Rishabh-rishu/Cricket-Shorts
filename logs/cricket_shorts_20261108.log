@@ -1,0 +1,44 @@
+2026-11-08 13:03:28,442 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-08 13:03:28,442 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-08 13:03:28,442 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-08 13:03:28,443 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 14 published topics, 0 reserved.
+2026-11-08 13:03:28,447 [WARNING] cricket_shorts.dedup_engine: Topic '3 Unbelievable Century World Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['sachin tendulkar', 'rohit sharma'] with published short.
+2026-11-08 13:03:28,448 [WARNING] cricket_shorts.dedup_engine: Topic '3 Craziest Super Over Finishes in Cricket' REJECTED: [PLAYER_RECORD_COLLISION] Shares player ['rohit sharma'] and stat ['15'] with published short.
+2026-11-08 13:03:28,467 [WARNING] cricket_shorts.dedup_engine: Topic '3 Greatest Run Chases in Cricket History' REJECTED: [CONCEPT_SIMILARITY] Concept narrative similarity (0.63) with topic '3 Shocking Hat-Trick Records in Cricket'.
+2026-11-08 13:03:28,484 [WARNING] cricket_shorts.dedup_engine: Topic '3 Mind-Blowing Cricket Stadium Records' REJECTED: [CONCEPT_SIMILARITY] Concept narrative similarity (0.59) with topic '3 Fastest Deliveries Ever Bowled in Cricket'.
+2026-11-08 13:03:28,502 [WARNING] cricket_shorts.dedup_engine: Topic '3 Greatest Match-Winning Catches in History' REJECTED: [CONCEPT_SIMILARITY] Concept narrative similarity (0.65) with topic '3 Shocking Hat-Trick Records in Cricket'.
+2026-11-08 13:03:28,520 [INFO] cricket_shorts.dedup_engine: Topic '3 Most Impossible IPL Last-Over Finishes' PASSED duplicate check (Max similarity: 0.45).
+2026-11-08 13:03:28,524 [INFO] cricket_shorts.dedup_engine: ✓ Atomically reserved curated topic 'rinku_ipl_miracles' with worker token 8fa7bcb2.
+2026-11-08 13:03:28,525 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'rinku_ipl_miracles' ('3 Most Impossible IPL Last-Over Finishes') ---
+2026-11-08 13:03:28,525 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'rinku_ipl_miracles'...
+2026-11-08 13:03:28,536 [INFO] cricket_shorts.v3_engine: V3 Narration (143 words): 'IPL इतिहास के 3 ऐसे नामुमकिन मुकाबले, जहां आखिरी ओवर में ऐसा चमत्कार हुआ कि किसी...'
+2026-11-08 13:03:42,656 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_rinku_ipl_miracles_20261108_130328/raw_voice.mp3
+2026-11-08 13:03:42,656 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_rinku_ipl_miracles_20261108_130328/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_rinku_ipl_miracles_20261108_130328/voice_normalized.aac
+2026-11-08 13:03:44,373 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 52.43s
+2026-11-08 13:03:44,373 [INFO] cricket_shorts.v3_engine: Voice narration ready. Total duration: 52.43s
+2026-11-08 13:03:44,373 [INFO] cricket_shorts.v3_engine: Planned 8 cinematic scenes. Total video duration: 52.44s
+2026-11-08 13:03:44,373 [INFO] cricket_shorts.v3_engine: Rendering Segment 0 (hook, 8.32s)...
+2026-11-08 13:03:52,354 [INFO] cricket_shorts.v3_engine: Rendering Segment 1 (fact_card, 5.36s)...
+2026-11-08 13:03:53,809 [INFO] cricket_shorts.v3_engine: Rendering Segment 2 (footage_overlay, 6.55s)...
+2026-11-08 13:03:59,948 [INFO] cricket_shorts.v3_engine: Rendering Segment 3 (fact_card, 5.36s)...
+2026-11-08 13:04:01,545 [INFO] cricket_shorts.v3_engine: Rendering Segment 4 (footage_overlay, 6.55s)...
+2026-11-08 13:04:08,861 [INFO] cricket_shorts.v3_engine: Rendering Segment 5 (fact_card, 5.46s)...
+2026-11-08 13:04:10,553 [INFO] cricket_shorts.v3_engine: Rendering Segment 6 (footage_overlay, 6.67s)...
+2026-11-08 13:04:16,784 [INFO] cricket_shorts.v3_engine: Rendering Segment 7 (outro, 8.17s)...
+2026-11-08 13:04:24,502 [INFO] cricket_shorts.sfx: Mixing 8 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_rinku_ipl_miracles_20261108_130328/soundtrack_v3.aac
+2026-11-08 13:04:25,575 [INFO] cricket_shorts.v3_engine: Assembling final V3 Cinematic Short: output/videos/cricket_raaz_v3_rinku_ipl_miracles_20261108_130328.mp4
+2026-11-08 13:04:47,916 [INFO] cricket_shorts.v3_engine: Executing automated Technical Quality Control (QC)...
+2026-11-08 13:04:48,156 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 52.5s, 8 Moving Footage Scenes, Codecs: h264/aac, Size: 21.86MB, Font: Devanagari Verified
+2026-11-08 13:04:48,156 [INFO] cricket_shorts.v3_engine: ✓ V3 Cinematic Short successfully generated! Duration: 52.48s
+2026-11-08 13:04:48,156 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'rinku_ipl_miracles'...
+2026-11-08 13:04:48,200 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'rinku_ipl_miracles'. Duration: 52.5s, Size: 21.86MB.
+2026-11-08 13:04:48,336 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-08 13:04:48,337 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-08 13:04:51,089 [INFO] cricket_shorts.youtube_upload: Uploading 'IPL Ke 3 Sabse Impossible Last-Over Finishes! 🤯🏏 #Shorts #CricketRaaz': 22%
+2026-11-08 13:04:51,924 [INFO] cricket_shorts.youtube_upload: Uploading 'IPL Ke 3 Sabse Impossible Last-Over Finishes! 🤯🏏 #Shorts #CricketRaaz': 45%
+2026-11-08 13:04:52,775 [INFO] cricket_shorts.youtube_upload: Uploading 'IPL Ke 3 Sabse Impossible Last-Over Finishes! 🤯🏏 #Shorts #CricketRaaz': 68%
+2026-11-08 13:04:53,438 [INFO] cricket_shorts.youtube_upload: Uploading 'IPL Ke 3 Sabse Impossible Last-Over Finishes! 🤯🏏 #Shorts #CricketRaaz': 91%
+2026-11-08 13:04:54,615 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: m3FDCtOinxw (https://youtube.com/shorts/m3FDCtOinxw)
+2026-11-08 13:04:54,619 [INFO] cricket_shorts.main: ✓ Topic 'rinku_ipl_miracles' published live and persisted to registry & ledger: m3FDCtOinxw
+2026-11-08 13:04:54,619 [INFO] cricket_shorts.main: V3 Short '3 Most Impossible IPL Last-Over Finishes' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/m3FDCtOinxw
+2026-11-08 13:04:54,631 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
