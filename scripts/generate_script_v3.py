@@ -213,46 +213,55 @@ Every fact must be 100% brand new, authentic, and historically verified (ESPNCri
 
     @classmethod
     def _call_gemini_api(cls, api_key: str, prompt: str) -> Optional[Dict[str, Any]]:
-        """Invokes Gemini 3.8 Flash via google-genai SDK or REST API fallback."""
+        """Invokes Gemini API via google-genai SDK or REST API fallback across resilient model endpoints."""
+        candidate_models = ["gemini-3.8-flash"]
+
         # 1. Try google-genai SDK
-        try:
-            from google import genai
-            client = genai.Client(api_key=api_key)
-            resp = client.models.generate_content(
-                model="gemini-3.8-flash",
-                contents=prompt,
-                config={"response_mime_type": "application/json"}
-            )
-            text = resp.text.strip()
-            if text.startswith("```"):
-                text = text.split("\n", 1)[1].rsplit("\n", 1)[0].strip()
-            data = json.loads(text)
-            if "facts" in data and len(data["facts"]) == 3:
-                return data
-        except Exception as e:
-            logger.warning(f"google-genai SDK call failed: {e}. Attempting REST API fallback...")
+        for model_name in candidate_models:
+            for retry in range(2):
+                try:
+                    from google import genai
+                    client = genai.Client(api_key=api_key)
+                    resp = client.models.generate_content(
+                        model=model_name,
+                        contents=prompt,
+                        config={"response_mime_type": "application/json"}
+                    )
+                    text = resp.text.strip()
+                    if text.startswith("```"):
+                        text = text.split("\n", 1)[1].rsplit("\n", 1)[0].strip()
+                    data = json.loads(text)
+                    if "facts" in data and len(data["facts"]) == 3:
+                        logger.info(f"✓ Successfully generated topic using SDK ({model_name})")
+                        return data
+                except Exception as e:
+                    logger.warning(f"google-genai SDK call for {model_name} (try {retry+1}/2) failed: {e}. Retrying with backoff...")
+                    import time
+                    time.sleep(2)
 
         # 2. REST API fallback
-        try:
-            import requests
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key={api_key}"
-            payload = {
-                "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {"response_mime_type": "application/json"}
-            }
-            r = requests.post(url, json=payload, timeout=25)
-            if r.status_code == 200:
-                resp_json = r.json()
-                text = resp_json["candidates"][0]["content"]["parts"][0]["text"].strip()
-                if text.startswith("```"):
-                    text = text.split("\n", 1)[1].rsplit("\n", 1)[0].strip()
-                data = json.loads(text)
-                if "facts" in data and len(data["facts"]) == 3:
-                    return data
-            else:
-                logger.error(f"Gemini REST API error {r.status_code}: {r.text[:200]}")
-        except Exception as e:
-            logger.error(f"Gemini REST fallback failed: {e}")
+        import requests
+        for model_name in candidate_models:
+            try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+                payload = {
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {"response_mime_type": "application/json"}
+                }
+                r = requests.post(url, json=payload, timeout=25)
+                if r.status_code == 200:
+                    resp_json = r.json()
+                    text = resp_json["candidates"][0]["content"]["parts"][0]["text"].strip()
+                    if text.startswith("```"):
+                        text = text.split("\n", 1)[1].rsplit("\n", 1)[0].strip()
+                    data = json.loads(text)
+                    if "facts" in data and len(data["facts"]) == 3:
+                        logger.info(f"✓ Successfully generated topic using REST ({model_name})")
+                        return data
+                else:
+                    logger.warning(f"Gemini REST API error {r.status_code} on {model_name}: {r.text[:120]}")
+            except Exception as e:
+                logger.warning(f"Gemini REST fallback for {model_name} failed: {e}")
 
         return None
 

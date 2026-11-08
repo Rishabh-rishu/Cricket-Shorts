@@ -39,6 +39,7 @@ from youtube.upload import YouTubeUploader
 from youtube.authenticate import YouTubeAuthenticator
 from dashboard.cli_report import DashboardReporter
 import uuid
+import hashlib
 
 # Logging setup
 os.makedirs("logs", exist_ok=True)

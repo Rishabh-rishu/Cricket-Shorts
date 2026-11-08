@@ -21,7 +21,10 @@ CRICKET_STOPWORDS = {
     "jo", "ye", "yeh", "woh", "ek", "kya", "sabse", "top", "unbelievable",
     "shocking", "record", "records", "cricket", "shorts", "cricketraaz",
     "history", "facts", "fact", "the", "in", "and", "of", "a", "an", "to",
-    "for", "with", "by", "at", "3", "5", "10", "best", "greatest", "rare"
+    "for", "with", "by", "at", "3", "5", "10", "best", "greatest", "rare",
+    "क्रिकेट", "इतिहास", "के", "की", "का", "को", "से", "और", "पर", "में", "हैं", "है",
+    "जो", "ये", "यह", "वह", "एक", "क्या", "सबसे", "टॉप", "ऐसे", "ऐसी", "जिन्हें", "जिन्होंने",
+    "पूरे", "जगत", "था", "थी", "थे", "गया", "गई", "गए", "दिया", "दिए", "रख", "शॉर्ट्स"
 }
 
 # Known key player entities to detect collisions
@@ -46,21 +49,21 @@ CRICKET_RULE_ENTITIES = [
 
 class TopicDedupEngine:
     SIMILARITY_REJECTION_THRESHOLD = 0.38
-    CONCEPT_RATIO_THRESHOLD = 0.55
+    CONCEPT_RATIO_THRESHOLD = 0.72
 
     @classmethod
     def normalize_text(cls, text: str) -> str:
         """
         Normalizes title/concept string: lowercases, removes emojis, punctuation,
-        and replaces synonymous variations.
+        and replaces synonymous variations. Preserves Devanagari Unicode characters.
         """
         if not text:
             return ""
         # Remove hashtags and handles
         text = re.sub(r'#\w+', '', text)
         text = re.sub(r'@\w+', '', text)
-        # Remove emojis and non-alphanumeric except spaces
-        text = re.sub(r'[^\w\s]', ' ', text.lower())
+        # Remove emojis and punctuation while preserving alphanumeric and Devanagari block
+        text = re.sub(r'[^\w\s\u0900-\u097f]', ' ', text.lower())
         # Standardize synonyms
         replacements = {
             "world cup": "wc",
@@ -120,6 +123,42 @@ class TopicDedupEngine:
             "rules": found_rules,
             "numbers": found_numbers
         }
+
+    @classmethod
+    def extract_fact_player_numbers(cls, topic_data: Dict[str, Any]) -> Set[Tuple[str, str]]:
+        """
+        Extracts (player, number) pairs at individual fact level so numbers
+        from one cricketer are never falsely paired with a different cricketer.
+        """
+        pairs = set()
+        facts = topic_data.get("facts", [])
+        if facts:
+            for f in facts:
+                text = " ".join([
+                    str(f.get("player_name", "")),
+                    str(f.get("player_or_subject", "")),
+                    str(f.get("headline", "")),
+                    str(f.get("stat_callout", "")),
+                    str(f.get("narration", ""))
+                ]).lower()
+                nums = {n for n in re.findall(r'\b\d{2,4}\b', text) if not (1870 <= int(n) <= 2035)}
+                players = {p for p in CRICKET_PLAYER_ENTITIES if re.search(rf'\b{p}\b', text)}
+                for p in players:
+                    for n in nums:
+                        pairs.add((p, n))
+        else:
+            text = " ".join([
+                str(topic_data.get("topic", "")),
+                str(topic_data.get("topic_title", "")),
+                str(topic_data.get("core_concept", "")),
+                str(topic_data.get("hook_narration", ""))
+            ]).lower()
+            nums = {n for n in re.findall(r'\b\d{2,4}\b', text) if not (1870 <= int(n) <= 2035)}
+            players = {p for p in CRICKET_PLAYER_ENTITIES if re.search(rf'\b{p}\b', text)}
+            for p in players:
+                for n in nums:
+                    pairs.add((p, n))
+        return pairs
 
     @classmethod
     def get_content_tokens(cls, text: str) -> Set[str]:
@@ -183,8 +222,15 @@ class TopicDedupEngine:
         if len(distinct_common_players) >= 2:
             return 0.95, "MULTI_PLAYER_COLLISION", f"Shares multiple players {list(distinct_common_players)} with published short."
 
-        # Collision rule 3: Shares 1 cricketer AND specific record numbers
-        if len(distinct_common_players) >= 1 and len(common_numbers) >= 1:
+        # Collision rule 3: Fact-level Player + Specific Record Number Collision
+        c_pairs = cls.extract_fact_player_numbers(candidate)
+        h_pairs = cls.extract_fact_player_numbers(historical)
+        common_pairs = c_pairs.intersection(h_pairs)
+        if common_pairs:
+            matched_pair = list(common_pairs)[0]
+            return 0.90, "PLAYER_RECORD_COLLISION", f"Shares player and specific record stat {matched_pair} with published short."
+        elif len(distinct_common_players) >= 1 and len(common_numbers) >= 1 and not candidate.get("facts") and not historical.get("facts"):
+            # Fallback for legacy unstructured records
             return 0.90, "PLAYER_RECORD_COLLISION", f"Shares player {list(distinct_common_players)} and stat {list(common_numbers)} with published short."
 
         # 3. Lexical Token Overlap (Jaccard)
@@ -197,7 +243,14 @@ class TopicDedupEngine:
         jaccard = cls.calculate_jaccard(c_tokens, h_tokens)
 
         # 4. SequenceMatcher Concept Similarity
-        c_concept = cls.normalize_text(candidate.get("core_concept") or candidate.get("hook_narration") or candidate.get("topic", ""))
+        # Synthesize concept from topic title and fact headlines rather than generic Hindi hook boilerplate
+        if candidate.get("core_concept"):
+            c_raw = candidate.get("core_concept")
+        else:
+            c_facts = " ".join(f.get("headline", "") + " " + f.get("stat_callout", "") for f in candidate.get("facts", []))
+            c_raw = f"{candidate.get('topic', '')} {c_facts}".strip() or candidate.get("hook_narration", "")
+
+        c_concept = cls.normalize_text(c_raw)
         h_concept = cls.normalize_text(historical.get("core_concept") or historical.get("topic_title", ""))
         concept_ratio = SequenceMatcher(None, c_concept, h_concept).ratio() if c_concept and h_concept else 0.0
 
