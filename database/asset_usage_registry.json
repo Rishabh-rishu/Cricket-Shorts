@@ -778,5 +778,65 @@
     "dhash": "7978546465f59494",
     "role": "trophy",
     "timestamp": "2026-11-08 14:12:33"
+  },
+  {
+    "video_id": "super_over_madness",
+    "topic": "3 Craziest Super Over Finishes in Cricket",
+    "scene_idx": 0,
+    "scene_name": "Opening Hook",
+    "player_name": "3 Craziest Super Over Finishes in Cricket",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/stadium_beams_clean.jpg",
+    "filename": "stadium_beams_clean.jpg",
+    "dhash": "ece8ececf0f8f0f0",
+    "role": "stadium",
+    "timestamp": "2026-11-08 17:59:39"
+  },
+  {
+    "video_id": "super_over_madness",
+    "topic": "3 Craziest Super Over Finishes in Cricket",
+    "scene_idx": 1,
+    "scene_name": "Player Hero Poster",
+    "player_name": "England vs New Zealand",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/ab_de_villiers.jpg",
+    "filename": "ab_de_villiers.jpg",
+    "dhash": "72d0d2c211305868",
+    "role": "hero",
+    "timestamp": "2026-11-08 17:59:39"
+  },
+  {
+    "video_id": "super_over_madness",
+    "topic": "3 Craziest Super Over Finishes in Cricket",
+    "scene_idx": 2,
+    "scene_name": "Record Stats",
+    "player_name": "MI vs PBKS",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/angelo_mathews.jpg",
+    "filename": "angelo_mathews.jpg",
+    "dhash": "340c0f63231b1e1e",
+    "role": "action",
+    "timestamp": "2026-11-08 17:59:39"
+  },
+  {
+    "video_id": "super_over_madness",
+    "topic": "3 Craziest Super Over Finishes in Cricket",
+    "scene_idx": 3,
+    "scene_name": "Leaderboard",
+    "player_name": "Rohit Sharma",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/rohit_sharma.jpg",
+    "filename": "rohit_sharma.jpg",
+    "dhash": "869393978f072721",
+    "role": "portrait",
+    "timestamp": "2026-11-08 17:59:39"
+  },
+  {
+    "video_id": "super_over_madness",
+    "topic": "3 Craziest Super Over Finishes in Cricket",
+    "scene_idx": 4,
+    "scene_name": "Outro & Debate",
+    "player_name": "Historic Trophy",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/icc_world_cup_trophy.jpg",
+    "filename": "icc_world_cup_trophy.jpg",
+    "dhash": "7978546465f59494",
+    "role": "trophy",
+    "timestamp": "2026-11-08 17:59:39"
   }
 ]
