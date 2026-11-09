@@ -82,3 +82,45 @@ Traceback (most recent call last):
     cursor.execute("""
 sqlite3.IntegrityError: NOT NULL constraint failed: shorts.fact_id
 2026-11-09 18:18:51,072 [INFO] cricket_shorts.main: Daily production cycle completed. 0/1 shorts generated.
+2026-11-09 22:33:19,263 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-09 22:33:19,264 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-09 22:33:19,264 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-09 22:33:19,265 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 15 published topics, 0 reserved.
+2026-11-09 22:33:19,273 [WARNING] cricket_shorts.dedup_engine: Topic '3 Unbelievable Century World Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['rohit sharma', 'sachin tendulkar'] with published short.
+2026-11-09 22:33:19,317 [INFO] cricket_shorts.dedup_engine: Topic '3 Craziest Super Over Finishes in Cricket' PASSED duplicate check (Max similarity: 0.30).
+2026-11-09 22:33:19,323 [INFO] cricket_shorts.dedup_engine: ✓ Atomically reserved curated topic 'super_over_madness' with worker token 1b0ffbf6.
+2026-11-09 22:33:19,323 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'super_over_madness' ('3 Craziest Super Over Finishes in Cricket') ---
+2026-11-09 22:33:19,324 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'super_over_madness'...
+2026-11-09 22:33:19,342 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-09 22:33:19,342 [INFO] cricket_shorts.v3_engine: PRODUCTION V3 RENDERER: Starting Broadcast Pipeline for '3 Craziest Super Over Finishes in Cricket'
+2026-11-09 22:33:19,342 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-09 22:33:19,343 [INFO] cricket_shorts.v3_engine: Broadcast Theme: 'Charcoal Ember' | Required Jersey Format: 'ODI'
+2026-11-09 22:33:19,343 [INFO] cricket_shorts.v3_engine: Synthesizing 5-segment narration (136 words)...
+2026-11-09 22:33:20,994 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_super_over_madness_20261109_223319/raw_voice.mp3
+2026-11-09 22:33:20,994 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_super_over_madness_20261109_223319/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_super_over_madness_20261109_223319/voice_normalized.aac
+2026-11-09 22:33:23,792 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 51.20s
+2026-11-09 22:33:23,792 [INFO] cricket_shorts.v3_engine: Voice synthesized & normalized to -16 LUFS. Total duration: 51.20s
+2026-11-09 22:33:24,231 [INFO] cricket_shorts.asset_registry: Registered 5 unique assets to persistent database (/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/asset_usage_registry.json).
+2026-11-09 22:33:24,231 [INFO] cricket_shorts.v3_engine: Asset uniqueness status: APPROVED. PASSED: All scene visuals are 100% unique.
+2026-11-09 22:33:24,231 [INFO] cricket_shorts.v3_engine: Generating 5 full-screen broadcast graphics...
+2026-11-09 22:33:28,460 [INFO] cricket_shorts.v3_engine: ✓ All 5 broadcast scene graphics successfully rendered.
+2026-11-09 22:33:28,460 [INFO] cricket_shorts.v3_engine: Rendering 5 video clips with Ken Burns camera motion...
+2026-11-09 22:33:41,324 [INFO] cricket_shorts.v3_engine: Rendered 5 video segments. Total visual duration: 51.20s
+2026-11-09 22:33:41,372 [INFO] cricket_shorts.sfx: Mixing 5 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_super_over_madness_20261109_223319/soundtrack_v3.aac
+2026-11-09 22:33:43,218 [INFO] cricket_shorts.v3_engine: Assembling final V3 Broadcast Short: output/videos/cricket_raaz_v3_super_over_madness_20261109_223319.mp4
+2026-11-09 22:34:11,415 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 51.2s, 5 Moving Footage Scenes, Codecs: h264/aac, Size: 10.54MB, Font: Devanagari Verified
+2026-11-09 22:34:11,415 [INFO] cricket_shorts.v3_engine: ✓ Production V3 Short successfully generated in 'Charcoal Ember' theme! Duration: 51.17s
+2026-11-09 22:34:11,415 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'super_over_madness'...
+2026-11-09 22:34:11,481 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'super_over_madness'. Duration: 51.2s, Size: 10.54MB.
+2026-11-09 22:34:11,482 [ERROR] cricket_shorts.main: Error producing V3 short for topic 'super_over_madness': NOT NULL constraint failed: shorts.fact_id
+Traceback (most recent call last):
+  File "/home/runner/work/Cricket-Shorts/Cricket-Shorts/main.py", line 124, in produce_daily_shorts
+    res = self.produce_v3_short(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Cricket-Shorts/Cricket-Shorts/main.py", line 243, in produce_v3_short
+    short_id = self.db.insert_short(short_record)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/models.py", line 312, in insert_short
+    cursor.execute("""
+sqlite3.IntegrityError: NOT NULL constraint failed: shorts.fact_id
+2026-11-09 22:34:11,485 [INFO] cricket_shorts.main: Daily production cycle completed. 0/1 shorts generated.
