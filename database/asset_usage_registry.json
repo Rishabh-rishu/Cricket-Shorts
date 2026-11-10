@@ -1138,5 +1138,65 @@
     "dhash": "7978546465f59494",
     "role": "trophy",
     "timestamp": "2026-11-10 09:45:08"
+  },
+  {
+    "video_id": "epic_chases",
+    "topic": "3 Greatest Run Chases in Cricket History",
+    "scene_idx": 0,
+    "scene_name": "Opening Hook",
+    "player_name": "3 Greatest Run Chases in Cricket History",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/stadium_beams_clean.jpg",
+    "filename": "stadium_beams_clean.jpg",
+    "dhash": "ece8ececf0f8f0f0",
+    "role": "stadium",
+    "timestamp": "2026-11-10 15:09:51"
+  },
+  {
+    "video_id": "epic_chases",
+    "topic": "3 Greatest Run Chases in Cricket History",
+    "scene_idx": 1,
+    "scene_name": "Player Hero Poster",
+    "player_name": "Herschelle Gibbs",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/herschelle_gibbs.jpg",
+    "filename": "herschelle_gibbs.jpg",
+    "dhash": "898c9ad2d89c92d8",
+    "role": "hero",
+    "timestamp": "2026-11-10 15:09:51"
+  },
+  {
+    "video_id": "epic_chases",
+    "topic": "3 Greatest Run Chases in Cricket History",
+    "scene_idx": 2,
+    "scene_name": "Record Stats",
+    "player_name": "Yuvraj & Kaif",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/yuvraj_singh.jpg",
+    "filename": "yuvraj_singh.jpg",
+    "dhash": "8749688666633335",
+    "role": "action",
+    "timestamp": "2026-11-10 15:09:51"
+  },
+  {
+    "video_id": "epic_chases",
+    "topic": "3 Greatest Run Chases in Cricket History",
+    "scene_idx": 3,
+    "scene_name": "Leaderboard",
+    "player_name": "Shivnarine Chanderpaul",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/shivnarine_chanderpaul.jpg",
+    "filename": "shivnarine_chanderpaul.jpg",
+    "dhash": "6c7c5a94318cc676",
+    "role": "portrait",
+    "timestamp": "2026-11-10 15:09:51"
+  },
+  {
+    "video_id": "epic_chases",
+    "topic": "3 Greatest Run Chases in Cricket History",
+    "scene_idx": 4,
+    "scene_name": "Outro & Debate",
+    "player_name": "Historic Trophy",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/icc_world_cup_trophy.jpg",
+    "filename": "icc_world_cup_trophy.jpg",
+    "dhash": "7978546465f59494",
+    "role": "trophy",
+    "timestamp": "2026-11-10 15:09:51"
   }
 ]
