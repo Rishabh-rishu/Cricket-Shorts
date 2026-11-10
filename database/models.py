@@ -249,8 +249,8 @@ class DatabaseManager:
             cursor.execute("SELECT id FROM facts WHERE fact_hash = ?", (fact_hash,))
             return cursor.fetchone() is not None
 
-    def insert_fact(self, fact_data: Dict[str, Any]) -> Optional[int]:
-        """Insert a researched and verified fact. Returns fact ID or None if duplicate."""
+    def insert_fact(self, fact_data: Dict[str, Any], return_existing: bool = False) -> Optional[int]:
+        """Insert a researched and verified fact. Returns fact ID, existing ID if return_existing=True, or None if duplicate."""
         fact_hash = self.compute_fact_hash(fact_data["topic"], fact_data["main_fact"])
         total_score = (
             fact_data.get("reliability_score", 0)
@@ -290,7 +290,19 @@ class DatabaseManager:
                 return cursor.lastrowid
             except sqlite3.IntegrityError:
                 # Fact already exists
+                if return_existing:
+                    cursor.execute("SELECT id FROM facts WHERE fact_hash = ?", (fact_hash,))
+                    row = cursor.fetchone()
+                    return row["id"] if row else None
                 return None
+
+    def get_fact_by_hash(self, fact_hash: str) -> Optional[int]:
+        """Retrieve existing fact ID by its SHA-256 fact hash."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT id FROM facts WHERE fact_hash = ?", (fact_hash,))
+            row = cursor.fetchone()
+            return row["id"] if row else None
 
     def get_unprocessed_approved_facts(self, limit: int = 2) -> List[Dict[str, Any]]:
         """Get approved facts that haven't been turned into shorts yet."""
@@ -307,6 +319,10 @@ class DatabaseManager:
 
     def insert_short(self, short_data: Dict[str, Any]) -> int:
         """Record a generated short without clobbering history."""
+        fact_id = short_data.get("fact_id")
+        if not fact_id:
+            raise ValueError(f"Cannot insert short without valid fact_id: {short_data.get('title')}")
+
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""

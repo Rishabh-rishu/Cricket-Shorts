@@ -216,7 +216,13 @@ class CricketShortsFactory:
             "visual_score": 15.0,
             "total_score": 100.0,
             "is_approved": 1
-        })
+        }, return_existing=True)
+
+        if not fact_id:
+            fact_id = self.db.get_fact_by_hash(fact_hash)
+
+        if not fact_id:
+            raise RuntimeError(f"Database error: Failed to obtain or create fact_id for topic '{bundle['topic']}'")
 
         short_record = {
             "fact_id": fact_id,
@@ -262,6 +268,8 @@ class CricketShortsFactory:
         elif not upload_ok:
             self.db.mark_topic_failed(topic_key, up_msg)
             logger.error(f"Upload failed for topic '{topic_key}': {up_msg}")
+            if self.auto_upload:
+                raise RuntimeError(f"YouTube live upload failed for topic '{topic_key}': {up_msg}")
 
         logger.info(f"V3 Short '{bundle['topic']}' produced. YouTube Status: {up_msg}")
         self.reporter.show_dashboard()
@@ -322,15 +330,25 @@ def main():
         else:
             print("✗ Authentication failed. Please verify client_secrets.json is present.")
     elif args.v3:
-        factory.produce_v3_short(topic_key=args.v3_topic, immediate=args.immediate, scheduled_rfc3339=scheduled_rfc3339)
+        res = factory.produce_v3_short(topic_key=args.v3_topic, immediate=args.immediate, scheduled_rfc3339=scheduled_rfc3339)
+        if not res:
+            sys.exit(1)
     elif args.countdown:
-        factory.produce_countdown_short(topic_key=args.topic)
+        res = factory.produce_countdown_short(topic_key=args.topic)
+        if not res:
+            sys.exit(1)
     elif args.single:
-        factory.produce_daily_shorts(count=1, immediate=args.immediate, scheduled_rfc3339=scheduled_rfc3339)
+        shorts = factory.produce_daily_shorts(count=1, immediate=args.immediate, scheduled_rfc3339=scheduled_rfc3339)
+        if not shorts or len(shorts) < 1:
+            logger.critical("Production pipeline failed to produce the requested short.")
+            sys.exit(1)
     elif args.schedule:
         run_scheduler(factory)
     elif args.run:
-        factory.produce_daily_shorts(count=2, immediate=args.immediate, scheduled_rfc3339=scheduled_rfc3339)
+        shorts = factory.produce_daily_shorts(count=2, immediate=args.immediate, scheduled_rfc3339=scheduled_rfc3339)
+        if not shorts or len(shorts) < 2:
+            logger.critical(f"Production pipeline failed to produce all requested shorts (produced {len(shorts) if shorts else 0}/2).")
+            sys.exit(1)
     else:
         # Default: show dashboard and brief usage
         factory.reporter.show_dashboard()

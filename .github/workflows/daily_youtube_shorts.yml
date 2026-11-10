@@ -106,6 +106,7 @@ jobs:
           fi
 
       - name: Run Production Pipeline
+        id: run_pipeline
         run: |
           MODE="${{ inputs.mode }}"
           if [ -z "$MODE" ]; then
@@ -132,4 +133,9 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin main || true
           git add -f database/cricket_facts.db database/published_topics_ledger.jsonl database/asset_usage_registry.json logs/ 2>/dev/null || true
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-published YouTube Short & updated content database [skip ci]" && git push origin main)
+          if [ "${{ steps.run_pipeline.outcome }}" = "success" ]; then
+            COMMIT_MSG="Auto-published YouTube Short & updated content database [skip ci]"
+          else
+            COMMIT_MSG="Sync execution logs & database status (pipeline error) [skip ci]"
+          fi
+          git diff --quiet && git diff --staged --quiet || (git commit -m "$COMMIT_MSG" && git push origin main)

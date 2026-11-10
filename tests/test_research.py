@@ -78,6 +78,52 @@ class TestResearchAndVerification(unittest.TestCase):
         id2 = self.db.insert_fact(fact)
         self.assertIsNone(id2)
 
+    def test_duplicate_fact_return_existing_and_short_linking(self):
+        fact = {
+            "topic": "Super Over Madness",
+            "category": "Curated Records",
+            "main_fact": "3 craziest super overs in cricket history",
+            "source_primary": "https://www.espncricinfo.com",
+            "source_secondary": "https://www.icc-cricket.com",
+            "verification_notes": "ICC Super Over match records verified.",
+            "reliability_score": 40.0,
+            "uniqueness_score": 25.0,
+            "curiosity_score": 20.0,
+            "visual_score": 15.0
+        }
+        # First insertion should return integer ID
+        id1 = self.db.insert_fact(fact)
+        self.assertIsNotNone(id1)
+
+        # Default duplicate insertion returns None
+        id_dup = self.db.insert_fact(fact)
+        self.assertIsNone(id_dup)
+
+        # Duplicate insertion with return_existing=True returns the original ID
+        id_existing = self.db.insert_fact(fact, return_existing=True)
+        self.assertEqual(id1, id_existing)
+
+        # get_fact_by_hash returns the original ID
+        fact_hash = self.db.compute_fact_hash(fact["topic"], fact["main_fact"])
+        id_hash = self.db.get_fact_by_hash(fact_hash)
+        self.assertEqual(id1, id_hash)
+
+        # insert_short with valid fact_id succeeds
+        short_id = self.db.insert_short({
+            "fact_id": id_existing,
+            "title": "Super Over Short",
+            "hook": "Crazy match!",
+            "story": "Story details"
+        })
+        self.assertIsNotNone(short_id)
+
+        # insert_short with None fact_id raises ValueError
+        with self.assertRaises(ValueError):
+            self.db.insert_short({
+                "fact_id": None,
+                "title": "Invalid Short"
+            })
+
 
 if __name__ == "__main__":
     unittest.main()
