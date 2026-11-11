@@ -1258,5 +1258,65 @@
     "dhash": "7978546465f59494",
     "role": "trophy",
     "timestamp": "2026-11-10 19:54:26"
+  },
+  {
+    "video_id": "miracle_catches",
+    "topic": "3 Greatest Match-Winning Catches in History",
+    "scene_idx": 0,
+    "scene_name": "Opening Hook",
+    "player_name": "3 Greatest Match-Winning Catches in History",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/stadium_beams_clean.jpg",
+    "filename": "stadium_beams_clean.jpg",
+    "dhash": "ece8ececf0f8f0f0",
+    "role": "stadium",
+    "timestamp": "2026-11-11 19:46:22"
+  },
+  {
+    "video_id": "miracle_catches",
+    "topic": "3 Greatest Match-Winning Catches in History",
+    "scene_idx": 1,
+    "scene_name": "Player Hero Poster",
+    "player_name": "Suryakumar Yadav",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/suryakumar_yadav.jpg",
+    "filename": "suryakumar_yadav.jpg",
+    "dhash": "0e9696868e076d29",
+    "role": "hero",
+    "timestamp": "2026-11-11 19:46:22"
+  },
+  {
+    "video_id": "miracle_catches",
+    "topic": "3 Greatest Match-Winning Catches in History",
+    "scene_idx": 2,
+    "scene_name": "Record Stats",
+    "player_name": "Kapil Dev",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/kapil_dev.jpg",
+    "filename": "kapil_dev.jpg",
+    "dhash": "81b16173cc4ea6c6",
+    "role": "action",
+    "timestamp": "2026-11-11 19:46:22"
+  },
+  {
+    "video_id": "miracle_catches",
+    "topic": "3 Greatest Match-Winning Catches in History",
+    "scene_idx": 3,
+    "scene_name": "Leaderboard",
+    "player_name": "Paul Collingwood",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/paul_collingwood.jpg",
+    "filename": "paul_collingwood.jpg",
+    "dhash": "9ad88c9c8c8c8ccc",
+    "role": "portrait",
+    "timestamp": "2026-11-11 19:46:22"
+  },
+  {
+    "video_id": "miracle_catches",
+    "topic": "3 Greatest Match-Winning Catches in History",
+    "scene_idx": 4,
+    "scene_name": "Outro & Debate",
+    "player_name": "Historic Trophy",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/icc_world_cup_trophy.jpg",
+    "filename": "icc_world_cup_trophy.jpg",
+    "dhash": "7978546465f59494",
+    "role": "trophy",
+    "timestamp": "2026-11-11 19:46:22"
   }
 ]
