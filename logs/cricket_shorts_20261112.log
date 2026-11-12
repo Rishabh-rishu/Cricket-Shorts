@@ -69,3 +69,49 @@
 2026-11-12 15:29:58,645 [INFO] cricket_shorts.main: ✓ Topic 'century_titans' published live and persisted to registry & ledger: 4TB8MBrnxzg
 2026-11-12 15:29:58,646 [INFO] cricket_shorts.main: V3 Short '3 Unbelievable Century World Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/4TB8MBrnxzg
 2026-11-12 15:29:58,660 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-12 20:10:05,605 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-12 20:10:05,605 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-12 20:10:05,605 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-12 20:10:05,606 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 20 published topics, 0 reserved.
+2026-11-12 20:10:05,606 [INFO] cricket_shorts.dedup_engine: All curated collections have been published or reserved. Triggering dynamic AI topic generator.
+2026-11-12 20:10:05,606 [INFO] cricket_shorts.main: All curated collections published or reserved. Triggering Gemini 3.8 Flash AI research engine...
+2026-11-12 20:10:05,606 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 1/3)...
+2026-11-12 20:10:05,621 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-12 20:10:07,045 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-12 20:10:07,046 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-12 20:10:09,056 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-12 20:11:22,091 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 200 OK"
+2026-11-12 20:11:22,099 [INFO] cricket_shorts.script_v3: ✓ Successfully generated topic using SDK (gemini-3.8-flash)
+2026-11-12 20:11:22,137 [INFO] cricket_shorts.dedup_engine: Topic '3 Shocking Forgotten Cricket History Facts' PASSED duplicate check (Max similarity: 0.30).
+2026-11-12 20:11:22,137 [INFO] cricket_shorts.script_v3: ✓ AI-generated topic '3 Shocking Forgotten Cricket History Facts' passed all deduplication checks!
+2026-11-12 20:11:22,140 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'forgotten_cricket_history_3_shocking_facts' ('3 Shocking Forgotten Cricket History Facts') ---
+2026-11-12 20:11:22,140 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'forgotten_cricket_history_3_shocking_facts'...
+2026-11-12 20:11:22,150 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-12 20:11:22,150 [INFO] cricket_shorts.v3_engine: PRODUCTION V3 RENDERER: Starting Broadcast Pipeline for '3 Shocking Forgotten Cricket History Facts'
+2026-11-12 20:11:22,150 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-12 20:11:22,151 [INFO] cricket_shorts.v3_engine: Broadcast Theme: 'Crimson Obsidian' | Required Jersey Format: 'ODI'
+2026-11-12 20:11:22,151 [INFO] cricket_shorts.v3_engine: Synthesizing 5-segment narration (115 words)...
+2026-11-12 20:11:39,279 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_forgotten_cricket_history_3_shocking_facts_20261112_201122/raw_voice.mp3
+2026-11-12 20:11:39,279 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_forgotten_cricket_history_3_shocking_facts_20261112_201122/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_forgotten_cricket_history_3_shocking_facts_20261112_201122/voice_normalized.aac
+2026-11-12 20:11:40,223 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 45.92s
+2026-11-12 20:11:40,223 [INFO] cricket_shorts.v3_engine: Voice synthesized & normalized to -16 LUFS. Total duration: 45.92s
+2026-11-12 20:11:40,991 [INFO] cricket_shorts.asset_registry: Registered 5 unique assets to persistent database (/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/asset_usage_registry.json).
+2026-11-12 20:11:40,991 [INFO] cricket_shorts.v3_engine: Asset uniqueness status: APPROVED. PASSED: All scene visuals are 100% unique.
+2026-11-12 20:11:40,991 [INFO] cricket_shorts.v3_engine: Generating 5 full-screen broadcast graphics...
+2026-11-12 20:11:43,789 [INFO] cricket_shorts.v3_engine: ✓ All 5 broadcast scene graphics successfully rendered.
+2026-11-12 20:11:43,789 [INFO] cricket_shorts.v3_engine: Rendering 5 video clips with Ken Burns camera motion...
+2026-11-12 20:11:51,423 [INFO] cricket_shorts.v3_engine: Rendered 5 video segments. Total visual duration: 45.92s
+2026-11-12 20:11:51,451 [INFO] cricket_shorts.sfx: Mixing 5 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_forgotten_cricket_history_3_shocking_facts_20261112_201122/soundtrack_v3.aac
+2026-11-12 20:11:52,286 [INFO] cricket_shorts.v3_engine: Assembling final V3 Broadcast Short: output/videos/cricket_raaz_v3_forgotten_cricket_history_3_shocking_facts_20261112_201122.mp4
+2026-11-12 20:12:07,890 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 45.9s, 5 Moving Footage Scenes, Codecs: h264/aac, Size: 10.37MB, Font: Devanagari Verified
+2026-11-12 20:12:07,890 [INFO] cricket_shorts.v3_engine: ✓ Production V3 Short successfully generated in 'Crimson Obsidian' theme! Duration: 45.90s
+2026-11-12 20:12:07,890 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'forgotten_cricket_history_3_shocking_facts'...
+2026-11-12 20:12:07,936 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'forgotten_cricket_history_3_shocking_facts'. Duration: 45.9s, Size: 10.37MB.
+2026-11-12 20:12:08,080 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-12 20:12:08,081 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-12 20:12:10,795 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ke 3 Sabse Shocking Forgotten Facts! 😱 #Shorts #CricketRaaz': 48%
+2026-11-12 20:12:11,504 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ke 3 Sabse Shocking Forgotten Facts! 😱 #Shorts #CricketRaaz': 96%
+2026-11-12 20:12:12,331 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: 0DaAVkgWVBc (https://youtube.com/shorts/0DaAVkgWVBc)
+2026-11-12 20:12:12,335 [INFO] cricket_shorts.main: ✓ Topic 'forgotten_cricket_history_3_shocking_facts' published live and persisted to registry & ledger: 0DaAVkgWVBc
+2026-11-12 20:12:12,335 [INFO] cricket_shorts.main: V3 Short '3 Shocking Forgotten Cricket History Facts' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/0DaAVkgWVBc
+2026-11-12 20:12:12,346 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
