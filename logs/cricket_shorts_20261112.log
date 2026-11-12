@@ -1,0 +1,71 @@
+2026-11-12 15:28:39,249 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-12 15:28:39,249 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-12 15:28:39,249 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-12 15:28:39,250 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 19 published topics, 0 reserved.
+2026-11-12 15:28:39,256 [WARNING] cricket_shorts.dedup_engine: Topic '3 Unbelievable Century World Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['sachin tendulkar', 'rohit sharma'] with published short.
+2026-11-12 15:28:39,256 [INFO] cricket_shorts.dedup_engine: All curated collections have been published or reserved. Triggering dynamic AI topic generator.
+2026-11-12 15:28:39,256 [INFO] cricket_shorts.main: All curated collections published or reserved. Triggering Gemini 3.8 Flash AI research engine...
+2026-11-12 15:28:39,257 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 1/3)...
+2026-11-12 15:28:39,277 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-12 15:28:40,574 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-12 15:28:40,575 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-12 15:28:42,588 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-12 15:28:42,919 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-12 15:28:42,920 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-12 15:28:45,283 [WARNING] cricket_shorts.script_v3: Gemini REST API error 503 on gemini-3.8-flash: {
+  "error": {
+    "code": 503,
+    "message": "This model is currently experiencing high demand. Spikes in demand are u
+2026-11-12 15:28:45,286 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 2/3)...
+2026-11-12 15:28:45,299 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-12 15:28:45,668 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-12 15:28:45,669 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-12 15:28:47,681 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-12 15:28:48,018 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-12 15:28:48,018 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-12 15:28:50,484 [WARNING] cricket_shorts.script_v3: Gemini REST API error 503 on gemini-3.8-flash: {
+  "error": {
+    "code": 503,
+    "message": "This model is currently experiencing high demand. Spikes in demand are u
+2026-11-12 15:28:50,484 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 3/3)...
+2026-11-12 15:28:50,497 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-12 15:28:50,794 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-12 15:28:50,795 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-12 15:28:52,808 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-12 15:28:53,528 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-12 15:28:53,529 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-12 15:28:56,168 [WARNING] cricket_shorts.script_v3: Gemini REST API error 503 on gemini-3.8-flash: {
+  "error": {
+    "code": 503,
+    "message": "This model is currently experiencing high demand. Spikes in demand are u
+2026-11-12 15:28:56,168 [ERROR] cricket_shorts.script_v3: Failed to generate unique AI topic after 3 attempts.
+2026-11-12 15:28:56,172 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'century_titans' ('3 Unbelievable Century World Records') ---
+2026-11-12 15:28:56,172 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'century_titans'...
+2026-11-12 15:28:56,183 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-12 15:28:56,183 [INFO] cricket_shorts.v3_engine: PRODUCTION V3 RENDERER: Starting Broadcast Pipeline for '3 Unbelievable Century World Records'
+2026-11-12 15:28:56,183 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-12 15:28:56,184 [INFO] cricket_shorts.v3_engine: Broadcast Theme: 'Crimson Obsidian' | Required Jersey Format: 'ODI'
+2026-11-12 15:28:56,184 [INFO] cricket_shorts.v3_engine: Synthesizing 5-segment narration (112 words)...
+2026-11-12 15:29:18,140 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_century_titans_20261112_152856/raw_voice.mp3
+2026-11-12 15:29:18,140 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_century_titans_20261112_152856/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_century_titans_20261112_152856/voice_normalized.aac
+2026-11-12 15:29:19,624 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 45.90s
+2026-11-12 15:29:19,624 [INFO] cricket_shorts.v3_engine: Voice synthesized & normalized to -16 LUFS. Total duration: 45.90s
+2026-11-12 15:29:19,839 [INFO] cricket_shorts.asset_registry: Registered 5 unique assets to persistent database (/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/asset_usage_registry.json).
+2026-11-12 15:29:19,839 [INFO] cricket_shorts.v3_engine: Asset uniqueness status: APPROVED. PASSED: All scene visuals are 100% unique.
+2026-11-12 15:29:19,839 [INFO] cricket_shorts.v3_engine: Generating 5 full-screen broadcast graphics...
+2026-11-12 15:29:23,276 [INFO] cricket_shorts.v3_engine: ✓ All 5 broadcast scene graphics successfully rendered.
+2026-11-12 15:29:23,276 [INFO] cricket_shorts.v3_engine: Rendering 5 video clips with Ken Burns camera motion...
+2026-11-12 15:29:33,252 [INFO] cricket_shorts.v3_engine: Rendered 5 video segments. Total visual duration: 45.91s
+2026-11-12 15:29:33,283 [INFO] cricket_shorts.sfx: Mixing 5 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_century_titans_20261112_152856/soundtrack_v3.aac
+2026-11-12 15:29:34,535 [INFO] cricket_shorts.v3_engine: Assembling final V3 Broadcast Short: output/videos/cricket_raaz_v3_century_titans_20261112_152856.mp4
+2026-11-12 15:29:56,574 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 45.9s, 5 Moving Footage Scenes, Codecs: h264/aac, Size: 9.89MB, Font: Devanagari Verified
+2026-11-12 15:29:56,574 [INFO] cricket_shorts.v3_engine: ✓ Production V3 Short successfully generated in 'Crimson Obsidian' theme! Duration: 45.90s
+2026-11-12 15:29:56,574 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'century_titans'...
+2026-11-12 15:29:56,623 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'century_titans'. Duration: 45.9s, Size: 9.89MB.
+2026-11-12 15:29:56,762 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-12 15:29:56,763 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-12 15:29:58,024 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ke 3 Sabse Unbelievable Century Records! 💯🏏 #Shorts #CricketRaaz': 50%
+2026-11-12 15:29:58,641 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: 4TB8MBrnxzg (https://youtube.com/shorts/4TB8MBrnxzg)
+2026-11-12 15:29:58,645 [INFO] cricket_shorts.main: ✓ Topic 'century_titans' published live and persisted to registry & ledger: 4TB8MBrnxzg
+2026-11-12 15:29:58,646 [INFO] cricket_shorts.main: V3 Short '3 Unbelievable Century World Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/4TB8MBrnxzg
+2026-11-12 15:29:58,660 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.

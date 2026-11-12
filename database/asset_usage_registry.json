@@ -1318,5 +1318,65 @@
     "dhash": "7978546465f59494",
     "role": "trophy",
     "timestamp": "2026-11-11 19:46:22"
+  },
+  {
+    "video_id": "century_titans",
+    "topic": "3 Unbelievable Century World Records",
+    "scene_idx": 0,
+    "scene_name": "Opening Hook",
+    "player_name": "3 Unbelievable Century World Records",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/stadium_beams_clean.jpg",
+    "filename": "stadium_beams_clean.jpg",
+    "dhash": "ece8ececf0f8f0f0",
+    "role": "stadium",
+    "timestamp": "2026-11-12 15:29:19"
+  },
+  {
+    "video_id": "century_titans",
+    "topic": "3 Unbelievable Century World Records",
+    "scene_idx": 1,
+    "scene_name": "Player Hero Poster",
+    "player_name": "Sachin Tendulkar",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/sachin_tendulkar.jpg",
+    "filename": "sachin_tendulkar.jpg",
+    "dhash": "8e27232e06233316",
+    "role": "hero",
+    "timestamp": "2026-11-12 15:29:19"
+  },
+  {
+    "video_id": "century_titans",
+    "topic": "3 Unbelievable Century World Records",
+    "scene_idx": 2,
+    "scene_name": "Record Stats",
+    "player_name": "Rohit Sharma",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/rohit_sharma.jpg",
+    "filename": "rohit_sharma.jpg",
+    "dhash": "869393978f072721",
+    "role": "action",
+    "timestamp": "2026-11-12 15:29:19"
+  },
+  {
+    "video_id": "century_titans",
+    "topic": "3 Unbelievable Century World Records",
+    "scene_idx": 3,
+    "scene_name": "Leaderboard",
+    "player_name": "Brian Lara",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/lara_lap_of_honour.jpg",
+    "filename": "lara_lap_of_honour.jpg",
+    "dhash": "46f6a4a776dae6f3",
+    "role": "portrait",
+    "timestamp": "2026-11-12 15:29:19"
+  },
+  {
+    "video_id": "century_titans",
+    "topic": "3 Unbelievable Century World Records",
+    "scene_idx": 4,
+    "scene_name": "Outro & Debate",
+    "player_name": "Historic Trophy",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/icc_world_cup_trophy.jpg",
+    "filename": "icc_world_cup_trophy.jpg",
+    "dhash": "7978546465f59494",
+    "role": "trophy",
+    "timestamp": "2026-11-12 15:29:19"
   }
 ]
