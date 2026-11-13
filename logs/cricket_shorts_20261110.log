@@ -43,3 +43,115 @@ Traceback (most recent call last):
 RuntimeError: YouTube live upload failed for topic 'super_over_madness': YouTube authentication failed or client_secrets.json missing. Cannot upload live.
 2026-11-10 09:25:32,006 [INFO] cricket_shorts.main: Daily production cycle completed. 0/1 shorts generated.
 2026-11-10 09:25:32,020 [CRITICAL] cricket_shorts.main: Production pipeline failed to produce the requested short.
+2026-11-10 09:45:03,556 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-10 09:45:03,557 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-10 09:45:03,557 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-10 09:45:03,558 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 15 published topics, 0 reserved.
+2026-11-10 09:45:03,566 [WARNING] cricket_shorts.dedup_engine: Topic '3 Unbelievable Century World Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['sachin tendulkar', 'rohit sharma'] with published short.
+2026-11-10 09:45:03,612 [INFO] cricket_shorts.dedup_engine: Topic '3 Craziest Super Over Finishes in Cricket' PASSED duplicate check (Max similarity: 0.30).
+2026-11-10 09:45:03,617 [INFO] cricket_shorts.dedup_engine: ✓ Atomically reserved curated topic 'super_over_madness' with worker token 923d9b68.
+2026-11-10 09:45:03,618 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'super_over_madness' ('3 Craziest Super Over Finishes in Cricket') ---
+2026-11-10 09:45:03,618 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'super_over_madness'...
+2026-11-10 09:45:03,634 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-10 09:45:03,634 [INFO] cricket_shorts.v3_engine: PRODUCTION V3 RENDERER: Starting Broadcast Pipeline for '3 Craziest Super Over Finishes in Cricket'
+2026-11-10 09:45:03,634 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-10 09:45:03,635 [INFO] cricket_shorts.v3_engine: Broadcast Theme: 'Charcoal Ember' | Required Jersey Format: 'ODI'
+2026-11-10 09:45:03,635 [INFO] cricket_shorts.v3_engine: Synthesizing 5-segment narration (136 words)...
+2026-11-10 09:45:04,933 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_super_over_madness_20261110_094503/raw_voice.mp3
+2026-11-10 09:45:04,934 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_super_over_madness_20261110_094503/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_super_over_madness_20261110_094503/voice_normalized.aac
+2026-11-10 09:45:07,742 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 51.20s
+2026-11-10 09:45:07,742 [INFO] cricket_shorts.v3_engine: Voice synthesized & normalized to -16 LUFS. Total duration: 51.20s
+2026-11-10 09:45:08,138 [INFO] cricket_shorts.asset_registry: Registered 5 unique assets to persistent database (/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/asset_usage_registry.json).
+2026-11-10 09:45:08,138 [INFO] cricket_shorts.v3_engine: Asset uniqueness status: APPROVED. PASSED: All scene visuals are 100% unique.
+2026-11-10 09:45:08,138 [INFO] cricket_shorts.v3_engine: Generating 5 full-screen broadcast graphics...
+2026-11-10 09:45:12,179 [INFO] cricket_shorts.v3_engine: ✓ All 5 broadcast scene graphics successfully rendered.
+2026-11-10 09:45:12,179 [INFO] cricket_shorts.v3_engine: Rendering 5 video clips with Ken Burns camera motion...
+2026-11-10 09:45:25,169 [INFO] cricket_shorts.v3_engine: Rendered 5 video segments. Total visual duration: 51.20s
+2026-11-10 09:45:25,214 [INFO] cricket_shorts.sfx: Mixing 5 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_super_over_madness_20261110_094503/soundtrack_v3.aac
+2026-11-10 09:45:27,108 [INFO] cricket_shorts.v3_engine: Assembling final V3 Broadcast Short: output/videos/cricket_raaz_v3_super_over_madness_20261110_094503.mp4
+2026-11-10 09:45:55,872 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 51.2s, 5 Moving Footage Scenes, Codecs: h264/aac, Size: 10.49MB, Font: Devanagari Verified
+2026-11-10 09:45:55,872 [INFO] cricket_shorts.v3_engine: ✓ Production V3 Short successfully generated in 'Charcoal Ember' theme! Duration: 51.17s
+2026-11-10 09:45:55,872 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'super_over_madness'...
+2026-11-10 09:45:55,938 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'super_over_madness'. Duration: 51.2s, Size: 10.49MB.
+2026-11-10 09:45:55,944 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-10 09:45:57,538 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ke 3 Craziest Super Over Matches! 😱🏏 #Shorts #CricketRaaz': 47%
+2026-11-10 09:45:57,706 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ke 3 Craziest Super Over Matches! 😱🏏 #Shorts #CricketRaaz': 95%
+2026-11-10 09:45:58,151 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: HND0D5EhV6g (https://youtube.com/shorts/HND0D5EhV6g)
+2026-11-10 09:45:58,156 [INFO] cricket_shorts.main: ✓ Topic 'super_over_madness' published live and persisted to registry & ledger: HND0D5EhV6g
+2026-11-10 09:45:58,156 [INFO] cricket_shorts.main: V3 Short '3 Craziest Super Over Finishes in Cricket' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/HND0D5EhV6g
+2026-11-10 09:45:58,174 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-10 15:09:25,882 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-10 15:09:25,883 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-10 15:09:25,883 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-10 15:09:25,884 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 16 published topics, 0 reserved.
+2026-11-10 15:09:25,892 [WARNING] cricket_shorts.dedup_engine: Topic '3 Unbelievable Century World Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['sachin tendulkar', 'rohit sharma'] with published short.
+2026-11-10 15:09:25,942 [INFO] cricket_shorts.dedup_engine: Topic '3 Greatest Run Chases in Cricket History' PASSED duplicate check (Max similarity: 0.27).
+2026-11-10 15:09:25,950 [INFO] cricket_shorts.dedup_engine: ✓ Atomically reserved curated topic 'epic_chases' with worker token 76201374.
+2026-11-10 15:09:25,950 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'epic_chases' ('3 Greatest Run Chases in Cricket History') ---
+2026-11-10 15:09:25,950 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'epic_chases'...
+2026-11-10 15:09:25,968 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-10 15:09:25,968 [INFO] cricket_shorts.v3_engine: PRODUCTION V3 RENDERER: Starting Broadcast Pipeline for '3 Greatest Run Chases in Cricket History'
+2026-11-10 15:09:25,968 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-10 15:09:25,969 [INFO] cricket_shorts.v3_engine: Broadcast Theme: 'Crimson Obsidian' | Required Jersey Format: 'ODI'
+2026-11-10 15:09:25,970 [INFO] cricket_shorts.v3_engine: Synthesizing 5-segment narration (134 words)...
+2026-11-10 15:09:47,952 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_epic_chases_20261110_150925/raw_voice.mp3
+2026-11-10 15:09:47,952 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_epic_chases_20261110_150925/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_epic_chases_20261110_150925/voice_normalized.aac
+2026-11-10 15:09:51,049 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 53.68s
+2026-11-10 15:09:51,049 [INFO] cricket_shorts.v3_engine: Voice synthesized & normalized to -16 LUFS. Total duration: 53.68s
+2026-11-10 15:09:51,192 [INFO] cricket_shorts.asset_registry: Registered 5 unique assets to persistent database (/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/asset_usage_registry.json).
+2026-11-10 15:09:51,193 [INFO] cricket_shorts.v3_engine: Asset uniqueness status: APPROVED. PASSED: All scene visuals are 100% unique.
+2026-11-10 15:09:51,193 [INFO] cricket_shorts.v3_engine: Generating 5 full-screen broadcast graphics...
+2026-11-10 15:09:55,268 [INFO] cricket_shorts.v3_engine: ✓ All 5 broadcast scene graphics successfully rendered.
+2026-11-10 15:09:55,268 [INFO] cricket_shorts.v3_engine: Rendering 5 video clips with Ken Burns camera motion...
+2026-11-10 15:10:08,469 [INFO] cricket_shorts.v3_engine: Rendered 5 video segments. Total visual duration: 53.68s
+2026-11-10 15:10:08,518 [INFO] cricket_shorts.sfx: Mixing 5 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_epic_chases_20261110_150925/soundtrack_v3.aac
+2026-11-10 15:10:10,573 [INFO] cricket_shorts.v3_engine: Assembling final V3 Broadcast Short: output/videos/cricket_raaz_v3_epic_chases_20261110_150925.mp4
+2026-11-10 15:10:39,804 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 53.6s, 5 Moving Footage Scenes, Codecs: h264/aac, Size: 9.64MB, Font: Devanagari Verified
+2026-11-10 15:10:39,804 [INFO] cricket_shorts.v3_engine: ✓ Production V3 Short successfully generated in 'Crimson Obsidian' theme! Duration: 53.63s
+2026-11-10 15:10:39,804 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'epic_chases'...
+2026-11-10 15:10:39,872 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'epic_chases'. Duration: 53.6s, Size: 9.64MB.
+2026-11-10 15:10:40,255 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-10 15:10:40,256 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-10 15:10:41,960 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Ke 3 Sabse Impossible Run Chases! 🔥🏏 #Shorts #CricketRaaz': 51%
+2026-11-10 15:10:42,418 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: OAxMtmaFilQ (https://youtube.com/shorts/OAxMtmaFilQ)
+2026-11-10 15:10:42,422 [INFO] cricket_shorts.main: ✓ Topic 'epic_chases' published live and persisted to registry & ledger: OAxMtmaFilQ
+2026-11-10 15:10:42,422 [INFO] cricket_shorts.main: V3 Short '3 Greatest Run Chases in Cricket History' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/OAxMtmaFilQ
+2026-11-10 15:10:42,442 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
+2026-11-10 19:54:14,200 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-10 19:54:14,200 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-10 19:54:14,201 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-10 19:54:14,202 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 17 published topics, 0 reserved.
+2026-11-10 19:54:14,210 [WARNING] cricket_shorts.dedup_engine: Topic '3 Unbelievable Century World Records' REJECTED: [MULTI_PLAYER_COLLISION] Shares multiple players ['rohit sharma', 'sachin tendulkar'] with published short.
+2026-11-10 19:54:14,260 [INFO] cricket_shorts.dedup_engine: Topic '3 Mind-Blowing Cricket Stadium Records' PASSED duplicate check (Max similarity: 0.29).
+2026-11-10 19:54:14,265 [INFO] cricket_shorts.dedup_engine: ✓ Atomically reserved curated topic 'stadium_secrets' with worker token 3a645557.
+2026-11-10 19:54:14,266 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'stadium_secrets' ('3 Mind-Blowing Cricket Stadium Records') ---
+2026-11-10 19:54:14,266 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'stadium_secrets'...
+2026-11-10 19:54:14,284 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-10 19:54:14,284 [INFO] cricket_shorts.v3_engine: PRODUCTION V3 RENDERER: Starting Broadcast Pipeline for '3 Mind-Blowing Cricket Stadium Records'
+2026-11-10 19:54:14,284 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-10 19:54:14,285 [INFO] cricket_shorts.v3_engine: Broadcast Theme: 'Crimson Obsidian' | Required Jersey Format: 'ODI'
+2026-11-10 19:54:14,285 [INFO] cricket_shorts.v3_engine: Synthesizing 5-segment narration (129 words)...
+2026-11-10 19:54:23,002 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_stadium_secrets_20261110_195414/raw_voice.mp3
+2026-11-10 19:54:23,002 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_stadium_secrets_20261110_195414/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_stadium_secrets_20261110_195414/voice_normalized.aac
+2026-11-10 19:54:26,061 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 52.24s
+2026-11-10 19:54:26,061 [INFO] cricket_shorts.v3_engine: Voice synthesized & normalized to -16 LUFS. Total duration: 52.24s
+2026-11-10 19:54:26,269 [INFO] cricket_shorts.asset_registry: Registered 5 unique assets to persistent database (/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/asset_usage_registry.json).
+2026-11-10 19:54:26,269 [INFO] cricket_shorts.v3_engine: Asset uniqueness status: APPROVED. PASSED: All scene visuals are 100% unique.
+2026-11-10 19:54:26,269 [INFO] cricket_shorts.v3_engine: Generating 5 full-screen broadcast graphics...
+2026-11-10 19:54:30,448 [INFO] cricket_shorts.v3_engine: ✓ All 5 broadcast scene graphics successfully rendered.
+2026-11-10 19:54:30,448 [INFO] cricket_shorts.v3_engine: Rendering 5 video clips with Ken Burns camera motion...
+2026-11-10 19:54:43,424 [INFO] cricket_shorts.v3_engine: Rendered 5 video segments. Total visual duration: 52.23s
+2026-11-10 19:54:43,472 [INFO] cricket_shorts.sfx: Mixing 5 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_stadium_secrets_20261110_195414/soundtrack_v3.aac
+2026-11-10 19:54:45,460 [INFO] cricket_shorts.v3_engine: Assembling final V3 Broadcast Short: output/videos/cricket_raaz_v3_stadium_secrets_20261110_195414.mp4
+2026-11-10 19:55:13,906 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 52.3s, 5 Moving Footage Scenes, Codecs: h264/aac, Size: 10.85MB, Font: Devanagari Verified
+2026-11-10 19:55:13,906 [INFO] cricket_shorts.v3_engine: ✓ Production V3 Short successfully generated in 'Crimson Obsidian' theme! Duration: 52.27s
+2026-11-10 19:55:13,906 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'stadium_secrets'...
+2026-11-10 19:55:13,973 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'stadium_secrets'. Duration: 52.3s, Size: 10.85MB.
+2026-11-10 19:55:14,081 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-10 19:55:14,082 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-10 19:55:16,319 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Stadiums Ke 3 Sabse Crazy Secrets! 🏟️🏏 #Shorts #CricketRaaz': 46%
+2026-11-10 19:55:16,630 [INFO] cricket_shorts.youtube_upload: Uploading 'Cricket Stadiums Ke 3 Sabse Crazy Secrets! 🏟️🏏 #Shorts #CricketRaaz': 92%
+2026-11-10 19:55:17,063 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: D5vokw1YzTE (https://youtube.com/shorts/D5vokw1YzTE)
+2026-11-10 19:55:17,067 [INFO] cricket_shorts.main: ✓ Topic 'stadium_secrets' published live and persisted to registry & ledger: D5vokw1YzTE
+2026-11-10 19:55:17,067 [INFO] cricket_shorts.main: V3 Short '3 Mind-Blowing Cricket Stadium Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/D5vokw1YzTE
+2026-11-10 19:55:17,085 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
