@@ -10,6 +10,7 @@ import json
 import logging
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
+from contextlib import contextmanager
 import os
 
 logger = logging.getLogger("cricket_shorts.database")
@@ -26,10 +27,23 @@ class DatabaseManager:
         self.init_db()
         self.sync_ledger_with_db()
 
-    def get_connection(self) -> sqlite3.Connection:
-        conn = sqlite3.connect(self.db_path)
-        conn.row_factory = sqlite3.Row
-        return conn
+    @contextmanager
+    def get_connection(self):
+        """
+        Thread-safe, leak-proof SQLite connection context manager.
+        - Guarantees conn.close() executes in finally block under all circumstances.
+        - Enforces PRAGMA foreign_keys = ON and PRAGMA busy_timeout = 5000 before execution.
+        - Automatically commits on normal exit, rolls back on exception.
+        """
+        conn = sqlite3.connect(self.db_path, timeout=10.0)
+        try:
+            conn.row_factory = sqlite3.Row
+            conn.execute("PRAGMA foreign_keys = ON;")
+            conn.execute("PRAGMA busy_timeout = 5000;")
+            with conn:
+                yield conn
+        finally:
+            conn.close()
 
     def init_db(self):
         """Initialize database tables with indexes and safe migrations."""
@@ -163,6 +177,95 @@ class DatabaseManager:
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_topic_reg_norm_title ON topic_registry(normalized_title)")
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_topic_reg_fingerprint ON topic_registry(sha256_fingerprint)")
             conn.commit()
+
+            # V004 Migration: Rights-Safe Media Assets Registry & Short-Asset Junction
+            cursor.execute("""
+            CREATE TABLE IF NOT EXISTS schema_migrations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                version TEXT UNIQUE NOT NULL,
+                description TEXT NOT NULL,
+                applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+            """)
+
+            # Ensure clean transaction state before explicit migration transaction
+            if conn.in_transaction:
+                conn.commit()
+
+            cursor.execute("BEGIN IMMEDIATE TRANSACTION;")
+            try:
+                v004_applied = cursor.execute(
+                    "SELECT id FROM schema_migrations WHERE version = 'V004'"
+                ).fetchone()
+
+                if v004_applied:
+                    cursor.execute("COMMIT;")
+                    logger.debug("V004 migration already applied, skipping.")
+                else:
+                    logger.info("Applying V004 migration: Creating media_assets and short_asset_junction tables atomically...")
+
+                    # 1. Media Assets Table
+                    cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS media_assets (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        asset_hash TEXT UNIQUE NOT NULL,
+                        title TEXT NOT NULL,
+                        source_url TEXT NOT NULL,
+                        source_platform TEXT NOT NULL,
+                        license_type TEXT NOT NULL,
+                        license_url TEXT NOT NULL,
+                        rights_holder TEXT NOT NULL,
+                        attribution_text TEXT NOT NULL,
+                        is_derivative_permitted INTEGER NOT NULL DEFAULT 1 CHECK (is_derivative_permitted IN (0, 1)),
+                        is_commercial_permitted INTEGER NOT NULL DEFAULT 1 CHECK (is_commercial_permitted IN (0, 1)),
+                        verification_status TEXT NOT NULL DEFAULT 'PENDING' CHECK (verification_status IN ('PENDING', 'APPROVED', 'REJECTED')),
+                        verification_notes TEXT,
+                        verified_by TEXT,
+                        verified_at TIMESTAMP,
+                        local_storage_path TEXT,
+                        duration_seconds REAL CHECK (duration_seconds IS NULL OR duration_seconds >= 0.0),
+                        resolution_width INTEGER CHECK (resolution_width IS NULL OR resolution_width > 0),
+                        resolution_height INTEGER CHECK (resolution_height IS NULL OR resolution_height > 0),
+                        fps REAL CHECK (fps IS NULL OR fps > 0.0),
+                        shot_type TEXT,
+                        player_names TEXT,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    );
+                    """)
+                    cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_assets_status ON media_assets(verification_status);")
+                    cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_assets_license ON media_assets(license_type);")
+
+                    # 2. Short to Asset Junction Table
+                    cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS short_asset_junction (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        short_id INTEGER NOT NULL,
+                        asset_id INTEGER NOT NULL,
+                        segment_index INTEGER NOT NULL CHECK (segment_index >= 1),
+                        in_point_seconds REAL NOT NULL DEFAULT 0.0 CHECK (in_point_seconds >= 0.0),
+                        out_point_seconds REAL NOT NULL DEFAULT 0.0 CHECK (out_point_seconds >= 0.0),
+                        applied_motion_profile TEXT DEFAULT 'CENTER_MOTION',
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        FOREIGN KEY (short_id) REFERENCES shorts(id) ON DELETE CASCADE,
+                        FOREIGN KEY (asset_id) REFERENCES media_assets(id) ON DELETE RESTRICT,
+                        CHECK (out_point_seconds >= in_point_seconds)
+                    );
+                    """)
+                    cursor.execute("CREATE INDEX IF NOT EXISTS idx_junction_short_id ON short_asset_junction(short_id);")
+                    cursor.execute("CREATE INDEX IF NOT EXISTS idx_junction_asset_id ON short_asset_junction(asset_id);")
+                    cursor.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_junction_short_segment ON short_asset_junction(short_id, segment_index);")
+
+                    # 3. Record migration in ledger
+                    cursor.execute(
+                        "INSERT INTO schema_migrations (version, description) VALUES ('V004', 'Add media_assets and short_asset_junction');"
+                    )
+
+                    cursor.execute("COMMIT;")
+                    logger.info("V004 migration applied successfully and committed atomically.")
+            except Exception as ex:
+                cursor.execute("ROLLBACK;")
+                logger.error(f"V004 migration failed and was rolled back completely: {ex}")
+                raise RuntimeError(f"V004 migration failed and was rolled back: {ex}") from ex
 
     def sync_ledger_with_db(self):
         """
@@ -565,3 +668,91 @@ class DatabaseManager:
                 "failed_qc": failed_qc,
                 "recent_shorts": recent_shorts
             }
+
+    def register_media_asset(self, asset_data: Dict[str, Any]) -> int:
+        """
+        Inserts or returns existing media asset record by asset_hash.
+        Enforces all schema CHECK constraints and returns the asset row ID.
+        """
+        asset_hash = asset_data["asset_hash"]
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            existing = cursor.execute("SELECT id FROM media_assets WHERE asset_hash = ?", (asset_hash,)).fetchone()
+            if existing:
+                return existing["id"]
+
+            cursor.execute("""
+            INSERT INTO media_assets (
+                asset_hash, title, source_url, source_platform, license_type,
+                license_url, rights_holder, attribution_text, is_derivative_permitted,
+                is_commercial_permitted, verification_status, verification_notes,
+                verified_by, verified_at, local_storage_path, duration_seconds,
+                resolution_width, resolution_height, fps, shot_type, player_names
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                asset_hash,
+                asset_data.get("title", ""),
+                asset_data.get("source_url", ""),
+                asset_data.get("source_platform", "UNKNOWN"),
+                asset_data.get("license_type", "UNKNOWN"),
+                asset_data.get("license_url", ""),
+                asset_data.get("rights_holder", ""),
+                asset_data.get("attribution_text", ""),
+                asset_data.get("is_derivative_permitted", 1),
+                asset_data.get("is_commercial_permitted", 1),
+                asset_data.get("verification_status", "PENDING"),
+                asset_data.get("verification_notes"),
+                asset_data.get("verified_by"),
+                asset_data.get("verified_at"),
+                asset_data.get("local_storage_path"),
+                asset_data.get("duration_seconds"),
+                asset_data.get("resolution_width"),
+                asset_data.get("resolution_height"),
+                asset_data.get("fps"),
+                asset_data.get("shot_type"),
+                json.dumps(asset_data.get("player_names", [])) if isinstance(asset_data.get("player_names"), list) else asset_data.get("player_names")
+            ))
+            return cursor.lastrowid
+
+    def link_short_to_asset(
+        self,
+        short_id: int,
+        asset_id: int,
+        segment_index: int,
+        in_point_seconds: float = 0.0,
+        out_point_seconds: float = 0.0,
+        motion_profile: str = "CENTER_MOTION"
+    ) -> int:
+        """
+        Links a short record to a verified media asset for a specific narrative segment.
+        Enforces foreign key relationships and unique constraint per segment.
+        """
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            INSERT OR REPLACE INTO short_asset_junction (
+                short_id, asset_id, segment_index, in_point_seconds, out_point_seconds, applied_motion_profile
+            ) VALUES (?, ?, ?, ?, ?, ?)
+            """, (short_id, asset_id, segment_index, in_point_seconds, out_point_seconds, motion_profile))
+            return cursor.lastrowid
+
+    def get_short_assets(self, short_id: int) -> List[Dict[str, Any]]:
+        """Retrieves all linked media assets for a given short, ordered by segment index."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT j.id as junction_id, j.segment_index, j.in_point_seconds, j.out_point_seconds,
+                   j.applied_motion_profile, m.*
+            FROM short_asset_junction j
+            JOIN media_assets m ON j.asset_id = m.id
+            WHERE j.short_id = ?
+            ORDER BY j.segment_index ASC
+            """, (short_id,))
+            return [dict(r) for r in cursor.fetchall()]
+
+    def get_asset_by_hash(self, asset_hash: str) -> Optional[Dict[str, Any]]:
+        """Fetches a media asset record by cryptographic hash."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            row = cursor.execute("SELECT * FROM media_assets WHERE asset_hash = ?", (asset_hash,)).fetchone()
+            return dict(row) if row else None
