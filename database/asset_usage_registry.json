@@ -1438,5 +1438,65 @@
     "dhash": "7978546465f59494",
     "role": "trophy",
     "timestamp": "2026-11-12 20:11:40"
+  },
+  {
+    "video_id": "unbelievable_ipl_records_history",
+    "topic": "3 Unbelievable IPL Records",
+    "scene_idx": 0,
+    "scene_name": "Opening Hook",
+    "player_name": "3 Unbelievable IPL Records",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/stadium_beams_clean.jpg",
+    "filename": "stadium_beams_clean.jpg",
+    "dhash": "ece8ececf0f8f0f0",
+    "role": "stadium",
+    "timestamp": "2026-11-14 18:44:12"
+  },
+  {
+    "video_id": "unbelievable_ipl_records_history",
+    "topic": "3 Unbelievable IPL Records",
+    "scene_idx": 1,
+    "scene_name": "Player Hero Poster",
+    "player_name": "Amit Mishra",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/amit_mishra.jpg",
+    "filename": "amit_mishra.jpg",
+    "dhash": "9ace46a665e4aab8",
+    "role": "hero",
+    "timestamp": "2026-11-14 18:44:12"
+  },
+  {
+    "video_id": "unbelievable_ipl_records_history",
+    "topic": "3 Unbelievable IPL Records",
+    "scene_idx": 2,
+    "scene_name": "Record Stats",
+    "player_name": "Yashasvi Jaiswal",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/yashasvi_jaiswal.jpg",
+    "filename": "yashasvi_jaiswal.jpg",
+    "dhash": "0e16160f8c07232b",
+    "role": "action",
+    "timestamp": "2026-11-14 18:44:12"
+  },
+  {
+    "video_id": "unbelievable_ipl_records_history",
+    "topic": "3 Unbelievable IPL Records",
+    "scene_idx": 3,
+    "scene_name": "Leaderboard",
+    "player_name": "Royal Challengers Bangalore",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/ab_de_villiers.jpg",
+    "filename": "ab_de_villiers.jpg",
+    "dhash": "72d0d2c211305868",
+    "role": "portrait",
+    "timestamp": "2026-11-14 18:44:12"
+  },
+  {
+    "video_id": "unbelievable_ipl_records_history",
+    "topic": "3 Unbelievable IPL Records",
+    "scene_idx": 4,
+    "scene_name": "Outro & Debate",
+    "player_name": "Historic Trophy",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/icc_world_cup_trophy.jpg",
+    "filename": "icc_world_cup_trophy.jpg",
+    "dhash": "7978546465f59494",
+    "role": "trophy",
+    "timestamp": "2026-11-14 18:44:12"
   }
 ]

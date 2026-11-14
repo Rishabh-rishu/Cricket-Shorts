@@ -37,3 +37,48 @@
 2026-11-14 13:59:56,793 [ERROR] cricket_shorts.main: Failed to generate unique AI topic. Aborting production run to prevent duplicate publishing.
 2026-11-14 13:59:56,793 [INFO] cricket_shorts.main: Daily production cycle completed. 0/1 shorts generated.
 2026-11-14 13:59:56,815 [CRITICAL] cricket_shorts.main: Production pipeline failed to produce the requested short.
+2026-11-14 18:19:51,305 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-14 18:19:51,305 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-14 18:19:51,305 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-14 18:19:51,307 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 21 published topics, 0 reserved.
+2026-11-14 18:19:51,307 [INFO] cricket_shorts.dedup_engine: All curated collections have been published or reserved. Triggering dynamic AI topic generator.
+2026-11-14 18:19:51,307 [INFO] cricket_shorts.main: All curated collections published or reserved. Triggering Gemini 3.8 Flash AI research engine...
+2026-11-14 18:19:51,308 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 1/3)...
+2026-11-14 18:19:51,331 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-14 18:31:33,754 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-14 18:31:33,755 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-14 18:31:35,770 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-14 18:43:51,857 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 200 OK"
+2026-11-14 18:43:51,869 [INFO] cricket_shorts.script_v3: ✓ Successfully generated topic using SDK (gemini-3.8-flash)
+2026-11-14 18:43:51,923 [INFO] cricket_shorts.dedup_engine: Topic '3 Unbelievable IPL Records' PASSED duplicate check (Max similarity: 0.34).
+2026-11-14 18:43:51,923 [INFO] cricket_shorts.script_v3: ✓ AI-generated topic '3 Unbelievable IPL Records' passed all deduplication checks!
+2026-11-14 18:43:51,926 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: 'unbelievable_ipl_records_history' ('3 Unbelievable IPL Records') ---
+2026-11-14 18:43:51,927 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection 'unbelievable_ipl_records_history'...
+2026-11-14 18:43:51,938 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-14 18:43:51,938 [INFO] cricket_shorts.v3_engine: PRODUCTION V3 RENDERER: Starting Broadcast Pipeline for '3 Unbelievable IPL Records'
+2026-11-14 18:43:51,938 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-14 18:43:51,939 [INFO] cricket_shorts.v3_engine: Broadcast Theme: 'Neon Cyber' | Required Jersey Format: 'T20'
+2026-11-14 18:43:51,939 [INFO] cricket_shorts.v3_engine: Synthesizing 5-segment narration (116 words)...
+2026-11-14 18:44:09,635 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_unbelievable_ipl_records_history_20261114_184351/raw_voice.mp3
+2026-11-14 18:44:09,636 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_unbelievable_ipl_records_history_20261114_184351/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_unbelievable_ipl_records_history_20261114_184351/voice_normalized.aac
+2026-11-14 18:44:11,347 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 45.88s
+2026-11-14 18:44:11,347 [INFO] cricket_shorts.v3_engine: Voice synthesized & normalized to -16 LUFS. Total duration: 45.88s
+2026-11-14 18:44:12,014 [INFO] cricket_shorts.asset_registry: Registered 5 unique assets to persistent database (/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/asset_usage_registry.json).
+2026-11-14 18:44:12,014 [INFO] cricket_shorts.v3_engine: Asset uniqueness status: APPROVED. PASSED: All scene visuals are 100% unique.
+2026-11-14 18:44:12,014 [INFO] cricket_shorts.v3_engine: Generating 5 full-screen broadcast graphics...
+2026-11-14 18:44:15,927 [INFO] cricket_shorts.v3_engine: ✓ All 5 broadcast scene graphics successfully rendered.
+2026-11-14 18:44:15,927 [INFO] cricket_shorts.v3_engine: Rendering 5 video clips with Ken Burns camera motion...
+2026-11-14 18:44:27,476 [INFO] cricket_shorts.v3_engine: Rendered 5 video segments. Total visual duration: 45.88s
+2026-11-14 18:44:27,511 [INFO] cricket_shorts.sfx: Mixing 5 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_unbelievable_ipl_records_history_20261114_184351/soundtrack_v3.aac
+2026-11-14 18:44:28,845 [INFO] cricket_shorts.v3_engine: Assembling final V3 Broadcast Short: output/videos/cricket_raaz_v3_unbelievable_ipl_records_history_20261114_184351.mp4
+2026-11-14 18:44:54,248 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 45.9s, 5 Moving Footage Scenes, Codecs: h264/aac, Size: 9.39MB, Font: Devanagari Verified
+2026-11-14 18:44:54,248 [INFO] cricket_shorts.v3_engine: ✓ Production V3 Short successfully generated in 'Neon Cyber' theme! Duration: 45.90s
+2026-11-14 18:44:54,248 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic 'unbelievable_ipl_records_history'...
+2026-11-14 18:44:54,304 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic 'unbelievable_ipl_records_history'. Duration: 45.9s, Size: 9.39MB.
+2026-11-14 18:44:54,399 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-14 18:44:54,400 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-14 18:44:55,781 [INFO] cricket_shorts.youtube_upload: Uploading '3 Unbelievable IPL Records Nobody Can Break! #Shorts #CricketRaaz': 53%
+2026-11-14 18:44:56,356 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: BDp_t58Uz88 (https://youtube.com/shorts/BDp_t58Uz88)
+2026-11-14 18:44:56,362 [INFO] cricket_shorts.main: ✓ Topic 'unbelievable_ipl_records_history' published live and persisted to registry & ledger: BDp_t58Uz88
+2026-11-14 18:44:56,362 [INFO] cricket_shorts.main: V3 Short '3 Unbelievable IPL Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/BDp_t58Uz88
+2026-11-14 18:44:56,379 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
