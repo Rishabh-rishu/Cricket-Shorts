@@ -1558,5 +1558,65 @@
     "dhash": "7978546465f59494",
     "role": "trophy",
     "timestamp": "2026-11-15 14:13:11"
+  },
+  {
+    "video_id": "forgotten_test_cricket_history_feats",
+    "topic": "3 Forgotten Historic Test Cricket Feats",
+    "scene_idx": 0,
+    "scene_name": "Opening Hook",
+    "player_name": "3 Forgotten Historic Test Cricket Feats",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/stadium_beams_clean.jpg",
+    "filename": "stadium_beams_clean.jpg",
+    "dhash": "ece8ececf0f8f0f0",
+    "role": "stadium",
+    "timestamp": "2026-11-15 19:01:47"
+  },
+  {
+    "video_id": "forgotten_test_cricket_history_feats",
+    "topic": "3 Forgotten Historic Test Cricket Feats",
+    "scene_idx": 1,
+    "scene_name": "Player Hero Poster",
+    "player_name": "Charles Bannerman",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/charles_bannerman.jpg",
+    "filename": "charles_bannerman.jpg",
+    "dhash": "cdb6a765e4b878d3",
+    "role": "hero",
+    "timestamp": "2026-11-15 19:01:47"
+  },
+  {
+    "video_id": "forgotten_test_cricket_history_feats",
+    "topic": "3 Forgotten Historic Test Cricket Feats",
+    "scene_idx": 2,
+    "scene_name": "Record Stats",
+    "player_name": "England vs South Africa",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/ab_de_villiers.jpg",
+    "filename": "ab_de_villiers.jpg",
+    "dhash": "72d0d2c211305868",
+    "role": "action",
+    "timestamp": "2026-11-15 19:01:47"
+  },
+  {
+    "video_id": "forgotten_test_cricket_history_feats",
+    "topic": "3 Forgotten Historic Test Cricket Feats",
+    "scene_idx": 3,
+    "scene_name": "Leaderboard",
+    "player_name": "Wilfred Rhodes",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/wilfred_rhodes.jpg",
+    "filename": "wilfred_rhodes.jpg",
+    "dhash": "292430f8d8b4e0c8",
+    "role": "portrait",
+    "timestamp": "2026-11-15 19:01:47"
+  },
+  {
+    "video_id": "forgotten_test_cricket_history_feats",
+    "topic": "3 Forgotten Historic Test Cricket Feats",
+    "scene_idx": 4,
+    "scene_name": "Outro & Debate",
+    "player_name": "Historic Trophy",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/wisden_test_trophy.jpg",
+    "filename": "wisden_test_trophy.jpg",
+    "dhash": "b8989ece4f0f5979",
+    "role": "trophy",
+    "timestamp": "2026-11-15 19:01:47"
   }
 ]
