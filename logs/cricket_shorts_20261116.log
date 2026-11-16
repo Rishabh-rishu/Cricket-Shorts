@@ -38,3 +38,38 @@
 2026-11-16 16:15:50,010 [ERROR] cricket_shorts.main: Failed to generate unique AI topic. Aborting production run to prevent duplicate publishing.
 2026-11-16 16:15:50,010 [INFO] cricket_shorts.main: Daily production cycle completed. 0/1 shorts generated.
 2026-11-16 16:15:50,027 [CRITICAL] cricket_shorts.main: Production pipeline failed to produce the requested short.
+2026-11-16 22:22:42,782 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-16 22:22:42,783 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-16 22:22:42,783 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-16 22:22:42,784 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 24 published topics, 0 reserved.
+2026-11-16 22:22:42,784 [INFO] cricket_shorts.dedup_engine: All curated collections have been published or reserved. Triggering dynamic AI topic generator.
+2026-11-16 22:22:42,784 [INFO] cricket_shorts.main: All curated collections published or reserved. Triggering Gemini 3.8 Flash AI research engine...
+2026-11-16 22:22:42,784 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 1/3)...
+2026-11-16 22:22:42,812 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-16 22:22:44,966 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-16 22:22:44,967 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-16 22:22:46,980 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-16 22:23:53,868 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-16 22:23:53,870 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-16 22:24:20,924 [WARNING] cricket_shorts.script_v3: Gemini REST fallback for gemini-3.8-flash failed: HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Read timed out. (read timeout=25)
+2026-11-16 22:24:20,924 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 2/3)...
+2026-11-16 22:24:20,936 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-16 22:24:33,424 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-16 22:24:33,424 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-16 22:24:35,438 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-16 22:24:59,851 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-16 22:24:59,851 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-16 22:25:26,904 [WARNING] cricket_shorts.script_v3: Gemini REST fallback for gemini-3.8-flash failed: HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Read timed out. (read timeout=25)
+2026-11-16 22:25:26,904 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 3/3)...
+2026-11-16 22:25:26,916 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-16 22:26:05,159 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-16 22:26:05,160 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-16 22:26:07,173 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-16 22:40:50,929 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 200 OK"
+2026-11-16 22:40:50,940 [INFO] cricket_shorts.script_v3: ✓ Successfully generated topic using SDK (gemini-3.8-flash)
+2026-11-16 22:40:50,955 [WARNING] cricket_shorts.dedup_engine: Topic '3 Shocking Hidden Cricket Rules' REJECTED: [RULE_COLLISION] Cricket rule 'penalty runs' is already covered in published short.
+2026-11-16 22:40:50,955 [WARNING] cricket_shorts.script_v3: Attempt 3 rejected by dedup engine: [RULE_COLLISION] Cricket rule 'penalty runs' is already covered in published short. (similarity: 1.00). Retrying...
+2026-11-16 22:40:50,955 [ERROR] cricket_shorts.script_v3: Failed to generate unique AI topic after 3 attempts.
+2026-11-16 22:40:50,955 [ERROR] cricket_shorts.main: Failed to generate unique AI topic. Aborting production run to prevent duplicate publishing.
+2026-11-16 22:40:50,955 [INFO] cricket_shorts.main: Daily production cycle completed. 0/1 shorts generated.
+2026-11-16 22:40:50,978 [CRITICAL] cricket_shorts.main: Production pipeline failed to produce the requested short.
