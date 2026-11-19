@@ -1,0 +1,54 @@
+2026-11-19 15:56:14,829 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-19 15:56:14,829 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-19 15:56:14,829 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-19 15:56:14,831 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 26 published topics, 0 reserved.
+2026-11-19 15:56:14,831 [INFO] cricket_shorts.dedup_engine: All curated collections have been published or reserved. Triggering dynamic AI topic generator.
+2026-11-19 15:56:14,831 [INFO] cricket_shorts.main: All curated collections published or reserved. Triggering Gemini 3.8 Flash AI research engine...
+2026-11-19 15:56:14,831 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 1/3)...
+2026-11-19 15:56:14,861 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-19 16:02:30,310 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 200 OK"
+2026-11-19 16:02:30,314 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: peer closed connection without sending complete message body (incomplete chunked read). Retrying with backoff...
+2026-11-19 16:02:32,331 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-19 16:02:36,371 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-19 16:02:36,372 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-19 16:03:03,415 [WARNING] cricket_shorts.script_v3: Gemini REST fallback for gemini-3.8-flash failed: HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Read timed out. (read timeout=25)
+2026-11-19 16:03:03,415 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 2/3)...
+2026-11-19 16:03:03,431 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-19 16:03:04,810 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-19 16:03:04,811 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-19 16:03:06,828 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-19 16:06:38,919 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 200 OK"
+2026-11-19 16:06:38,929 [INFO] cricket_shorts.script_v3: ✓ Successfully generated topic using SDK (gemini-3.8-flash)
+2026-11-19 16:06:39,010 [INFO] cricket_shorts.dedup_engine: Topic '3 Rarest Bowling and Batting Records' PASSED duplicate check (Max similarity: 0.31).
+2026-11-19 16:06:39,010 [INFO] cricket_shorts.script_v3: ✓ AI-generated topic '3 Rarest Bowling and Batting Records' passed all deduplication checks!
+2026-11-19 16:06:39,014 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: '3_rarest_cricket_records_in_history' ('3 Rarest Bowling and Batting Records') ---
+2026-11-19 16:06:39,014 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection '3_rarest_cricket_records_in_history'...
+2026-11-19 16:06:39,032 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-19 16:06:39,032 [INFO] cricket_shorts.v3_engine: PRODUCTION V3 RENDERER: Starting Broadcast Pipeline for '3 Rarest Bowling and Batting Records'
+2026-11-19 16:06:39,032 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-19 16:06:39,033 [INFO] cricket_shorts.v3_engine: Broadcast Theme: 'Emerald Master' | Required Jersey Format: 'ODI'
+2026-11-19 16:06:39,033 [INFO] cricket_shorts.v3_engine: Synthesizing 5-segment narration (120 words)...
+2026-11-19 16:06:51,683 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_3_rarest_cricket_records_in_history_20261119_160639/raw_voice.mp3
+2026-11-19 16:06:51,683 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_3_rarest_cricket_records_in_history_20261119_160639/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_3_rarest_cricket_records_in_history_20261119_160639/voice_normalized.aac
+2026-11-19 16:06:53,589 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 51.59s
+2026-11-19 16:06:53,589 [INFO] cricket_shorts.v3_engine: Voice synthesized & normalized to -16 LUFS. Total duration: 51.59s
+2026-11-19 16:06:54,041 [INFO] cricket_shorts.asset_registry: Registered 5 unique assets to persistent database (/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/asset_usage_registry.json).
+2026-11-19 16:06:54,041 [INFO] cricket_shorts.v3_engine: Asset uniqueness status: APPROVED. PASSED: All scene visuals are 100% unique.
+2026-11-19 16:06:54,041 [INFO] cricket_shorts.v3_engine: Generating 5 full-screen broadcast graphics...
+2026-11-19 16:06:58,358 [INFO] cricket_shorts.v3_engine: ✓ All 5 broadcast scene graphics successfully rendered.
+2026-11-19 16:06:58,358 [INFO] cricket_shorts.v3_engine: Rendering 5 video clips with Ken Burns camera motion...
+2026-11-19 16:07:11,000 [INFO] cricket_shorts.v3_engine: Rendered 5 video segments. Total visual duration: 51.60s
+2026-11-19 16:07:11,040 [INFO] cricket_shorts.sfx: Mixing 5 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_3_rarest_cricket_records_in_history_20261119_160639/soundtrack_v3.aac
+2026-11-19 16:07:12,693 [INFO] cricket_shorts.v3_engine: Assembling final V3 Broadcast Short: output/videos/cricket_raaz_v3_3_rarest_cricket_records_in_history_20261119_160639.mp4
+2026-11-19 16:07:40,862 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 51.6s, 5 Moving Footage Scenes, Codecs: h264/aac, Size: 10.39MB, Font: Devanagari Verified
+2026-11-19 16:07:40,862 [INFO] cricket_shorts.v3_engine: ✓ Production V3 Short successfully generated in 'Emerald Master' theme! Duration: 51.60s
+2026-11-19 16:07:40,862 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic '3_rarest_cricket_records_in_history'...
+2026-11-19 16:07:40,921 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic '3_rarest_cricket_records_in_history'. Duration: 51.6s, Size: 10.39MB.
+2026-11-19 16:07:41,022 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-19 16:07:41,023 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-19 16:07:42,444 [INFO] cricket_shorts.youtube_upload: Uploading '3 Rarest Cricket Records in History 🏏 #Shorts #CricketRaaz': 48%
+2026-11-19 16:07:42,643 [INFO] cricket_shorts.youtube_upload: Uploading '3 Rarest Cricket Records in History 🏏 #Shorts #CricketRaaz': 96%
+2026-11-19 16:07:42,966 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: laF6_IcP6_k (https://youtube.com/shorts/laF6_IcP6_k)
+2026-11-19 16:07:42,972 [INFO] cricket_shorts.main: ✓ Topic '3_rarest_cricket_records_in_history' published live and persisted to registry & ledger: laF6_IcP6_k
+2026-11-19 16:07:42,972 [INFO] cricket_shorts.main: V3 Short '3 Rarest Bowling and Batting Records' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/laF6_IcP6_k
+2026-11-19 16:07:42,994 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
