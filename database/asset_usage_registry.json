@@ -1978,5 +1978,65 @@
     "dhash": "7978546465f59494",
     "role": "trophy",
     "timestamp": "2026-11-24 22:41:08"
+  },
+  {
+    "video_id": "3_bizarre_umpiring_decisions_history",
+    "topic": "3 Shocking Umpiring Decisions in Cricket",
+    "scene_idx": 0,
+    "scene_name": "Opening Hook",
+    "player_name": "3 Shocking Umpiring Decisions in Cricket",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/stadium_beams_clean.jpg",
+    "filename": "stadium_beams_clean.jpg",
+    "dhash": "ece8ececf0f8f0f0",
+    "role": "stadium",
+    "timestamp": "2026-11-26 21:49:53"
+  },
+  {
+    "video_id": "3_bizarre_umpiring_decisions_history",
+    "topic": "3 Shocking Umpiring Decisions in Cricket",
+    "scene_idx": 1,
+    "scene_name": "Player Hero Poster",
+    "player_name": "Sachin Tendulkar",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/sachin_tendulkar.jpg",
+    "filename": "sachin_tendulkar.jpg",
+    "dhash": "8e27232e06233316",
+    "role": "hero",
+    "timestamp": "2026-11-26 21:49:53"
+  },
+  {
+    "video_id": "3_bizarre_umpiring_decisions_history",
+    "topic": "3 Shocking Umpiring Decisions in Cricket",
+    "scene_idx": 2,
+    "scene_name": "Record Stats",
+    "player_name": "Inzamam-ul-Haq",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/inzamam-ul-haq.jpg",
+    "filename": "inzamam-ul-haq.jpg",
+    "dhash": "9c9dd8c9e363c79d",
+    "role": "action",
+    "timestamp": "2026-11-26 21:49:53"
+  },
+  {
+    "video_id": "3_bizarre_umpiring_decisions_history",
+    "topic": "3 Shocking Umpiring Decisions in Cricket",
+    "scene_idx": 3,
+    "scene_name": "Leaderboard",
+    "player_name": "Steve Bucknor & Aleem Dar",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/player_portraits/ab_de_villiers.jpg",
+    "filename": "ab_de_villiers.jpg",
+    "dhash": "72d0d2c211305868",
+    "role": "portrait",
+    "timestamp": "2026-11-26 21:49:53"
+  },
+  {
+    "video_id": "3_bizarre_umpiring_decisions_history",
+    "topic": "3 Shocking Umpiring Decisions in Cricket",
+    "scene_idx": 4,
+    "scene_name": "Outro & Debate",
+    "player_name": "Historic Trophy",
+    "file_path": "/home/runner/work/Cricket-Shorts/Cricket-Shorts/assets/icc_world_cup_trophy.jpg",
+    "filename": "icc_world_cup_trophy.jpg",
+    "dhash": "7978546465f59494",
+    "role": "trophy",
+    "timestamp": "2026-11-26 21:49:53"
   }
 ]
