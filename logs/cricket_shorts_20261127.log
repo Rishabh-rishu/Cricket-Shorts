@@ -1,0 +1,43 @@
+2026-11-27 16:52:37,960 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-27 16:52:37,961 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-27 16:52:37,961 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-27 16:52:37,962 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 31 published topics, 0 reserved.
+2026-11-27 16:52:37,962 [INFO] cricket_shorts.dedup_engine: All curated collections have been published or reserved. Triggering dynamic AI topic generator.
+2026-11-27 16:52:37,962 [INFO] cricket_shorts.main: All curated collections published or reserved. Triggering Gemini 3.8 Flash AI research engine...
+2026-11-27 16:52:37,963 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 1/3)...
+2026-11-27 16:52:37,992 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-27 16:52:38,932 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-27 16:52:38,933 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-27 16:52:40,950 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-27 16:52:42,484 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-27 16:52:42,487 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-27 16:52:50,889 [WARNING] cricket_shorts.script_v3: Gemini REST API error 503 on gemini-3.8-flash: {
+  "error": {
+    "code": 503,
+    "message": "This model is currently experiencing high demand. Spikes in demand are u
+2026-11-27 16:52:50,889 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 2/3)...
+2026-11-27 16:52:50,904 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-27 16:52:58,417 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-27 16:52:58,418 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-27 16:53:00,434 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-27 16:53:01,998 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-27 16:53:02,001 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-27 16:53:05,709 [WARNING] cricket_shorts.script_v3: Gemini REST API error 503 on gemini-3.8-flash: {
+  "error": {
+    "code": 503,
+    "message": "This model is currently experiencing high demand. Spikes in demand are u
+2026-11-27 16:53:05,709 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 3/3)...
+2026-11-27 16:53:05,724 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-27 16:53:14,521 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-27 16:53:14,522 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-27 16:53:16,538 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-27 16:53:32,923 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-27 16:53:32,924 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-27 16:53:35,032 [WARNING] cricket_shorts.script_v3: Gemini REST API error 429 on gemini-3.8-flash: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing deta
+2026-11-27 16:53:35,032 [ERROR] cricket_shorts.script_v3: Failed to generate unique AI topic after 3 attempts.
+2026-11-27 16:53:35,032 [ERROR] cricket_shorts.main: Failed to generate unique AI topic. Aborting production run to prevent duplicate publishing.
+2026-11-27 16:53:35,032 [INFO] cricket_shorts.main: Daily production cycle completed. 0/1 shorts generated.
+2026-11-27 16:53:35,067 [CRITICAL] cricket_shorts.main: Production pipeline failed to produce the requested short.
