@@ -1,0 +1,56 @@
+2026-11-28 15:43:48,606 [INFO] cricket_shorts.storyboard: Google Gemini API client initialized successfully.
+2026-11-28 15:43:48,606 [INFO] cricket_shorts.main: Starting broadcast production run for 1 unique cricket shorts.
+2026-11-28 15:43:48,606 [INFO] cricket_shorts.main: --- Selecting Unique Topic for Short 1/1 ---
+2026-11-28 15:43:48,607 [INFO] cricket_shorts.dedup_engine: Deduplication Engine: 31 published topics, 0 reserved.
+2026-11-28 15:43:48,608 [INFO] cricket_shorts.dedup_engine: All curated collections have been published or reserved. Triggering dynamic AI topic generator.
+2026-11-28 15:43:48,608 [INFO] cricket_shorts.main: All curated collections published or reserved. Triggering Gemini 3.8 Flash AI research engine...
+2026-11-28 15:43:48,608 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 1/3)...
+2026-11-28 15:43:48,630 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-28 15:43:49,196 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-28 15:43:49,197 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-28 15:43:51,209 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-28 15:43:59,490 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-28 15:43:59,493 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 2/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-28 15:44:08,077 [WARNING] cricket_shorts.script_v3: Gemini REST API error 503 on gemini-3.8-flash: {
+  "error": {
+    "code": 503,
+    "message": "This model is currently experiencing high demand. Spikes in demand are u
+2026-11-28 15:44:08,077 [INFO] cricket_shorts.script_v3: Invoking Gemini 3.8 Flash for AI Topic Research (Attempt 2/3)...
+2026-11-28 15:44:08,089 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-28 15:44:17,899 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-11-28 15:44:17,900 [WARNING] cricket_shorts.script_v3: google-genai SDK call for gemini-3.8-flash (try 1/2) failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}. Retrying with backoff...
+2026-11-28 15:44:19,913 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-11-28 15:49:52,440 [INFO] httpx2: HTTP Request: POST https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent "HTTP/1.1 200 OK"
+2026-11-28 15:49:52,449 [INFO] cricket_shorts.script_v3: ✓ Successfully generated topic using SDK (gemini-3.8-flash)
+2026-11-28 15:49:52,513 [INFO] cricket_shorts.dedup_engine: Topic '3 Iconic Cricket Stadium Wonders' PASSED duplicate check (Max similarity: 0.30).
+2026-11-28 15:49:52,513 [INFO] cricket_shorts.script_v3: ✓ AI-generated topic '3 Iconic Cricket Stadium Wonders' passed all deduplication checks!
+2026-11-28 15:49:52,526 [INFO] cricket_shorts.main: --- Producing Daily Broadcast Short 1/1: '3_iconic_cricket_stadium_wonders' ('3 Iconic Cricket Stadium Wonders') ---
+2026-11-28 15:49:52,526 [INFO] cricket_shorts.main: Starting V3 3-Connected-Facts production for collection '3_iconic_cricket_stadium_wonders'...
+2026-11-28 15:49:52,539 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-28 15:49:52,540 [INFO] cricket_shorts.v3_engine: PRODUCTION V3 RENDERER: Starting Broadcast Pipeline for '3 Iconic Cricket Stadium Wonders'
+2026-11-28 15:49:52,540 [INFO] cricket_shorts.v3_engine: ==================================================================
+2026-11-28 15:49:52,540 [INFO] cricket_shorts.v3_engine: Broadcast Theme: 'Crimson Obsidian' | Required Jersey Format: 'ODI'
+2026-11-28 15:49:52,541 [INFO] cricket_shorts.v3_engine: Synthesizing 5-segment narration (118 words)...
+2026-11-28 15:50:10,214 [INFO] cricket_shorts.voice: Edge-TTS synthesized successfully: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_3_iconic_cricket_stadium_wonders_20261128_154952/raw_voice.mp3
+2026-11-28 15:50:10,215 [INFO] cricket_shorts.audio: Processing voice audio: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_3_iconic_cricket_stadium_wonders_20261128_154952/raw_voice.mp3 -> /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_3_iconic_cricket_stadium_wonders_20261128_154952/voice_normalized.aac
+2026-11-28 15:50:11,825 [INFO] cricket_shorts.audio: Processed voice audio ready. Duration: 47.27s
+2026-11-28 15:50:11,825 [INFO] cricket_shorts.v3_engine: Voice synthesized & normalized to -16 LUFS. Total duration: 47.27s
+2026-11-28 15:50:13,013 [INFO] cricket_shorts.asset_registry: Registered 5 unique assets to persistent database (/home/runner/work/Cricket-Shorts/Cricket-Shorts/database/asset_usage_registry.json).
+2026-11-28 15:50:13,013 [INFO] cricket_shorts.v3_engine: Asset uniqueness status: APPROVED. PASSED: All scene visuals are 100% unique.
+2026-11-28 15:50:13,013 [INFO] cricket_shorts.v3_engine: Generating 5 full-screen broadcast graphics...
+2026-11-28 15:50:16,807 [INFO] cricket_shorts.v3_engine: ✓ All 5 broadcast scene graphics successfully rendered.
+2026-11-28 15:50:16,807 [INFO] cricket_shorts.v3_engine: Rendering 5 video clips with Ken Burns camera motion...
+2026-11-28 15:50:26,817 [INFO] cricket_shorts.v3_engine: Rendered 5 video segments. Total visual duration: 47.27s
+2026-11-28 15:50:26,852 [INFO] cricket_shorts.sfx: Mixing 5 SFX cues into sound design bed: /home/runner/work/Cricket-Shorts/Cricket-Shorts/output/run_v3_3_iconic_cricket_stadium_wonders_20261128_154952/soundtrack_v3.aac
+2026-11-28 15:50:27,879 [INFO] cricket_shorts.v3_engine: Assembling final V3 Broadcast Short: output/videos/cricket_raaz_v3_3_iconic_cricket_stadium_wonders_20261128_154952.mp4
+2026-11-28 15:50:49,238 [INFO] cricket_shorts.qc: QC PASSED: 1080x1920 (9:16), Duration: 47.3s, 5 Moving Footage Scenes, Codecs: h264/aac, Size: 9.75MB, Font: Devanagari Verified
+2026-11-28 15:50:49,238 [INFO] cricket_shorts.v3_engine: ✓ Production V3 Short successfully generated in 'Crimson Obsidian' theme! Duration: 47.30s
+2026-11-28 15:50:49,238 [INFO] cricket_shorts.pre_publish_qc: Running Pre-Publish Quality Check for topic '3_iconic_cricket_stadium_wonders'...
+2026-11-28 15:50:49,289 [INFO] cricket_shorts.pre_publish_qc: ✓ Pre-Publish Quality Check PASSED for topic '3_iconic_cricket_stadium_wonders'. Duration: 47.3s, Size: 9.75MB.
+2026-11-28 15:50:49,383 [INFO] cricket_shorts.youtube_auth: YouTube OAuth token successfully refreshed.
+2026-11-28 15:50:49,384 [INFO] googleapiclient.discovery_cache: file_cache is only supported with oauth2client<4.0.0
+2026-11-28 15:50:50,632 [INFO] cricket_shorts.youtube_upload: Uploading '3 Unbelievable Cricket Stadium Wonders! 🏟️ #Shorts #CricketRaaz': 51%
+2026-11-28 15:50:51,346 [INFO] cricket_shorts.youtube_upload: Upload success! Video ID: os0KGnw20BQ (https://youtube.com/shorts/os0KGnw20BQ)
+2026-11-28 15:50:51,350 [INFO] cricket_shorts.main: ✓ Topic '3_iconic_cricket_stadium_wonders' published live and persisted to registry & ledger: os0KGnw20BQ
+2026-11-28 15:50:51,350 [INFO] cricket_shorts.main: V3 Short '3 Iconic Cricket Stadium Wonders' produced. YouTube Status: Successfully scheduled on YouTube: https://youtube.com/shorts/os0KGnw20BQ
+2026-11-28 15:50:51,364 [INFO] cricket_shorts.main: Daily production cycle completed. 1/1 shorts generated.
